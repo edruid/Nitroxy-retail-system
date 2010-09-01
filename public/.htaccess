@@ -1,0 +1,23 @@
+### MAPPAR I PUBLIC SOM SKA GÅ ATT KOMMA ÅT
+
+RewriteCond %{REQUEST_URI} !/gfx
+RewriteCond %{REQUEST_URI} !/images
+RewriteCond %{REQUEST_URI} !/scripts
+RewriteCond %{REQUEST_URI} !/js
+RewriteCond %{REQUEST_URI} !/documents
+RewriteCond %{REQUEST_URI} !/phpmyadmin
+
+### FILER I PUBLIC SOM SKA GÅ ATT KOMMA ÅT
+
+RewriteCond %{REQUEST_URI} !/index.php
+RewriteCond %{REQUEST_URI} !/style.css
+RewriteCond %{REQUEST_URI} !/favicon.ico
+RewriteCond %{REQUEST_URI} !/dom.js
+
+### ÄNDRA INGET NEDANFÖR DENNA RAD
+
+RewriteRule (.*) index.php/$1
+RewriteEngine On
+php_flag magic_quotes_gpc Off
+
+AddDefaultCharset utf-8

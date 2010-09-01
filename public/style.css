@@ -1,0 +1,88 @@
+body, input {
+	background-color: white;
+	color: black;
+	font-family: Verdana, Arial, Sans-serif;
+	font-size: 11pt;
+}
+
+/** LINKS **/
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;	
+}
+
+/** TABLES **/
+th {
+	text-align: left;
+	vertical-align: top;
+}
+tr, td, th, table {
+	padding: 0.2em 0.2ex;
+	margin: 0;
+}
+
+/** IMAGES **/
+img {
+	border: 0;
+}
+
+/** CLASSES **/
+.clear {
+	clear: both;
+}
+
+.box_finisher {
+	clear: both;
+}
+
+/** DIVS **/
+div {
+	margin: 0;
+	padding: 0;
+}
+
+/** Special **/
+#product_list {
+	width: 35em;
+	font-size: 11pt;
+	color: black;
+}
+#ean {
+	width: 35em;
+}
+#last_purchase {
+	float: right;
+	border: 1px solid black;
+	padding: 1ex 1em;
+}
+#this_purchase {
+	clear: right;
+	float: right;
+	border: 1px solid black;
+	margin-top: 1ex;
+	padding: 1ex 1em;
+}
+
+/** Suggestions */
+#suggest {
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCFF;
+    width: 35em;
+}
+#suggest div {
+    display: block;
+    width: 35em;
+    overflow: hidden;
+    white-space: nowrap;
+}
+#suggest div.select{ /* keydown, keyup */
+    color: #FFFFFF;
+    background-color: #3366FF;
+}
+#suggest div.over{ /* mouse over */
+    background-color: #99CCFF;
+}
+
