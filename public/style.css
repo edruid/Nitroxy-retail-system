@@ -23,6 +23,12 @@ tr, td, th, table {
 	margin: 0;
 }
 
+/** Lists */
+ul.help {
+	list-style: none;
+	display: inline-block;
+}
+
 /** IMAGES **/
 img {
 	border: 0;

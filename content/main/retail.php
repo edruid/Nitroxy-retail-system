@@ -84,22 +84,10 @@ function purchase() {
 	}
 	last_product = artno;
 
-	if(shift_is_down) {
-		if(basket[artno]==undefined) {
-			alert("Produkten du matade in finns inte i listan.");
-		} else {
-			if(basket[artno]<=amount) {
-				basket[artno]=undefined;
-			} else {
-				basket[artno]=basket[artno]-amount;
-			}
-		}
+	if(basket[artno]==undefined) {
+		basket[artno]=amount;
 	} else {
-		if(basket[artno]==undefined) {
-			basket[artno]=amount;
-		} else {
-			basket[artno]=basket[artno]+amount;
-		}
+		basket[artno]=basket[artno]+amount;
 	}
 
 	update_product_list();
@@ -327,15 +315,17 @@ if(request_get("last_sum")) {
 	<p>
 		<label>
 			EAN-kod, artikelnummer eller beskrivning<br />
-			<input type="text" tabindex="1" name="ean" id="ean" onkeydown="ean_keydown(event)" onkeyup="ean_keyup(event)" />
+			<input type="text" tabindex="1" name="ean" id="ean" />
 			<div id="suggest"></div>
 		</label>
 		<input type="submit" onclick="purchase(); return false;" value="OK" />
 	</p>
-	<span id="remove_help">
-	För att ta bort en vara, håll ned SHIFT och scanna streckkoden.
-	</span>
 </form>
+<ul class="help">
+	<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
+	<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
+	<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
+</ul>
 <form name="transaction_form" id="transaction_form" method="post" action="<?=absolute_path("scripts/finish_transaction.php");?>" style="display: none;">
 	<input type="hidden" id="transaction_diff" name="diff" value="0" />
 	<input type="text" id="transaction_sum" name="sum" />
