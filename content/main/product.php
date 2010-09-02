@@ -34,6 +34,8 @@ if(!$product) {
 		<td><?=$product->Category->name?></td>
 	</tr>
 </table>
+<h2>EAN</h2>
+<img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
 <h2>Försäljnings historik</h2>
 <img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>
 
