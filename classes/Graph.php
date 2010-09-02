@@ -49,7 +49,7 @@ class Graph {
 			'0x'.substr($this->foreground, 2, 2),
 			'0x'.substr($this->foreground, 4, 2)
 		);
-		if($this->vertical_lable) {
+		if($this->vertical_lable && !empty($this->data)) {
 			$step = pow(2, round(log($this->max/$this->vertical_lable, 2)));
 			$substep = pow(10, round(log($step, 10))-1);
 			for($i=1, $s=round($step/$substep)*$substep; $s <= $this->max; $s=round($step*(++$i)/$substep)*$substep) {
