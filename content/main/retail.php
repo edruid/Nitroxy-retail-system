@@ -57,7 +57,7 @@ function purchase() {
 				basket[artno] = 0;
 			}
 			if(sign == '*') {
-				basket[artno]=basket[artno]+amount-1;
+				basket[artno]=amount;
 			} else if(sign == '+') {
 				basket[artno]=basket[artno]+amount;
 			} else if(sign == '-') {
