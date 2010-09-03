@@ -352,6 +352,30 @@ abstract class BasicObject {
 		return $object;
 	}
 
+	public static function sum($field, $params = array()) {
+		global $db;
+		$data = static::build_query($params, '*');
+		$query = array_shift($data);
+		if(!self::in_table($field, static::table_name())){
+			throw new Exception("No such column '$field' in table '".static::table_name()."'");
+		}
+		$query = "SELECT SUM(`$field`) FROM ($query) q";
+		$stmt = $db->prepare($query);
+		foreach($data as $key => $value) {
+			$data[$key] = &$data[$key];
+		}
+		if(count($params)!=0) {
+			call_user_func_array(array($stmt, 'bind_param'), $data);
+		}
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($result);
+		$stmt->fetch();
+		$stmt->close();
+		return $result;
+	}
+
+
 	public static function count($params = array()){
 		global $db;
 		$data = static::build_query($params, 'count');

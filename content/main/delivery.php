@@ -1,4 +1,7 @@
 <?php
+if(empty($_SESSION['login'])) {
+	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+}
 $categories = Category::selection();
 $products = Product::selection();
 $old_values = session_get('_POST');
@@ -66,6 +69,7 @@ function updateInfo(e, field) {
 	}
 }
 </script>
+<a href="scripts/logout.php">Logga ut</a>
 <h1>Ny inleverans</h1>
 <form action="<?=absolute_path('scripts/delivery.php');?>" method="post" onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
 <textarea rows="5" cols="50" name="description"></textarea>

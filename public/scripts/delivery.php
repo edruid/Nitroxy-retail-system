@@ -1,4 +1,8 @@
 <?
+if(empty($_SESSION['login'])) {
+	$_SESSION['_POST'] = $_POST;
+	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}/delivery"));
+}
 require "../../includes.php";
 
 $ean = request_get('ean');
@@ -38,7 +42,6 @@ if(empty($errors) && $at_least_1_item) {
 	$db->commit();
 	echo "OK";
 } else {
-	$_SESSION['_POST'] = $_POST;
 	foreach($errors as $index => $error) {
 		Message::add_error("Rad $index: $error");
 	}

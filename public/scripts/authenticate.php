@@ -16,6 +16,6 @@ if(!preg_match('/accessess.*"kioskPrice"/s', $result)) {
 	echo "inloggningen misslyckades";
 	die();
 }
-$_SESSION['login'] = 
-echo $result;
+$_SESSION['login'] = $result;
+header("Location: ".post_get('kickback'));
 ?>

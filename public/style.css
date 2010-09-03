@@ -23,6 +23,10 @@ tr, td, th, table {
 	margin: 0;
 }
 
+table.alternate tr:nth-child(2n) {
+	background-color: #CCC;
+}
+
 /** Lists */
 ul.help {
 	list-style: none;

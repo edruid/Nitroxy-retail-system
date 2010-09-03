@@ -1,4 +1,7 @@
 <?php
+if(empty($_SESSION['login'])) {
+	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+}
 $products = Product::selection(array(
 	'@custom_order' => '`products`.`count` > 0 DESC',
 	'@order' => array(
@@ -7,14 +10,14 @@ $products = Product::selection(array(
 	),
 ));
 ?>
-<table>
+<table class="alternate">
 	<thead>
 		<tr>
 			<th>Namn</th>
-			<th>Värde</th>
-			<th>Pris</th>
+			<th>Värde/st</th>
+			<th>Försäljningspris</th>
 			<th>Lager</th>
-			<th>Totalt värde</th>
+			<th>Lagervärde</th>
 			<th>EAN</th>
 			<th>Kategori</th>
 		</tr>
@@ -22,7 +25,7 @@ $products = Product::selection(array(
 	<tbody>
 		<? foreach($products as $product): ?>
 			<tr>
-				<td><?=$product->name?></td>
+				<td><a href="product/<?=$product->id?>"><?=$product->name?></a></td>
 				<td><?=$product->value?></td>
 				<td><?=$product->price?></td>
 				<td><?=$product->count?></td>

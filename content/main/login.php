@@ -1,5 +1,6 @@
 <h1>Logga in</h1>
 <form action="/scripts/authenticate.php" method="post">
+	<input type="hidden" name="kickback" value="<?=htmlspecialchars(request_get('kickback'), ENT_QUOTES, 'utf-8')?>" />
 	<table>
 		<tr>
 			<th>användarnamn</th>
