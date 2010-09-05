@@ -356,10 +356,33 @@ abstract class BasicObject {
 		global $db;
 		$data = static::build_query($params, '*');
 		$query = array_shift($data);
-		if(!self::in_table($field, static::table_name())){
-			throw new Exception("No such column '$field' in table '".static::table_name()."'");
+		$allowed_symbols=array('*', '+', '/', '-', );
+		if(is_array($field)) {
+			$f = array_shift($field);
+			if(!self::in_table($f, static::table_name())){
+				throw new Exception("No such column '$field' in table '".static::table_name()."'");
+			}
+			$exp = "`$f`";
+			while($f = array_shift($field)) {
+				if(!in_array($f, $allowed_symbols)) {
+					throw new Exception("Non allowed symbol '$f' in expression");
+				}
+				$exp .= " $f ";
+				if(!($f = array_shift($field))) {
+					throw new Exception("Mismatched expression");
+				}
+				if(!self::in_table($f, static::table_name())){
+					throw new Exception("No such column '$field' in table '".static::table_name()."'");
+				}
+				$exp .= "`$f`";
+			}	
+			$query = "SELECT SUM($exp) FROM ($query) q";
+		} else {
+			if(!self::in_table($field, static::table_name())){
+				throw new Exception("No such column '$field' in table '".static::table_name()."'");
+			}
+			$query = "SELECT SUM(`$field`) FROM ($query) q";
 		}
-		$query = "SELECT SUM(`$field`) FROM ($query) q";
 		$stmt = $db->prepare($query);
 		foreach($data as $key => $value) {
 			$data[$key] = &$data[$key];
