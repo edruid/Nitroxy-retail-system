@@ -4,6 +4,7 @@ if(empty($_SESSION['login'])) {
 	$_SESSION['_POST'] = $_POST;
 	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}/delivery"));
 }
+$user = new User($_SESSION['login']);
 
 $ean = request_get('ean');
 $count = request_get('count');
@@ -15,6 +16,7 @@ $at_least_1_item = false;
 $db->autoCommit(false);
 $delivery = new Delivery();
 $delivery->description = post_get('description');
+$delivery->user = $user->__toString();
 $delivery->commit();
 for($i=0; $i < count($ean); $i++) {
 	if(empty($count[$i])) {
@@ -40,7 +42,7 @@ for($i=0; $i < count($ean); $i++) {
 }
 if(empty($errors) && $at_least_1_item) {
 	$db->commit();
-	echo "OK";
+	kick('/view_delivery/'.$delivery->id);
 } else {
 	foreach($errors as $index => $error) {
 		Message::add_error("Rad $index: $error");
