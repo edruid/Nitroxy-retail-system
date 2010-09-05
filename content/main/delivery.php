@@ -1,6 +1,6 @@
 <?php
 if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+	kick('login?kickback='.htmlspecialchars("http".($_SERVER['HTTPS']?'s':'')."://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
 }
 $categories = Category::selection();
 $products = Product::selection();
