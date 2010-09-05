@@ -50,4 +50,6 @@ if(!$product) {
 <img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
 <h2>Försäljnings historik</h2>
 <img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>
-
+<p>
+<a href="/edit_product/<?=$product->id?>">Redigera produkten</a>
+</p>

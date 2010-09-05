@@ -1,9 +1,9 @@
 <?
+require "../../includes.php";
 if(empty($_SESSION['login'])) {
 	$_SESSION['_POST'] = $_POST;
 	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}/delivery"));
 }
-require "../../includes.php";
 
 $ean = request_get('ean');
 $count = request_get('count');
