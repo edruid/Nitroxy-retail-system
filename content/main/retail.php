@@ -3,6 +3,8 @@ var names=new Array();
 var suggestions=new Array();
 var prices=new Array();
 var eans=new Array();
+var lock = false;
+
 <?php
 $products = Product::Selection(array(
 	'@order' => 'product_id',
@@ -225,6 +227,10 @@ function update_change(e) {
 
 // Finish transaction (submit form from recieved field)
 function finish(sum, recieved, change_string) {
+	if(lock) {
+		alert("Formuläret är redan skickat, vänta lite till.");
+		return false;
+	}
 	var change=recieved-sum;
 	if(change<0) {
 		return false;
@@ -234,6 +240,8 @@ function finish(sum, recieved, change_string) {
 		return false;
 	}
 	if(confirm("Godkänn?\nAtt betala: "+sum+"\nBetalt: "+recieved+"\nVäxel: "+change)) {
+		lock = true;
+		document.getElementById('wait').innerHTML = '<img src="/gfx/loading.gif" alt="wait" /> Var god vänta.';
 		var form_elem=document.getElementById('transaction_form');
 		var sum_elem=document.getElementById('transaction_sum');
 		var recieved_elem=document.getElementById('transaction_recieved');
@@ -250,7 +258,7 @@ function finish(sum, recieved, change_string) {
 				contents = contents + i + ":" + basket[i] + "\n";
 			}
 		}
-		contents_elem.innerHTML=contents;
+		contents_elem.value=contents;
 
 		form_elem.submit();
 	} else {
@@ -321,7 +329,7 @@ if(request_get("last_sum")) {
 		<input type="submit" onclick="purchase(); return false;" value="OK" />
 	</p>
 </form>
-<ul class="help">
+<ul id="wait" class="help">
 	<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
 	<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
 	<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
@@ -331,7 +339,7 @@ if(request_get("last_sum")) {
 	<input type="text" id="transaction_sum" name="sum" />
 	<input type="text" id="transaction_recieved" name="recieved" />
 	<input type="text" id="transaction_change" name="change" />
-	<textarea name="contents" id="transaction_contents"></textarea>
+	<input type="text" name="contents" id="transaction_contents" />
 </form>
 <script type="text/javascript" src="<?=absolute_path('js/suggest.js')?>"></script>
 <script type="text/javascript">

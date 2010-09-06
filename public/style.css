@@ -20,7 +20,7 @@ th {
 }
 tr, td, th, table {
 	padding: 0.2em 0.2ex;
-	margin: 0;
+	margin: 0px;
 }
 
 table.alternate tr:nth-child(2n) {
@@ -50,7 +50,6 @@ table.body_border tbody tr th:first-child {
 	border-left: 1px solid black;
 }
 
-
 /** Lists */
 ul.help {
 	list-style: none;
@@ -59,7 +58,7 @@ ul.help {
 
 /** IMAGES **/
 img {
-	border: 0;
+	border: 0px;
 }
 
 /** CLASSES **/
@@ -73,8 +72,8 @@ img {
 
 /** DIVS **/
 div {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 }
 
 /** Special **/
