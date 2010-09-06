@@ -51,7 +51,7 @@ function purchase() {
 			}
 		}
 
-		if(last_product && ean.match(/^[\+\*\-][0-9]*$/)) {
+		if(last_product && ean.match(/^[\+\*\-][0-9]+$/)) {
 			var sign = ean.substr(0,1);
 			artno = last_product;
 			amount = parseInt(ean.substr(1));
