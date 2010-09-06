@@ -27,6 +27,30 @@ table.alternate tr:nth-child(2n) {
 	background-color: #CCC;
 }
 
+table.body_border {
+	border-spacing: 0px;
+}
+
+table.body_border th {
+	border-top: 1px solid black;
+}
+table.body_border tbody tr:last-child td  {
+	border-bottom: 1px solid black;
+}
+
+table.body_border tbody tr td:last-child, table.body_border tbody tr th:last-child {
+	border-right: 1px solid black;
+}
+
+table.body_border tbody tr td:first-child, table.body_border tbody tr th:first-child {
+	border-left: 1px solid black;
+}
+
+table.body_border tbody tr th:first-child {
+	border-left: 1px solid black;
+}
+
+
 /** Lists */
 ul.help {
 	list-style: none;
