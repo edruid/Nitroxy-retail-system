@@ -51,13 +51,15 @@ foreach($basket as $id => $count) {
 	$transaction_content->amount = $amount;
 	$transaction_content->commit();
 }
-$transaction_content = new TransactionContent();
-$transaction_content->transaction_id = $transaction->id;
-$transaction_content->product_id = 0;
-$transaction_content->count = 1;
-$transaction_content->amount = $diff;
-$transaction_content->commit();
-$transaction->amount+=$diff;
+if($diff != 0) {
+	$transaction_content = new TransactionContent();
+	$transaction_content->transaction_id = $transaction->id;
+	$transaction_content->product_id = 0;
+	$transaction_content->count = 1;
+	$transaction_content->amount = $diff;
+	$transaction_content->commit();
+	$transaction->amount+=$diff;
+}
 $transaction->commit();
 
 if($transaction->amount != $sum || -0.5 >= $diff || $diff > 0.5 ) {
