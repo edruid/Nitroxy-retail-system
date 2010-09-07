@@ -8,6 +8,7 @@ $products = Product::selection(array(
 		'Category.name',
 		'name',
 	),
+	'category_id:!=' => 0,
 ));
 ?>
 <table class="alternate">

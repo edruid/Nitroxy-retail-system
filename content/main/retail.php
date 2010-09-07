@@ -6,7 +6,8 @@ var eans=new Array();
 var lock = false;
 
 <?php
-$products = Product::Selection(array(
+$products = Product::selection(array(
+	'category_id:!=' => 0,
 	'@order' => 'product_id',
 ));
 foreach($products as $product) {

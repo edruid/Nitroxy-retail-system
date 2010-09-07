@@ -2,8 +2,12 @@
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars("http".($_SERVER['HTTPS']?'s':'')."://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
 }
-$categories = Category::selection();
-$products = Product::selection();
+$categories = Category::selection(array(
+	'category_id:!=' => 0,
+));
+$products = Product::selection(array(
+	'category_id:!=' => 0,
+));
 $old_values = session_get('_POST');
 unset($_SESSION['_POST']);
 ?>

@@ -1,6 +1,7 @@
 <?php
 $categories = Category::selection(array(
 	'@order' => 'name',
+	'category_id:!=' => 0,
 ));
 ?>
 <h1>Prislista</h1>

@@ -278,7 +278,9 @@ abstract class BasicObject {
 		}
 		$stmt = $db->prepare($query);
 		call_user_func_array(array($stmt, 'bind_param'), $params);
-		$stmt->execute();
+		if(!$stmt->execute()) {
+			throw new Exception("Internal error, failed to execute query:\n<pre>$query\n".$stmt->error.'</pre>');
+		}
 		$stmt->close();
 		if(!isset($this->_exists) || !$this->_exists){
 			$this->_exists = true;
@@ -290,7 +292,6 @@ abstract class BasicObject {
 					$object = $this->from_id($this->$id_name);
 				} else {
 					// no id? try to get the element from what we just set it to..
-					var_dump($this->_data);
 					$elems = $this->selection($this->_data);
 					if(count($elems) != 1) {
 						throw new Exception("No id column and non unique data");
