@@ -18,10 +18,6 @@ th {
 	text-align: left;
 	vertical-align: top;
 }
-tr, td, th, table {
-	padding: 0.2em 0.2ex;
-	margin: 0px;
-}
 
 table.alternate tr:nth-child(2n) {
 	background-color: #CCC;
@@ -56,6 +52,14 @@ ul.help {
 	display: inline-block;
 }
 
+ul.small {
+	list-style: none;
+	padding: 0px;
+	margin:0px;
+	font-weight: normal;
+	font-size: 70%;
+}
+
 /** IMAGES **/
 img {
 	border: 0px;
@@ -64,6 +68,14 @@ img {
 /** CLASSES **/
 .clear {
 	clear: both;
+}
+
+p.error {
+	background-color: red;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0.3ex 0.3em;
+	margin: 0.7ex 0em;
 }
 
 .box_finisher {

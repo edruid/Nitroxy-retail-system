@@ -6,12 +6,13 @@ if(empty($_SESSION['login'])) {
 }
 $user = new User($_SESSION['login']);
 
-$ean = request_get('ean');
-$count = request_get('count');
-$purchase_price = request_get('purchase_price');
-$sales_price = request_get('sales_price');
-$name = request_get('name');
-$category = request_get('category');
+$ean = post_get('ean');
+$count = post_get('count');
+$purchase_price = post_get('purchase_price');
+$sales_price = post_get('sales_price');
+$name = post_get('name');
+$category = post_get('category');
+$single = post_get('single');
 $at_least_1_item = false;
 $db->autoCommit(false);
 $delivery = new Delivery();
@@ -19,7 +20,7 @@ $delivery->description = post_get('description');
 $delivery->user = $user->__toString();
 $delivery->commit();
 for($i=0; $i < count($ean); $i++) {
-	if(empty($count[$i])) {
+	if(empty($ean[$i])) {
 		continue;
 	}
 	$at_least_1_item = true;
@@ -29,13 +30,23 @@ for($i=0; $i < count($ean); $i++) {
 			$product = new Product();
 			$product->ean = $ean[$i];
 		}
-		$product->value = ($product->value * $product->count + $purchase_price[$i] * $count[$i]) / ($product->count + $count[$i]);
+		$contents = new DeliveryContent();
+		if($single) {
+			$product->value = ($product->value * $product->count + $purchase_price[$i] * $count[$i]) / ($product->count + $count[$i]);
+			$contents->cost = $purchase_price[$i];
+		} else {
+			$product->value = ($product->value * $product->count + $purchase_price[$i]) / ($product->count + $count[$i]);
+			$contents->cost = $purchase_price[$i] / $count[$i];
+		}
 		$product->count += $count[$i];
 		$product->name = $name[$i];
 		$product->price = $sales_price[$i];
 		$product->category_id = $category[$i];
 		$product->commit();
-		$delivery->add_contents($product, $count[$i], $purchase_price[$i]);
+		$contents->delivery_id = $delivery->id;
+		$contents->product_id = $product->id;
+		$contents->count = $count[$i];
+		$contents->commit();
 	} catch(Exception $e) {
 		$errors[$i] = $e->getMessage();;
 	}
@@ -44,6 +55,7 @@ if(empty($errors) && $at_least_1_item) {
 	$db->commit();
 	kick('/view_delivery/'.$delivery->id);
 } else {
+	$_SESSION['_POST'] = $_POST;
 	foreach($errors as $index => $error) {
 		Message::add_error("Rad $index: $error");
 	}

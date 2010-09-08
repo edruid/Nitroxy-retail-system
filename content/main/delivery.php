@@ -73,7 +73,6 @@ function updateInfo(e, field) {
 	}
 }
 </script>
-<a href="scripts/logout.php">Logga ut</a>
 <h1>Ny inleverans</h1>
 <form action="<?=absolute_path('scripts/delivery.php');?>" method="post" onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
 <textarea rows="5" cols="50" name="description"></textarea>
@@ -85,7 +84,12 @@ function updateInfo(e, field) {
 			<th>Försäljningspris</th>
 			<th>Kategori</th>
 			<th>Antal</th>
-			<th>Inköpspris inkl moms</th>
+			<th>
+				Inköpspris
+				<ul class="small">
+					<li><label><input type="checkbox" name="single" <?=($old_values && $old_values['single'])?'checked="checked"':''?>>per vara</label></li>
+				</ul>
+			</th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -95,7 +99,7 @@ function updateInfo(e, field) {
 	</tfoot>
 	<tbody id="delivery_products">
 		<? if($old_values): ?>
-			<? for($i=0; $i < count($old_values['ean']); $i++): ?>
+			<? for($i=0; $i < count($old_values['ean'])-2; $i++): ?>
 				<tr>
 					<td><input type="text" class="ean" name="ean[]" onblur="addLine()" onkeypress="return updateInfo(event, this)" value="<?=$old_values['ean'][$i]?>" /></td>
 					<td><input type="text" class="name" name="name[]" value="<?=$old_values['name'][$i]?>" /></td>

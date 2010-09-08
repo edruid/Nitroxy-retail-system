@@ -2,8 +2,20 @@
 $delivery = Delivery::from_id(array_shift($request));
 ?>
 <h1>Leverans <?=$delivery->timestamp?></h1>
-<p><?=$delivery->description?></p>
-<?=$delivery->user?>
+<table>
+	<tr>
+		<th>Beskrivning</th>
+		<td><pre><?=$delivery->description?></pre></td>
+	</tr>
+	<tr>
+		<th>User</th>
+		<td><?=$delivery->user?></td>
+	</tr>
+	<tr>
+		<th>Total summa</th>
+		<td><?=DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id))?> kr</td>
+	</tr>
+</table>
 <table>
 	<thead>
 		<tr>

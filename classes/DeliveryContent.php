@@ -9,6 +9,13 @@ class DeliveryContent extends BasicObject {
 	protected static function table_name() {
 		return 'delivery_contents';
 	}
+
+	public function __set($key, $value) {
+		if($value === '') {
+			throw new Exception("Missing value for $key");
+		}
+		return parent::__set($key, $value);
+	}
 }
 ?>
 

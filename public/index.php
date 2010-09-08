@@ -25,8 +25,11 @@ if(!file_exists($main)) {
 	</head>
 	<body>
 		<? foreach(Message::get_errors() as $error): ?>
-			<div class="error"><?=$error?></div>
+			<p class="error"><?=$error?></p>
 		<? endforeach ?>
+		<? if(!empty($_SESSION['login'])): ?>
+			<a href="/scripts/logout.php">Logga ut</a>
+		<? endif ?>
 		<?require $main?>
 	</body>
 </html>
