@@ -20,7 +20,7 @@ $stmt = $db->prepare_full("
 	$result,
 	'si',
 	(date('Y')-1).date('-m-d'),
-	request_get('id')
+	ClientData::request('id')
 );
 $image = new Graph();
 $image->slide = 7;

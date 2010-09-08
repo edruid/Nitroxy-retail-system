@@ -11,9 +11,9 @@ class Message {
 	}
 
 	private static function add($message, $type) {
-		$arr=session_get("messages_".strtolower($type));
+		$arr=ClientData::session("messages_".strtolower($type));
 		$arr[]=$message;
-		session_set("messages_".strtolower($type),$arr);
+		ClientData::session_set("messages_".strtolower($type),$arr);
 	}
 
 	public static function get_errors() {
@@ -21,7 +21,7 @@ class Message {
 	}
 
 	private static function get($type) {
-		$ret = session_get("messages_".strtolower($type));
+		$ret = ClientData::session("messages_".strtolower($type));
 		unset($_SESSION["messages_".strtolower($type)]);
 		if($ret === false) {
 			$ret = array();
@@ -31,15 +31,15 @@ class Message {
 
 	public static function clear($type=null) {
 		if(is_null($type)) {
-			session_set("messages_error",null);
-			session_set("messages_warning",null);
-			session_set("messages_notice",null);
+			ClientData::session_set("messages_error",null);
+			ClientData::session_set("messages_warning",null);
+			ClientData::session_set("messages_notice",null);
 		} elseif(strtolower($type)=="error") {
-			session_set("messages_error",null);
+			ClientData::session_set("messages_error",null);
 		} elseif(strtolower($type)=="warning") {
-			session_set("messages_warning",null);
+			ClientData::session_set("messages_warning",null);
 		} elseif(strtolower($type)=="notice") {
-			session_set("messages_notice",null);
+			ClientData::session_set("messages_notice",null);
 		}
 	}
 }

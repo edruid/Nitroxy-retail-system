@@ -1,6 +1,6 @@
 <?php
 if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
 $product = Product::from_id(array_shift($request));
 if(!$product) {

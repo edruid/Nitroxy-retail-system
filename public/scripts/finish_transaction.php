@@ -1,10 +1,10 @@
 <?php
 require "../../includes.php";
 
-$sum=request_get("sum");
-$recieved=request_get("recieved");
-$change=request_get("change");
-$diff=request_get("diff");
+$sum=ClientData::post("sum");
+$recieved=ClientData::post("recieved");
+$change=ClientData::post("change");
+$diff=ClientData::post("diff");
 
 if($change != $recieved-$sum) {
 	die("Växel är felaktig");
@@ -13,7 +13,7 @@ if($recieved < $sum) {
 	die("För lite betalt");
 }
 
-$contents=request_get("contents");
+$contents=ClientData::post("contents");
 
 $contents=trim($contents);
 

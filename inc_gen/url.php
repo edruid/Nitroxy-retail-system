@@ -26,6 +26,10 @@ function absolute_path($path,$called_from_notindex=false) {
 	return $absolute_path;
 }
 
+function kickback_url($request = false) {
+	return "http".(isset($_SERVER['HTTPS'])?'s':'')."://{$_SERVER['HTTP_HOST']}".($request?'/'.$request:$_SERVER['REQUEST_URI']);
+}
+
 function kick($path) {
 	// Empty output buffer to be able to send header after content
 	// (buffered output will be discarded)

@@ -1,10 +1,13 @@
+<?php
+$post = ClientData::session('loggin_form');
+?>
 <h1>Logga in</h1>
 <form action="/scripts/authenticate.php" method="post">
-	<input type="hidden" name="kickback" value="<?=htmlspecialchars(request_get('kickback'), ENT_QUOTES, 'utf-8')?>" />
+	<input type="hidden" name="kickback" value="<?=$post?$post['kickback']:ClientData::request('kickback')?>" />
 	<table>
 		<tr>
-			<th>användarnamn</th>
-			<td><input type="text" name="username" /></td>
+			<th>Användarnamn</th>
+			<td><input type="text" name="username" <?=$post?"value=\"{$post['username']}\"":''?> /></td>
 		</tr>
 		<tr>
 			<th>Lösenord</th>

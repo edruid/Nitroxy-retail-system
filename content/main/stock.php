@@ -1,6 +1,6 @@
 <?php
 if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars("https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
 $products = Product::selection(array(
 	'@custom_order' => '`products`.`count` > 0 DESC',

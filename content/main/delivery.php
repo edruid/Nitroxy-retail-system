@@ -1,6 +1,6 @@
 <?php
 if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars("http".($_SERVER['HTTPS']?'s':'')."://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
 $categories = Category::selection(array(
 	'category_id:!=' => 0,
@@ -8,7 +8,7 @@ $categories = Category::selection(array(
 $products = Product::selection(array(
 	'category_id:!=' => 0,
 ));
-$old_values = session_get('_POST');
+$old_values = ClientData::session('_POST');
 unset($_SESSION['_POST']);
 ?>
 <script type="text/javascript">

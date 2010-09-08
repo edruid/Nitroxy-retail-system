@@ -11,7 +11,6 @@ require_once "inc_app/init.php";
 // Generic
 require_once "inc_gen/init.php";
 require_once "inc_gen/session.php";
-require_once "inc_gen/client_data.php";
 require_once "inc_gen/url.php";
 
 // Application

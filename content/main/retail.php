@@ -270,22 +270,22 @@ function finish(sum, recieved, change_string) {
 </script>
 <h1>NitroXy Retail System</h1>
 <?
-if(request_get("last_sum")) {
+if(ClientData::request("last_sum")) {
 	?>
 	<div id="last_purchase">
 	<h2>Föregående köp</h2>
 	<table>
 		<tr>
 			<td>Att betala</td>
-			<td><?=request_get("last_sum")?> kr</td>
+			<td><?=ClientData::request("last_sum")?> kr</td>
 		</tr>
 		<tr>
 			<td>Mottaget</td>
-			<td><?=request_get("last_recieved")?> kr</td>
+			<td><?=ClientData::request("last_recieved")?> kr</td>
 		</tr>
 		<tr>
 			<td>Växel</td>
-			<td><?=request_get("last_change")?> kr</td>
+			<td><?=ClientData::request("last_change")?> kr</td>
 		</tr>
 	</table>
 	</div>
