@@ -269,72 +269,80 @@ function finish(sum, recieved, change_string) {
 }
 </script>
 <h1>NitroXy Retail System</h1>
-<?
-if(ClientData::request("last_sum")) {
-	?>
-	<div id="last_purchase">
-	<h2>Föregående köp</h2>
-	<table>
-		<tr>
-			<td>Att betala</td>
-			<td><?=ClientData::request("last_sum")?> kr</td>
-		</tr>
-		<tr>
-			<td>Mottaget</td>
-			<td><?=ClientData::request("last_recieved")?> kr</td>
-		</tr>
-		<tr>
-			<td>Växel</td>
-			<td><?=ClientData::request("last_change")?> kr</td>
-		</tr>
-	</table>
-	</div>
-	<?
-}
-?>
 <hr />
 <h2>Nytt köp</h2>
 <form name="input_form" autocomplete="off" action="" onsubmit="return false;">
 
 	<div id="this_purchase">
-	<h2>Detta köp</h2>
-	<table>
-		<tr>
-			<td>Att betala</td>
-			<td><strong id="sum">0 kr</strong></td>
-		</tr>
-		<tr>
-			<td>Öresavrundning</td>
-			<td><strong id="diff">0.00 kr</strong></td>
-		</tr>
-		<tr>
-			<td>Mottaget</td>
-			<td><input style="font-weight: bold; width: 6em;" maxlength="6" tabindex="2" type="text" name="recieved" id="recieved" onkeypress="return update_change(event);" /> kr</td>
-		</tr>
-		<tr>
-			<td>Växel</td>
-			<td><strong id="change"></strong></td>
-		</tr>
-	</table>
+		<h2>Detta köp</h2>
+		<table>
+			<tr>
+				<td>Att betala</td>
+				<td><strong id="sum">0 kr</strong></td>
+			</tr>
+			<tr>
+				<td>Öresavrundning</td>
+				<td><strong id="diff">0.00 kr</strong></td>
+			</tr>
+			<tr>
+				<td>Mottaget</td>
+				<td><input style="font-weight: bold; width: 6em;" maxlength="6" tabindex="2" type="text" name="recieved" id="recieved" onkeypress="return update_change(event);" /> kr</td>
+			</tr>
+			<tr>
+				<td>Växel</td>
+				<td><strong id="change"></strong></td>
+			</tr>
+		</table>
 	</div>
 	
-	<select name="product_list" disabled="disabled" id="product_list" size="15" >
-	</select>
-
-	<p>
-		<label>
-			EAN-kod, artikelnummer eller beskrivning<br />
-			<input type="text" tabindex="1" name="ean" id="ean" />
-			<div id="suggest"></div>
-		</label>
-		<input type="submit" onclick="purchase(); return false;" value="OK" />
-	</p>
+	<div style="float: left;">
+		<select name="product_list" disabled="disabled" id="product_list" size="15" ></select>
+		<p>
+			<label>
+				EAN-kod, artikelnummer eller beskrivning<br />
+				<input type="text" tabindex="1" name="ean" id="ean" />
+				<div id="suggest"></div>
+			</label>
+			<input type="submit" onclick="purchase(); return false;" value="OK" />
+		</p>
+		<ul id="wait" class="help">
+			<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
+			<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
+			<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
+		</ul>
+	</div>
 </form>
-<ul id="wait" class="help">
-	<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
-	<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
-	<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
-</ul>
+<? if(ClientData::request("last_sum")): ?>
+	<div id="last_purchase">
+		<h2>Föregående köp</h2>
+		<table>
+			<tr>
+				<td>Att betala</td>
+				<td><?=ClientData::request("last_sum")?> kr</td>
+			</tr>
+			<tr>
+				<td>Mottaget</td>
+				<td><?=ClientData::request("last_recieved")?> kr</td>
+			</tr>
+			<tr>
+				<td>Växel</td>
+				<td><?=ClientData::request("last_change")?> kr</td>
+			</tr>
+		</table>
+		<table>
+			<? foreach(TransactionContent::selection(array(
+						'transaction_id' => ClientData::request("last_transaction"),
+						'@limit' => 5,
+					)) as $content): ?>
+				<tr>
+					<td><?=$content->Product?></td>
+					<td><?=$content->count?> st</td>
+					<td><?=$content->amount?> kr</td>
+				</tr>
+			<? endforeach ?>
+		</table>
+	</div>
+<? endif ?>
 <form name="transaction_form" id="transaction_form" method="post" action="<?=absolute_path("scripts/finish_transaction.php");?>" style="display: none;">
 	<input type="hidden" id="transaction_diff" name="diff" value="0" />
 	<input type="text" id="transaction_sum" name="sum" />

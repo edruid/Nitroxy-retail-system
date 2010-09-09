@@ -66,6 +66,6 @@ if($transaction->amount != $sum || -0.5 >= $diff || $diff > 0.5 ) {
 	die("Klienten har räknat fel eller priser har ändrats sedan klienten hämtade dem. $diff $sum $transaction->amount");
 }
 $db->commit();
-kick("retail?last_sum=$sum&last_recieved=$recieved&last_change=$change");
+kick("retail?last_sum=$sum&last_recieved=$recieved&last_change=$change&last_transaction={$transaction->id}");
 
 ?>
