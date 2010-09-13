@@ -58,8 +58,11 @@ abstract class BasicObject {
 	 */
 	private static function id_name($class_name = null){
 		$pk = static::primary_key($class_name);
-		if(count($pk) != 1) {
+		if(count($pk) < 1) {
 			return null;
+		}
+		if(count($pk) > 1) {
+			return $pk;
 		}
 		return $pk[0];
 	}
@@ -271,8 +274,19 @@ abstract class BasicObject {
 		$query = substr($query, 0, -2);
 
 		if(isset($this->_exists) && $this->_exists){
-			$query .= "\nWHERE `".$this->id_name()."` = ?";
-			$id = $this->id;
+			if(is_array($this->id_name())) {
+				$query .= "\nWHERE ";
+				$subquery = '';
+				foreach($this->id_name() as $field) {
+					$subquery .= "`$field` = ? AND ";
+					$dummy[$field] = $this->$field;
+					$params[] = &$dummy[$field];
+				}
+				$query .= substr($subquery, 0, -5);
+			} else {
+				$query .= "\nWHERE `".$this->id_name()."` = ?";
+				$id = $this->id;
+			}
 			$params[] = &$id;
 			$types .= 'i';
 		}
@@ -288,11 +302,15 @@ abstract class BasicObject {
 				$object = $this->from_id($db->insert_id);
 			} else {
 				$id_name = $this->id_name();
-				if($id_name) {
+				if(!is_array($id_name)) {
 					$object = $this->from_id($this->$id_name);
 				} else {
+					$params = array();
+					foreach($this->id_name() as $field) {
+						$params[$field] = $this->$field;
+					}
 					// no id? try to get the element from what we just set it to..
-					$elems = $this->selection($this->_data);
+					$elems = $this->selection($params);
 					if(count($elems) != 1) {
 						throw new Exception("No id column and non unique data");
 					}
