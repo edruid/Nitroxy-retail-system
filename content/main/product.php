@@ -3,6 +3,10 @@ $product = Product::from_id(array_shift($request));
 if(!$product) {
 	die('unknown product');
 }
+$packages = ProductPackage::selection(array(
+	'package' => $product->id
+));
+$total = $product->value;
 ?>
 <table>
 	<tr>
@@ -48,6 +52,25 @@ if(!$product) {
 </table>
 <h2>EAN</h2>
 <img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
+<? if($packages): ?>
+	<h2>Andra produkter som ingår i den här</h2>
+	<table>
+		<tr>
+			<th>Produkt</th>
+			<th>Antal</th>
+			<th>Delvärde</th>
+		</tr>
+		<tr>
+			<? foreach($packages as $package): ?>
+				<td><a href="/product/<?=$package->product_id?>"><?=$product = $package->Product()?></a></td>
+				<td><?=$package->count?> st</td>
+				<td><?=$package->count * $product->value?> kr</td>
+				<? $total += $package->count * $product->value ?>
+			<? endforeach ?>
+		</tr>
+	</table>
+	<p>Totalt for producten: <?=$total?></p>
+<? endif ?>
 <h2>Försäljnings historik</h2>
 <img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>
 <p>

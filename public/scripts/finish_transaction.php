@@ -42,8 +42,7 @@ foreach($basket as $id => $count) {
 	$product = Product::from_id($id);
 	$amount=$product->price*$count;
 	$transaction->amount+=$amount;
-	$product->count -= $count;
-	$product->commit();
+	$product->sell($count);
 	$transaction_content = new TransactionContent();
 	$transaction_content->transaction_id = $transaction->id;
 	$transaction_content->product_id = $product->id;
