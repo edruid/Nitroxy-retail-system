@@ -22,6 +22,7 @@ if(!file_exists($main)) {
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="<?=absolute_path('style.css'); ?>" />
 		<script type="text/javascript" src="<?=absolute_path('js/dom.js')?>"></script>
+		<script type="text/javascript" src="/js/sort.js"></script>
 	</head>
 	<body>
 		<? foreach(Message::get_errors() as $error): ?>

@@ -14,25 +14,25 @@ $products = Product::selection(array(
 <table class="alternate">
 	<thead>
 		<tr>
-			<th>Namn</th>
-			<th>Värde/st</th>
-			<th>Försäljningspris</th>
-			<th>Lager</th>
-			<th>Lagervärde</th>
-			<th>EAN</th>
-			<th>Kategori</th>
+			<th class="name_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 0); return false;">Namn</a></th>
+			<th class="value_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 1); return false;">Värde/st</a></th>
+			<th class="price_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 2); return false;">Försäljningspris</a></th>
+			<th class="count_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 3); return false;">Lager</a></th>
+			<th class="value_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 4); return false;">Lagervärde</a></th>
+			<th class="ean_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 5); return false;">EAN</a></th
+			<th class="category_column"><a href="#" onclick="javascript:sort(this.parentNode.parentNode.parentNode.parentNode, 6); return false;">Kategori</a></th>
 		</tr>
 	</thead>
 	<tbody>
 		<? foreach($products as $product): ?>
 			<tr>
-				<td><a href="product/<?=$product->id?>"><?=$product->name?></a></td>
-				<td><?=$product->value?></td>
-				<td><?=$product->price?></td>
-				<td><?=$product->count?></td>
-				<td><?=$product->count * $product->value?></td>
-				<td><?=$product->ean?></td>
-				<td><?=$product->Category->name?></td>
+				<td class="name_column"><a href="product/<?=$product->id?>"><?=$product->name?></a></td>
+				<td class="value_column"><?=$product->value?></td>
+				<td class="price_column"><?=$product->price?></td>
+				<td class="count_column"><?=$product->count?></td>
+				<td class="value_column"><?=$product->count * $product->value?></td>
+				<td class="ean_column"><?=$product->ean?></td>
+				<td class="category_column"><?=$product->Category->name?></td>
 			</tr>
 		<? endforeach ?>
 	</tbody>
