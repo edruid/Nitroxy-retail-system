@@ -7,6 +7,9 @@ if(!$product) {
 	die('unknown product');
 }
 $categories = Category::selection();
+$packages = ProductPackage::selection(array(
+	'package' => $product->id,
+));
 ?>
 <form action="/scripts/edit_product.php" method="post">
 	<input type="hidden" name="product" value="<?=$product->id?>" />
@@ -30,6 +33,10 @@ $categories = Category::selection();
 		<tr>
 			<th>EAN</th>
 			<td><input type="text" name="ean" value="<?=$product->ean?>" /></td>
+		</tr>
+		<tr>
+			<th>Lager buffert</th>
+			<td><input type="text" name="inventory_threshold" value="<?=$product->inventory_threshold?>" /></td>
 		</tr>
 		<tr>
 			<th>Kategori</th>

@@ -11,6 +11,7 @@ $fields = array(
 	'count',
 	'ean',
 	'category_id',
+	'inventory_threshold',
 );
 foreach($fields as $field) {
 	$product->$field = ClientData::post($field);
