@@ -26,5 +26,12 @@ class Product extends BasicObject {
 	public function __toString() {
 		return $this->name;
 	}
+
+	public function __set($key, $value) {
+		if($value === '') {
+			$value = null;
+		}
+		return parent::__set($key, $value);
+	}
 }
 ?>
