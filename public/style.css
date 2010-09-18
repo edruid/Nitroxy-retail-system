@@ -46,6 +46,10 @@ table.body_border tbody tr th:first-child {
 	border-left: 1px solid black;
 }
 
+td.numeric {
+	text-align: right;
+}
+
 /** Lists */
 ul.help {
 	list-style: none;
@@ -79,6 +83,10 @@ p.error {
 
 .box_finisher {
 	clear: both;
+}
+
+.marked {
+	background-color: red;
 }
 
 /** DIVS **/

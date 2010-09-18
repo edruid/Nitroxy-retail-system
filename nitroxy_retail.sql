@@ -27,7 +27,7 @@ CREATE TABLE `categories` (
   `name` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `deliveries` (
   `description` text COLLATE utf8_swedish_ci NOT NULL,
   `user` varchar(100) COLLATE utf8_swedish_ci DEFAULT '',
   PRIMARY KEY (`delivery_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +66,24 @@ CREATE TABLE `delivery_contents` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `product_package`
+--
+
+DROP TABLE IF EXISTS `product_package`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_package` (
+  `product_id` int(10) unsigned NOT NULL,
+  `package` int(10) unsigned NOT NULL,
+  `count` smallint(6) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`product_id`,`package`),
+  KEY `package` (`package`),
+  CONSTRAINT `product_package_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  CONSTRAINT `product_package_ibfk_2` FOREIGN KEY (`package`) REFERENCES `products` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `products`
 --
 
@@ -80,12 +98,13 @@ CREATE TABLE `products` (
   `category_id` int(10) unsigned NOT NULL,
   `value` decimal(10,2) NOT NULL,
   `count` int(11) NOT NULL DEFAULT '0',
+  `inventory_threshold` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `ean` (`ean`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +139,7 @@ CREATE TABLE `transactions` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `amount` float NOT NULL,
   PRIMARY KEY (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1094 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -132,4 +151,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-09-05 23:41:05
+-- Dump completed on 2010-09-18 14:21:43

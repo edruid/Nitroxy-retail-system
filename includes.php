@@ -15,5 +15,6 @@ require_once "inc_gen/url.php";
 
 // Application
 require_once "inc_app/application.php";
+require_once "inc_app/helpers.php";
 
 ?>
