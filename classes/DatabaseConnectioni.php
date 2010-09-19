@@ -169,7 +169,7 @@ class DatabaseConnectioni extends MySQLi
 	 * Same semantics as prepare_full, but does not return anything and calls $stmt->fetch();$stmt->close().
 	 * @return boolean @see MySQLi_STMT->fetch()
 	 */
-	function prepare_fetch($query, $bind_params=null, $types=null)
+	function prepare_fetch($query, &$bind_params=null, $types=null)
 	{
 		$array = func_get_args();
 		$array[1] = &$bind_params;
@@ -220,7 +220,7 @@ class DatabaseConnectioni extends MySQLi
 	 *
 	 * @return MySQLi_STMT statement som representerar den genomförda queryn.
 	 */
-	function prepare_full($query, $bind_results=null, $types=null)
+	function prepare_full($query, &$bind_results=null, $types=null)
 	{
 		global $notify;
 		$this->start_timer();

@@ -391,7 +391,7 @@ abstract class BasicObject {
 					throw new Exception("Mismatched expression");
 				}
 				if(!self::in_table($f, static::table_name())){
-					throw new Exception("No such column '$field' in table '".static::table_name()."'");
+					throw new Exception("No such column '$f' in table '".static::table_name()."'");
 				}
 				$exp .= "`$f`";
 			}	

@@ -1,7 +1,4 @@
-<?php
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url()));
-}
+<?
 function mark($bool) {
 	if($bool) {
 		return ' marked';
@@ -9,14 +6,7 @@ function mark($bool) {
 		return '';
 	}
 }
-$products = Product::selection(array(
-	'@custom_order' => '`products`.`count` > 0 DESC',
-	'@order' => array(
-		'Category.name',
-		'name',
-	),
-	'category_id:!=' => 0,
-));
+$category = Category::from_id(array_shift($request));
 $i = 0;
 $revenue = array();
 $db->prepare_fetch("
@@ -29,18 +19,20 @@ $db->prepare_fetch("
 		`products` ON (`products`.`product_id` = `transaction_contents`.`product_id`) JOIN
 		`transactions` ON (`transaction_contents`.`transaction_id` = `transactions`.`transaction_id`)
 	WHERE
-		`transactions`.`timestamp` > ?",
-	$revenue, 's', date('Y-m-d', time()-60*60*24*30));
+		`transactions`.`timestamp` > ? AND
+		`products`.`category_id` = ?",
+	$revenue, 'si', date('Y-m-d', time()-60*60*24*30), $category->id);
 
 ?>
+<h1><?=$category->name?></h1>
 <table>
 	<tr>
 		<th>Lagrets värde</th>
-		<td class="numeric"><?=number(Product::sum(array('value', '*', 'count')))?> kr</td>
+		<td class="numeric"><?=number(Product::sum(array('value', '*', 'count'), array('category_id' => $category->id)))?> kr</td>
 	</tr>
 	<tr>
 		<th>Försäljning senaste 30 dagarna</th>
-		<td class="numeric"><?=number(TransactionContent::sum('amount', array('Transaction.timestamp:>' => date('Y-m-d', time()-60*60*24*30))))?> kr</td>
+		<td class="numeric"><?=number(TransactionContent::sum('amount', array('Product.category_id' => $category->id, 'Transaction.timestamp:>' => date('Y-m-d', time()-60*60*24*30))))?> kr</td>
 	</tr>
 	<tr>
 		<th>Vinst senaste 30 dagarna</th>
@@ -52,7 +44,6 @@ $db->prepare_fetch("
 		<tr>
 			<th><?$i++?></th>
 			<th class="name_column"><a href="#" onclick="sort.sort(<?=$i++?>, sort.tagInsensitiveComparator);return false">Namn</a></th>
-			<th class="category_column"><a href="#" onclick="sort.sort(<?=$i++?>, sort.tagInsensitiveComparator);return false">Kategori</a></th>
 			<th class="value_column"><a href="#" onclick="sort.sort(<?=$i++?>);return false">Värde/st</a></th>
 			<th class="price_column"><a href="#" onclick="sort.sort(<?=$i++?>);return false">Försäljning</a></th>
 			<th class="count_column"><a href="#" onclick="sort.sort(<?=$i++?>);return false">Lager</a></th>
@@ -67,11 +58,10 @@ $db->prepare_fetch("
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($products as $product): ?>
+		<? foreach($category->Product(array('@order' => 'name')) as $product): ?>
 			<tr>
 				<td><a href="/edit_product/<?=$product->id?>"><img src="/gfx/edit.png" alt="edit" /></a></td>
 				<td class="name_column"><a href="/product/<?=$product->id?>"><?=$product->name?></a></td>
-				<td class="category_column"><a href="/category/<?=$product->category_id?>"><?=$product->Category->name?></a></td>
 				<td class="numeric value_column"><?=number($product->value)?> kr</td>
 				<td class="numeric price_column"><?=$product->price?> kr</td>
 				<td class="numeric count_column"><?=$product->count?> st</td>
@@ -101,3 +91,4 @@ window.addEventListener ?
 	window.attachEvent('onload', startSort);
 
 </script>
+	
