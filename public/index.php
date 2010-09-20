@@ -20,7 +20,7 @@ if(!file_exists($main)) {
 	<head>
 		<title><?=$application['name']?></title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="<?=absolute_path('style.css'); ?>" />
+		<link type="text/css" rel="stylesheet" href="<?=absolute_path('style.css'); ?>" />
 		<script type="text/javascript" src="<?=absolute_path('js/dom.js')?>"></script>
 		<script type="text/javascript" src="/js/sort.js"></script>
 	</head>
@@ -28,9 +28,20 @@ if(!file_exists($main)) {
 		<? foreach(Message::get_errors() as $error): ?>
 			<p class="error"><?=$error?></p>
 		<? endforeach ?>
-		<? if(!empty($_SESSION['login'])): ?>
-			<a href="/scripts/logout.php">Logga ut</a>
-		<? endif ?>
+		<ul class="menu">
+			<li><a href="/retail">Handla</a></li>
+			<li><a href="/price_list">Prislista</a></li>
+			<? if(!empty($_SESSION['login'])): ?>
+				<li><a href="/stock">Lager</a></li>
+				<li><a href="/list_categories">Kategorier</a></li>
+				<li><a href="/delivery">Ny leverans</a></li>
+				<li><a href="/list_deliveries">Leveranser</a></li>
+				<li><a href="/transaction_log">Transaktionslogg</a></li>
+				<li><a href="/scripts/logout.php">Logga ut</a></li>
+			<? else: ?>
+				<li><a href="/login?kickback=<?=htmlspecialchars(kickback_url())?>">Logga in</a></li>
+			<? endif ?>
+		</ul>
 		<?require $main?>
 	</body>
 </html>

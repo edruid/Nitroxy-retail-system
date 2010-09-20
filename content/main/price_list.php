@@ -6,6 +6,7 @@ $categories = Category::selection(array(
 ?>
 <h1>Prislista</h1>
 <? foreach($categories as $category): ?>
+	<? if($category->Product == array()) continue; ?>
 	<h3><?=$category->name?></h3>
 	<table>
 		<thead>
@@ -14,26 +15,30 @@ $categories = Category::selection(array(
 				<th>Pris</th>
 			</tr>
 		</thead>
-		<tbody>
-			<? foreach($category->Product(array('count:>' => 0, '@order' => 'name')) as $product): ?>
+		<? if(($products = $category->Product(array('count:>' => 0, '@order' => 'name'))) != array()): ?>
+			<tbody>
+				<? foreach($products as $product): ?>
+					<tr>
+						<td><?=$product->name?></td>
+						<td><?=$product->price?></td>
+					</tr>
+				<? endforeach ?>
+			</tbody>
+		<? endif ?>
+		<? if(($products = $category->Product(array('count:<=' => 0, '@order' => 'name'))) != array()): ?>
+			<tbody>
 				<tr>
-					<td><?=$product->name?></td>
-					<td><?=$product->price?></td>
+					<td colspan="2"><a href="#" onclick="parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display='table-row-group';return false;">Visa även varor som är slut</a></td>
 				</tr>
-			<? endforeach ?>
-		</tbody>
-		<tbody>
-			<tr>
-				<td colspan="2"><a href="#" onclick="parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display='table-row-group';return false;">Visa även varor som är slut</a></td>
-			</tr>
-		</tbody>
-		<tbody style="display: none;">
-			<? foreach($category->Product(array('count:<=' => 0, '@order' => 'name')) as $product): ?>
-				<tr>
-					<td><?=$product->name?></td>
-					<td><?=$product->price?></td>
-				</tr>
-			<? endforeach ?>
-		</tbody>
+			</tbody>
+			<tbody style="display: none;">
+				<? foreach($products as $product): ?>
+					<tr>
+						<td><?=$product->name?></td>
+						<td><?=$product->price?></td>
+					</tr>
+				<? endforeach ?>
+			</tbody>
+		<? endif ?>
 	</table>
 <? endforeach ?>

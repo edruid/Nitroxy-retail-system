@@ -1,4 +1,5 @@
 <script type="text/javascript">
+<!--
 var names=new Array();
 var suggestions=new Array();
 var prices=new Array();
@@ -267,11 +268,11 @@ function finish(sum, recieved, change_string) {
 	}
 	return true;
 }
-</script>
+--></script> 
 <h1>NitroXy Retail System</h1>
 <hr />
 <h2>Nytt köp</h2>
-<form name="input_form" autocomplete="off" action="" onsubmit="return false;">
+<form autocomplete="off" action="" onsubmit="return false;">
 
 	<div id="this_purchase">
 		<h2>Detta köp</h2>
@@ -301,7 +302,7 @@ function finish(sum, recieved, change_string) {
 			<label>
 				EAN-kod, artikelnummer eller beskrivning<br />
 				<input type="text" tabindex="1" name="ean" id="ean" />
-				<div id="suggest"></div>
+				<span id="suggest"></span>
 			</label>
 			<input type="submit" onclick="purchase(); return false;" value="OK" />
 		</p>
@@ -343,12 +344,14 @@ function finish(sum, recieved, change_string) {
 		</table>
 	</div>
 <? endif ?>
-<form name="transaction_form" id="transaction_form" method="post" action="<?=absolute_path("scripts/finish_transaction.php");?>" style="display: none;">
-	<input type="hidden" id="transaction_diff" name="diff" value="0" />
-	<input type="text" id="transaction_sum" name="sum" />
-	<input type="text" id="transaction_recieved" name="recieved" />
-	<input type="text" id="transaction_change" name="change" />
-	<input type="text" name="contents" id="transaction_contents" />
+<form id="transaction_form" method="post" action="<?=absolute_path("scripts/finish_transaction.php");?>" style="display: none;">
+	<div>
+		<input type="hidden" id="transaction_diff" name="diff" value="0" />
+		<input type="text" id="transaction_sum" name="sum" />
+		<input type="text" id="transaction_recieved" name="recieved" />
+		<input type="text" id="transaction_change" name="change" />
+		<input type="text" name="contents" id="transaction_contents" />
+	</div>
 </form>
 <script type="text/javascript" src="<?=absolute_path('js/suggest.js')?>"></script>
 <script type="text/javascript">

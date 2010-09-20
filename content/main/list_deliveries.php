@@ -1,5 +1,5 @@
 <h1>Leveranser</h1>
-<table>
+<table class="alternate">
 	<thead>
 		<tr>
 			<th>Tid</th>
@@ -13,8 +13,8 @@
 			<tr>
 				<td><a href="/view_delivery/<?=$delivery->id?>"><?=$delivery->timestamp?></a></td>
 				<td><?=$delivery->user?></td>
-				<td><?=DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id))?></td>
-				<td><pre><?=$delivery->description?></pre></td>
+				<td class="numeric"><?=number(DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id)))?> kr</td>
+				<td class="pre"><?=$delivery->description?></td>
 			</tr>
 		<? endforeach ?>
 	</tbody>

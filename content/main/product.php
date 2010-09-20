@@ -35,7 +35,7 @@ $total = $product->value;
 	</tr>
 	<tr>
 		<th>Kategori</th>
-		<td><?=$product->Category->name?></td>
+		<td><a href="/category/<?=$product->category_id?>"><?=$product->Category->name?></a></td>
 	</tr>
 	<tr>
 		<th>Totalt levererat</th>
@@ -50,8 +50,10 @@ $total = $product->value;
 		<td><?=TransactionContent::sum('amount', array('product_id' => $product->id))?></td>
 	</tr>
 </table>
-<h2>EAN</h2>
-<img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
+<div>
+	<h2>EAN</h2>
+	<img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
+</div>
 <? if($packages): ?>
 	<h2>Andra produkter som ingår i den här</h2>
 	<table>
@@ -71,8 +73,10 @@ $total = $product->value;
 	</table>
 	<p>Totalt for producten: <?=$total?></p>
 <? endif ?>
-<h2>Försäljnings historik</h2>
-<img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>
+<div>
+	<h2>Försäljnings historik</h2>
+	<img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>
+</div>
 <p>
 <a href="/edit_product/<?=$product->id?>">Redigera produkten</a>
 </p>

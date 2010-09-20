@@ -5,7 +5,7 @@ $delivery = Delivery::from_id(array_shift($request));
 <table>
 	<tr>
 		<th>Beskrivning</th>
-		<td><pre><?=$delivery->description?></pre></td>
+		<td class="pre"><?=$delivery->description?></td>
 	</tr>
 	<tr>
 		<th>User</th>

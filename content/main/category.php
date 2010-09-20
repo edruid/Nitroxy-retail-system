@@ -1,4 +1,7 @@
 <?
+if(empty($_SESSION['login'])) {
+	kick('login?kickback='.htmlspecialchars(kickback_url()));
+}
 function mark($bool) {
 	if($bool) {
 		return ' marked';
@@ -8,21 +11,6 @@ function mark($bool) {
 }
 $category = Category::from_id(array_shift($request));
 $i = 0;
-$revenue = array();
-$db->prepare_fetch("
-	SELECT
-		SUM(`transaction_contents`.`amount` -
-			`transaction_contents`.`count` * `products`.`value`
-		) as revenue
-	FROM
-		`transaction_contents` JOIN
-		`products` ON (`products`.`product_id` = `transaction_contents`.`product_id`) JOIN
-		`transactions` ON (`transaction_contents`.`transaction_id` = `transactions`.`transaction_id`)
-	WHERE
-		`transactions`.`timestamp` > ? AND
-		`products`.`category_id` = ?",
-	$revenue, 'si', date('Y-m-d', time()-60*60*24*30), $category->id);
-
 ?>
 <h1><?=$category->name?></h1>
 <table>
@@ -36,7 +24,7 @@ $db->prepare_fetch("
 	</tr>
 	<tr>
 		<th>Vinst senaste 30 dagarna</th>
-		<td class="numeric"><?=number($revenue['revenue'])?> kr</td>
+		<td class="numeric"><?=number($category->revenue(date('Y-m-d', time()-60*60*24*30)))?> kr</td>
 	</tr>
 </table>
 <table class="alternate" id="products">

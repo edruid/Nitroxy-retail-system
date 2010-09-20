@@ -1,5 +1,5 @@
 <h1>Transaktionslogg</h1>
-<a href="transaction_log?page=<?=ClientData::request('page')-1?>">&lt; föregående</a> <a href="transaction_log?page=<?=ClientData::request('page')+1?>">nästa &gt;</a>
+<div><a href="transaction_log?page=<?=ClientData::request('page')-1?>">&lt; föregående</a> <a href="transaction_log?page=<?=ClientData::request('page')+1?>">nästa &gt;</a></div>
 <table class="body_border">
 	<? foreach(Transaction::selection(array('@order' => 'timestamp:desc', '@limit' => array(ClientData::request('page')*10, 10))) as $transaction): ?>
 		<tbody>
@@ -17,4 +17,4 @@
 		</tbody>
 	<? endforeach ?>
 </table>
-<a href="transaction_log?page=<?=ClientData::request('page')-1?>">&lt; föregående</a> <a href="transaction_log?page=<?=ClientData::request('page')+1?>">nästa &gt;</a>
+<div><a href="transaction_log?page=<?=ClientData::request('page')-1?>">&lt; föregående</a> <a href="transaction_log?page=<?=ClientData::request('page')+1?>">nästa &gt;</a></div>

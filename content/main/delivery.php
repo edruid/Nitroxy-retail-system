@@ -12,6 +12,7 @@ $old_values = ClientData::session('_POST');
 unset($_SESSION['_POST']);
 ?>
 <script type="text/javascript">
+<!--
 function addLine() {
 	var hidden=document.getElementById("template");
 	var element = hidden.previousSibling;
@@ -72,10 +73,11 @@ function updateInfo(e, field) {
 		}
 	}
 }
+-->
 </script>
 <h1>Ny inleverans</h1>
 <form action="<?=absolute_path('scripts/delivery.php');?>" method="post" onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
-<textarea rows="5" cols="50" name="description"></textarea>
+<div><textarea rows="5" cols="50" name="description"></textarea></div>
 <table>
 	<thead>
 		<tr>
@@ -87,7 +89,7 @@ function updateInfo(e, field) {
 			<th>
 				Inköpspris
 				<ul class="small">
-					<li><label><input type="checkbox" name="single" <?=($old_values && $old_values['single'])?'checked="checked"':''?>>per vara</label></li>
+					<li><label><input type="checkbox" name="single" <?=($old_values && $old_values['single'])?'checked="checked"':''?> />per vara</label></li>
 				</ul>
 			</th>
 		</tr>
@@ -105,7 +107,7 @@ function updateInfo(e, field) {
 					<td><input type="text" class="name" name="name[]" value="<?=$old_values['name'][$i]?>" /></td>
 					<td><input type="text" class="sales_price" name="sales_price[]" value="<?=$old_values['sales_price'][$i]?>" /></td>
 					<td>
-						<select class="category" name="category[]" />
+						<select class="category" name="category[]" >
 							<? foreach($categories as $category): ?>
 								<option value="<?=$category->id?>" <?=$old_values['category'][$i]==$category->id?'selected="selected"':''?>><?=$category->name?></option>
 							<? endforeach ?>
@@ -121,7 +123,7 @@ function updateInfo(e, field) {
 			<td><input type="text" class="name" name="name[]" /></td>
 			<td><input type="text" class="sales_price" name="sales_price[]" /></td>
 			<td>
-				<select class="category" name="category[]" />
+				<select class="category" name="category[]" >
 					<? foreach($categories as $category): ?>
 						<option value="<?=$category->id?>"><?=$category->name?></option>
 					<? endforeach ?>
@@ -135,7 +137,7 @@ function updateInfo(e, field) {
 			<td><input type="text" class="name" name="name[]" /></td>
 			<td><input type="text" class="sales_price" name="sales_price[]" /></td>
 			<td>
-				<select class="category" name="category[]" />
+				<select class="category" name="category[]" >
 					<? foreach($categories as $category): ?>
 						<option value="<?=$category->id?>"><?=$category->name?></option>
 					<? endforeach ?>
