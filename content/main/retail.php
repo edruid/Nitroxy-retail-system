@@ -65,11 +65,10 @@ function purchase() {
 			} else if(sign == '+') {
 				basket[artno]=basket[artno]+amount;
 			} else if(sign == '-') {
-				if(basket[artno] <= amount) {
-					basket[artno] = undefined;
-				} else {
-					basket[artno]=basket[artno]-amount;
-				}
+				basket[artno]=basket[artno]-amount;
+			}
+			if(basket[artno] <= 0) {
+				basket[artno] = undefined;
 			}
 			update_product_list();
 			update_sum();
@@ -125,7 +124,6 @@ var sum;
 // recalculate the price for the basket
 function update_sum() {
 	var calc_amount=0;
-
 	for(var i=0;i<basket.length;i++) {
 		if(basket[i]!=undefined && basket[i]!=NaN) {
 			if(prices[i]==undefined || prices[i]==NaN) {
@@ -207,7 +205,7 @@ function update_change(e) {
 	}
 
 	// Visa inte växel innan mottaget belopp har börjat matas in
-	if(recieved==undefined || recieved=="" || recieved==0) {
+	if(recieved==undefined || recieved=="" || (recieved==0 && basket.length == 0)) {
 		var change=0;
 		change_elem.innerHTML="";
 	} else {
@@ -238,6 +236,8 @@ function finish(sum, recieved, change_string) {
 		return false;
 	}
 	if(change+" kr"!=change_string) {
+		alert(change);
+		alert(change_string);
 		alert("Ett fel uppstod vid beräkning av växel");
 		return false;
 	}
@@ -313,7 +313,7 @@ function finish(sum, recieved, change_string) {
 		</ul>
 	</div>
 </form>
-<? if(ClientData::request("last_sum")): ?>
+<? if(ClientData::request("last_sum") !== false): ?>
 	<div id="last_purchase">
 		<h2>Föregående köp</h2>
 		<table>
