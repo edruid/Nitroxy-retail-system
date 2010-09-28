@@ -487,7 +487,7 @@ abstract class BasicObject {
 				$group = "\nGROUP BY ".static::unique_identifier();
 				break;
 			case 'count':
-				$query .= "COUNT(DISTINCT(".static::unique_identifyer().")) AS `count`\n";
+				$query .= "COUNT(DISTINCT(".static::unique_identifier().")) AS `count`\n";
 				$group = "";
 				break;
 		}
