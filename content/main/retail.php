@@ -21,7 +21,14 @@ foreach($products as $product) {
 }
 ?>
 
-var basket=new Array();
+function is_empty(obj) {
+	for(var i in obj) {
+		return false;
+	}
+	return true;
+}
+
+var basket=new Object();
 
 // finnished inputing ean, pressed enter. Adding product to list or, if shift is pressed,
 // deleting from list.
@@ -33,7 +40,7 @@ function purchase() {
 	var artno = null;
 	ean=ean.toLowerCase();
 	if(ean=="") {
-		if(basket.length != 0) {
+		if(!is_empty(basket)) {
 			document.getElementById('recieved').focus();
 		}
 		return false;
@@ -68,7 +75,7 @@ function purchase() {
 				basket[artno]=basket[artno]-amount;
 			}
 			if(basket[artno] <= 0) {
-				basket[artno] = undefined;
+				delete basket[artno];
 			}
 			update_product_list();
 			update_sum();
@@ -105,8 +112,8 @@ function update_product_list() {
 
 	product_list.innerHTML='';
 
-	for(var i=0;i<basket.length;i++) {
-		if(basket[i]!=undefined && basket[i]!=NaN) {
+	for(var i in basket) {
+		if(basket[i]!=NaN) {
 			var namn=document.createElement('option');
 			namn.text=names[i]+" [art "+i+"]";
 			product_list.add(namn,null);
@@ -124,8 +131,8 @@ var sum;
 // recalculate the price for the basket
 function update_sum() {
 	var calc_amount=0;
-	for(var i=0;i<basket.length;i++) {
-		if(basket[i]!=undefined && basket[i]!=NaN) {
+	for(var i in basket) {
+		if(basket[i]!=NaN) {
 			if(prices[i]==undefined || prices[i]==NaN) {
 				alert("Ett fel uppstod: inget pris är definierat för artikel "+i);
 			} else {
@@ -205,7 +212,7 @@ function update_change(e) {
 	}
 
 	// Visa inte växel innan mottaget belopp har börjat matas in
-	if(recieved==undefined || recieved=="" || (recieved==0 && basket.length == 0)) {
+	if(recieved==undefined || recieved=="" || (recieved==0 && is_empty(basket))) {
 		var change=0;
 		change_elem.innerHTML="";
 	} else {
@@ -255,8 +262,8 @@ function finish(sum, recieved, change_string) {
 		change_elem.value=change;
 
 		var contents="";
-		for(var i=0; i<basket.length; i++) {
-			if(basket[i]!=undefined && basket[i]!=NaN) {
+		for(var i in basket) {
+			if(basket[i]!=NaN) {
 				contents = contents + i + ":" + basket[i] + "\n";
 			}
 		}
