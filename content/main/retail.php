@@ -19,6 +19,7 @@ foreach($products as $product) {
 	eans['<?=strtolower($product->ean)?>']="<?=$product->id?>";
 	<?
 }
+$transaction = Transaction::from_id(ClientData::request("last_transaction"));
 ?>
 
 function is_empty(obj) {
@@ -323,6 +324,7 @@ function finish(sum, recieved, change_string) {
 <? if(ClientData::request("last_sum") !== false): ?>
 	<div id="last_purchase">
 		<h2>Föregående köp</h2>
+		<?=$transaction->timestamp?>
 		<table>
 			<tr>
 				<td>Att betala</td>
@@ -338,10 +340,7 @@ function finish(sum, recieved, change_string) {
 			</tr>
 		</table>
 		<table>
-			<? foreach(TransactionContent::selection(array(
-						'transaction_id' => ClientData::request("last_transaction"),
-						'@limit' => 5,
-					)) as $content): ?>
+			<? foreach($transaction->TransactionContent(array('@limit' => 5)) as $content): ?>
 				<tr>
 					<td><?=$content->Product?></td>
 					<td><?=$content->count?> st</td>
