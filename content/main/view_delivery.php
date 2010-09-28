@@ -8,12 +8,12 @@ $delivery = Delivery::from_id(array_shift($request));
 		<td class="pre"><?=$delivery->description?></td>
 	</tr>
 	<tr>
-		<th>User</th>
+		<th>Användare</th>
 		<td><?=$delivery->user?></td>
 	</tr>
 	<tr>
 		<th>Total summa</th>
-		<td><?=DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id))?> kr</td>
+		<td><?=number(DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id)))?> kr</td>
 	</tr>
 </table>
 <table>
@@ -29,9 +29,9 @@ $delivery = Delivery::from_id(array_shift($request));
 		<? foreach($delivery->DeliveryContent() as $content): ?>
 			<tr>
 				<td><a href="/product/<?=$content->product_id?>"><?=$content->Product?></a></td>
-				<td><?=$content->count?></td>
-				<td><?=$content->cost?></td>
-				<td><?=$content->cost * $content->count?></td>
+				<td class="numeric"><?=$content->count?> st</td>
+				<td class="numeric"><?=number($content->cost)?> kr</td>
+				<td class="numeric"><?=number($content->cost * $content->count)?> kr</td>
 			</tr>
 		<? endforeach ?>
 	</tbody>

@@ -12,10 +12,9 @@ $packages = ProductPackage::selection(array(
 ));
 ?>
 <form action="/scripts/edit_product.php" method="post">
-	<input type="hidden" name="product" value="<?=$product->id?>" />
 	<table>
 		<tr>
-			<th>Namn</th>
+			<th>Namn<input type="hidden" name="product" value="<?=$product->id?>" /></th>
 			<td><input type="text" name="name" value="<?=$product->name?>" /></td>
 		</tr>
 		<tr>
@@ -41,7 +40,7 @@ $packages = ProductPackage::selection(array(
 		<tr>
 			<th>Kategori</th>
 			<td>
-				<select name="category_id" />
+				<select name="category_id">
 					<? foreach($categories as $category): ?>
 						<option value="<?=$category->id?>" <?=$product->category_id==$category->id?'selected="selected"':''?>><?=$category->name?></option>
 					<? endforeach ?>

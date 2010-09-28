@@ -1,4 +1,4 @@
-<?
+<?php
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
