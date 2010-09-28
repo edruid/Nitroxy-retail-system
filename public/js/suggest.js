@@ -111,30 +111,55 @@ Suggest.Local.prototype = {
 
   _search: function(text) {
 
+    var list;
+    var lists = [[], [], []];
+    var indexes = [[], [], []];
+    var counts = [0, 0, 0];
     var resultList = [];
     var temp; 
+    var temp2; 
     this.suggestIndexList = [];
 
     for (var i = 0, length = this.candidateList.length; i < length; i++) {
-      if ((temp = this.isMatch(this.candidateList[i], text)) != null) {
-        resultList.push(temp);
-        this.suggestIndexList.push(i);
-
+      list = -1;
+      for(var j = 0; j < 3; j++) {
+        if ((this.dispMax == 0 || counts[j] < this.dispMax) && (temp = this.isMatch(this.candidateList[i], text, j)) != null) {
+          list = j;
+          counts[j]++;
+          temp2 = temp;
+        } else {
+          break;
+        }
+      }
+      if(list >= 0) {
+        indexes[list].push(i);
+        lists[list].push(temp2);
+        if (this.dispMax != 0 && counts[2] >= this.dispMax) break;
+      }
+    }
+    for(var j = 2; j >= 0; j--) {
+      for(var i = 0; i < lists[j].length; i++) {
+        resultList.push(lists[j][i]);
+        this.suggestIndexList.push(indexes[j][i]);
         if (this.dispMax != 0 && resultList.length >= this.dispMax) break;
       }
+      if (this.dispMax != 0 && resultList.length >= this.dispMax) break;
     }
     return resultList;
   },
 
-  isMatch: function(value, pattern) {
+  isMatch: function(value, pattern, level) {
 
     if (value == null) return null;
+    if (level == null) level = 0;
 
     var pos = (this.ignoreCase) ?
       value.toLowerCase().indexOf(pattern.toLowerCase())
       : value.indexOf(pattern);
 
-    if ((pos == -1) || (this.prefix && pos != 0)) return null;
+    if ((pos == -1) ||
+       ((this.prefix || level >= 2) && pos != 0) ||
+       (level >= 1 && (pos != 0 && value[pos - 1] != ' '))) return null;
 
     if (this.highlight) {
       return (this._escapeHTML(value.substr(0, pos)) + '<strong>' 
