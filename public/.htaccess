@@ -1,18 +1,14 @@
 ### MAPPAR I PUBLIC SOM SKA GÅ ATT KOMMA ÅT
 
-RewriteCond %{REQUEST_URI} !/gfx
-RewriteCond %{REQUEST_URI} !/images
-RewriteCond %{REQUEST_URI} !/scripts
-RewriteCond %{REQUEST_URI} !/js
-RewriteCond %{REQUEST_URI} !/documents
-RewriteCond %{REQUEST_URI} !/phpmyadmin
+RewriteCond %{REQUEST_URI} !^/gfx/.+
+RewriteCond %{REQUEST_URI} !^/scripts/.+
+RewriteCond %{REQUEST_URI} !^/js/.+
 
 ### FILER I PUBLIC SOM SKA GÅ ATT KOMMA ÅT
 
-RewriteCond %{REQUEST_URI} !/index.php
-RewriteCond %{REQUEST_URI} !/style.css
-RewriteCond %{REQUEST_URI} !/favicon.ico
-RewriteCond %{REQUEST_URI} !/dom.js
+RewriteCond %{REQUEST_URI} !^/index.php/
+RewriteCond %{REQUEST_URI} !^/style.css
+RewriteCond %{REQUEST_URI} !^/favicon.ico
 
 ### ÄNDRA INGET NEDANFÖR DENNA RAD
 
