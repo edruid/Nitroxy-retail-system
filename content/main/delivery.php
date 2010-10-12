@@ -78,6 +78,10 @@ function updateInfo(e, field) {
 <h1>Ny inleverans</h1>
 <form action="<?=absolute_path('scripts/delivery.php');?>" method="post" onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
 <div><textarea rows="5" cols="50" name="description"></textarea></div>
+<ul>
+	<li><label><input type="radio" name="price_per" value="product_type" <?=($old_values && $old_values['price_per']=='product_type') ? 'checked="checked"' : ''?> /> Pris per varotyp</label></li>
+	<li><label><input type="radio" name="price_per" value="each_product" <?=($old_values && $old_values['price_per']=='each_product') ? 'checked="checked"' : ''?> /> Pris per enskild vara</label></li>
+</ul>
 <table>
 	<thead>
 		<tr>
@@ -86,12 +90,7 @@ function updateInfo(e, field) {
 			<th>Försäljningspris</th>
 			<th>Kategori</th>
 			<th>Antal</th>
-			<th>
-				Inköpspris
-				<ul class="small">
-					<li><label><input type="checkbox" name="single" <?=($old_values && $old_values['single'])?'checked="checked"':''?> />per vara</label></li>
-				</ul>
-			</th>
+			<th>Inköpspris</th>
 		</tr>
 	</thead>
 	<tfoot>

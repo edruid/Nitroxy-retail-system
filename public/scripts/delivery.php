@@ -12,7 +12,11 @@ $purchase_price = ClientData::post('purchase_price');
 $sales_price = ClientData::post('sales_price');
 $name = ClientData::post('name');
 $category = ClientData::post('category');
-$single = ClientData::post('single');
+$single = ClientData::post('price_per');
+if($single != 'product_type' && $single != 'each_product') {
+	$errors[-1] = 'Inte valt pris per enskild vara/varotyp';
+}
+$single = $single == 'each_product';
 $at_least_1_item = false;
 $db->autoCommit(false);
 $delivery = new Delivery();
