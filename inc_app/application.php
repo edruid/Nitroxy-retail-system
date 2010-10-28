@@ -3,7 +3,7 @@
  ** Contains application name and version.
  **/
 
-$application['name']="NitroXy Retail System";
+$application['name']="Kiosk Systemet";
 
 // Default file from content/
 $application['default_content']="start.php";
