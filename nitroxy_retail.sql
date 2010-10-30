@@ -16,6 +16,55 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `account`
+--
+
+DROP TABLE IF EXISTS `account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account` (
+  `account_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
+  PRIMARY KEY (`account_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `account_transaction`
+--
+
+DROP TABLE IF EXISTS `account_transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_transaction` (
+  `account_transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `description` text COLLATE utf8_swedish_ci,
+  `user` varchar(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`account_transaction_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `account_transaction_contents`
+--
+
+DROP TABLE IF EXISTS `account_transaction_contents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_transaction_contents` (
+  `account_transaction_id` int(10) unsigned NOT NULL,
+  `account_id` int(10) unsigned NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`account_transaction_id`,`account_id`),
+  KEY `account_id` (`account_id`),
+  CONSTRAINT `account_transaction_contents_ibfk_1` FOREIGN KEY (`account_transaction_id`) REFERENCES `account_transaction` (`account_transaction_id`),
+  CONSTRAINT `account_transaction_contents_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `categories`
 --
 
@@ -56,7 +105,7 @@ DROP TABLE IF EXISTS `delivery_contents`;
 CREATE TABLE `delivery_contents` (
   `delivery_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL,
+  `count` int(11) NOT NULL,
   `cost` float unsigned NOT NULL,
   PRIMARY KEY (`delivery_id`,`product_id`),
   KEY `product_id` (`product_id`),
@@ -151,4 +200,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-09-18 14:21:43
+-- Dump completed on 2010-10-31  1:05:57
