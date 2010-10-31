@@ -14,7 +14,7 @@ $name = ClientData::post('name');
 $category = ClientData::post('category');
 $single = ClientData::post('price_per');
 if($single != 'product_type' && $single != 'each_product') {
-	$errors[-1] = 'Inte valt pris per enskild vara/varotyp';
+	$errors['Pris'] = 'Inte valt pris per enskild vara/varotyp';
 }
 $single = $single == 'each_product';
 $at_least_1_item = false;
@@ -55,6 +55,26 @@ for($i=0; $i < count($ean); $i++) {
 		$errors[$i] = $e->getMessage();;
 	}
 }
+$from_till = ClientData::post('from_till');
+if(!is_numeric($from_till)) {
+	$errors['kassa'] = 'Inte fyllt i hur mycket du tagit från kassan';
+} else if($from_till != 0) {
+	$transaction = new AccountTransaction();
+	$transaction->description = "Inköp id: {$delivery->id}";
+	$transaction->user = $user->__toString();
+	$from = new AccountTransactionContent();
+	$from->amount = -1*$from_till;
+	$from->account_id = 1; // Kassa
+	$to = new AccountTransactionContent();
+	$to->amount = $from_till;
+	$to->account_id = 3; // Inköp
+	$transaction->commit();
+	$from->account_transaction_id = $transaction->id;
+	$to->account_transaction_id = $transaction->id;
+	$from->commit();
+	$to->commit();
+}
+
 if(empty($errors) && $at_least_1_item) {
 	$db->commit();
 	kick('/view_delivery/'.$delivery->id);

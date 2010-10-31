@@ -305,7 +305,9 @@ function finish(sum, recieved, change_string) {
 	</div>
 	
 	<div style="float: left;">
-		<select name="product_list" disabled="disabled" id="product_list" size="15" ></select>
+		<select name="product_list" disabled="disabled" id="product_list" size="15" >
+			<option value="" disabled="disabled">&nbsp;</option>
+		</select>
 		<p>
 			<label>
 				EAN-kod, artikelnummer eller beskrivning<br />

@@ -23,6 +23,17 @@ if(!file_exists($main)) {
 		<link type="text/css" rel="stylesheet" href="<?=absolute_path('style.css'); ?>" />
 		<script type="text/javascript" src="<?=absolute_path('js/dom.js')?>"></script>
 		<script type="text/javascript" src="/js/sort.js"></script>
+		<script type="text/javascript">
+		<!--
+		function set_initial_focus() {
+			var elem = document.getElementById('initial_focus');
+			if(elem) {
+				elem.focus();
+			}
+		}
+		window.onload = set_initial_focus;
+		-->
+		</script>
 	</head>
 	<body>
 		<? foreach(Message::get_errors() as $error): ?>
@@ -37,6 +48,7 @@ if(!file_exists($main)) {
 				<li><a href="/delivery">Ny leverans</a></li>
 				<li><a href="/list_deliveries">Leveranser</a></li>
 				<li><a href="/transaction_log">Transaktionslogg</a></li>
+				<li><a href="/accounts">Bokföring</a></li>
 				<li><a href="/scripts/logout.php">Logga ut</a></li>
 			<? else: ?>
 				<li><a href="/login?kickback=<?=htmlspecialchars(kickback_url())?>">Logga in</a></li>
