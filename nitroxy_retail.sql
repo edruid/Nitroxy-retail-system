@@ -106,7 +106,7 @@ CREATE TABLE `delivery_contents` (
   `delivery_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
   `count` int(11) NOT NULL,
-  `cost` float unsigned NOT NULL,
+  `cost` decimal(8,4) NOT NULL,
   PRIMARY KEY (`delivery_id`,`product_id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `delivery_contents_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
@@ -142,10 +142,10 @@ DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `product_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
-  `price` float NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   `ean` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
   `category_id` int(10) unsigned NOT NULL,
-  `value` decimal(10,2) NOT NULL,
+  `value` decimal(8,4) NOT NULL,
   `count` int(11) NOT NULL DEFAULT '0',
   `inventory_threshold` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`product_id`),
@@ -167,7 +167,7 @@ CREATE TABLE `transaction_contents` (
   `transaction_id` int(11) unsigned NOT NULL,
   `product_id` int(11) unsigned NOT NULL,
   `count` int(11) NOT NULL,
-  `amount` float NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`transaction_id`,`product_id`),
   KEY `product_id` (`product_id`),
   KEY `transaction_id` (`transaction_id`),
@@ -186,7 +186,7 @@ DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `amount` float NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -200,4 +200,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-10-31  1:05:57
+-- Dump completed on 2010-11-01 22:15:49
