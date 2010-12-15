@@ -242,6 +242,19 @@ abstract class BasicObject {
 		}
 	}
 
+	private function get_fresh_instance() {
+		$id_name = $this->id_name();
+		if(!is_array($id_name)) {
+			return $this->from_id($this->id);
+		}
+		$params = array();
+		foreach($id_name as $col) {
+			$params[$col] = $this->$col;
+		}
+		$ret = $this->selection($params);
+		return array_shift($ret);
+	}
+
 	/**
 	 * Commits all fields to database. If this object was created with "new Object()" a new row
 	 * will be created in the table and this object will atempt to update itself with automagic values.
@@ -250,9 +263,10 @@ abstract class BasicObject {
 	 */
 	public function commit() {
 		global $db;
+		$id_name = $this->id_name();
 		if(isset($this->_exists) && $this->_exists){
 			$query = "UPDATE `".$this->table_name()."` SET\n";
-			$old_object = $this->from_id($this->id);
+			$old_object = $this->get_fresh_instance();
 		} else {
 			$query = "INSERT INTO `".$this->table_name()."` SET\n";
 		}
@@ -274,21 +288,22 @@ abstract class BasicObject {
 		$query = substr($query, 0, -2);
 
 		if(isset($this->_exists) && $this->_exists){
-			if(is_array($this->id_name())) {
+			if(is_array($id_name)) {
 				$query .= "\nWHERE ";
 				$subquery = '';
-				foreach($this->id_name() as $field) {
+				foreach($id_name as $field) {
 					$subquery .= "`$field` = ? AND ";
 					$dummy[$field] = $this->$field;
 					$params[] = &$dummy[$field];
+					$types .= 'i';
 				}
 				$query .= substr($subquery, 0, -5);
 			} else {
-				$query .= "\nWHERE `".$this->id_name()."` = ?";
+				$query .= "\nWHERE `$id_name` = ?";
 				$id = $this->id;
+				$types .= 'i';
+				$params[] = &$id;
 			}
-			$params[] = &$id;
-			$types .= 'i';
 		}
 		$stmt = $db->prepare($query);
 		call_user_func_array(array($stmt, 'bind_param'), $params);
@@ -301,21 +316,7 @@ abstract class BasicObject {
 			if($db->insert_id) {
 				$object = $this->from_id($db->insert_id);
 			} else {
-				$id_name = $this->id_name();
-				if(!is_array($id_name)) {
-					$object = $this->from_id($this->$id_name);
-				} else {
-					$params = array();
-					foreach($this->id_name() as $field) {
-						$params[$field] = $this->$field;
-					}
-					// no id? try to get the element from what we just set it to..
-					$elems = $this->selection($params);
-					if(count($elems) != 1) {
-						throw new Exception("No id column and non unique data");
-					}
-					$object = $elems[0];
-				}
+				$object = $this->get_fresh_instance();
 			}
 			$this->_data = $object->_data;
 		}
@@ -327,11 +328,27 @@ abstract class BasicObject {
 	public function delete() {
 		global $db;
 		if(isset($this->_exists) && $this->_exists){
-			$stmt = $db->prepare("
-				DELETE FROM ".$this->table_name()."
-				WHERE ".$this->id_name()." = ?"
-			);
-			$stmt->bind_param('s', $this->id);
+			$types='';
+			$params = array(&$types);
+			$query = "DELETE FROM ".$this->table_name();
+			if(is_array($this->id_name())) {
+				$query .= "\nWHERE ";
+				$subquery = '';
+				foreach($this->id_name() as $field) {
+					$subquery .= "`$field` = ? AND ";
+					$dummy[$field] = $this->$field;
+					$params[] = &$dummy[$field];
+					$types .= 's';
+				}
+				$query .= substr($subquery, 0, -5);
+			} else {
+				$query .= "\nWHERE `".$this->id_name()."` = ?";
+				$id = $this->id;
+				$types .= 'i';
+				$params[] = &$id;
+			}
+			$stmt = $db->prepare($query);
+			call_user_func_array(array($stmt, 'bind_param'), $params);
 			$stmt->execute();
 			$stmt->close();
 		}
@@ -418,10 +435,13 @@ abstract class BasicObject {
 	}
 
 
-	public static function count($params = array()){
+	public static function count($params = array(), $debug = false){
 		global $db;
 		$data = static::build_query($params, 'count');
 		$query = array_shift($data);
+		if($debug) {
+			echo "<pre>$query</pre>";
+		}
 		$stmt = $db->prepare($query);
 		foreach($data as $key => $value) {
 			$data[$key] = &$data[$key];
