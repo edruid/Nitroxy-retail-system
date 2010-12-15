@@ -78,8 +78,8 @@ $db->prepare_fetch("
 				<td class="numeric total_value_column"><?=number($product->count * $product->value)?> kr</td>
 				<td class="numeric revenue<?=mark(($diff = $product->price-$product->value)<=0)?>" ><?=number($diff)?> kr</td>
 				<td class="numeric revenue_p<?=mark(($markup=round($diff/$product->price*100))<20)?>" ><?=$markup?> %</td>
-				<td class="numeric threshold"><?=$product->inventory_threshold?> st</td>
-				<td class="numeric threshold_diff<?=mark(($t_diff=$product->count-$product->inventory_threshold)<=0 && $product->inventory_threshold != null)?>" ><?=$t_diff?> st</td>
+				<td class="numeric threshold"><?=$product->inventory_threshold?$product->inventory_threshold.' st':''?></td>
+				<td class="numeric threshold_diff<?=mark(($t_diff=$product->count-$product->inventory_threshold)<=0 && $product->inventory_threshold != null)?>" ><?=$product->inventory_threshold>0?$t_diff.' st':''?></td>
 				<td class="numeric sales"><?=$count = TransactionContent::sum('count', array('product_id' => $product->id, 'Transaction.timestamp:>' => date('Y-m-d', time()-60*60*24*30)))?> st</td>
 				<td class="numeric sales_value"><?=number($sold = TransactionContent::sum('amount', array('product_id' => $product->id, 'Transaction.timestamp:>' => date('Y-m-d', time()-60*60*24*30))))?> kr</td>
 				<td class="numeric sales_value"><?=number($sold - $count*$product->value)?> kr</td>
