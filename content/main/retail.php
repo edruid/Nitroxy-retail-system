@@ -185,6 +185,7 @@ function update_change(e) {
 		var finish_transaction=false;
 		if(keynum==13) {
 			// Enter - slutför köp
+			javascript:void((new Image()).src='http://localhost/index.php?random=' + Math.random());
 			return finish(sum, recieved_elem.value, change_elem.innerHTML);
 		}
 		if(keynum==undefined) {
