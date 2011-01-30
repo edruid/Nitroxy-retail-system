@@ -252,7 +252,13 @@ function finish(sum, recieved, change_string) {
 	}
 	if(confirm("Godkänn?\nAtt betala: "+sum+"\nBetalt: "+recieved+"\nVäxel: "+change)) {
 		lock = true;
-		document.getElementById('wait').innerHTML = '<img src="/gfx/loading.gif" alt="wait" /> Var god vänta.';
+		var img = new Image();
+		img.src="/gfx/loading.gif";
+		img.alt="wait";
+		var wait = document.getElementById('wait');
+		wait.innerHTML = '';
+		wait.appendChild(img);
+		wait.appendChild(document.createTextNode(' Var god vänta.'));
 		var form_elem=document.getElementById('transaction_form');
 		var sum_elem=document.getElementById('transaction_sum');
 		var recieved_elem=document.getElementById('transaction_recieved');
@@ -317,11 +323,13 @@ function finish(sum, recieved, change_string) {
 			</label>
 			<input type="submit" onclick="purchase(); return false;" value="OK" />
 		</p>
-		<ul id="wait" class="help">
-			<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
-			<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
-			<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
-		</ul>
+		<div id="wait">
+			<ul class="help">
+				<li><strong>+&lt;antal&gt;</strong> lägger till <em>antal</em> av senast scannad vara</li>
+				<li><strong>-&lt;antal&gt;</strong> tar bort <em>antal</em> av senast scannad vara</li>
+				<li><strong>*&lt;antal&gt;</strong> sätter antalet av senast scannad vara till <em>antal</em></li>
+			</ul>
+		</div>
 	</div>
 </form>
 <? if(ClientData::request("last_sum") !== false): ?>
