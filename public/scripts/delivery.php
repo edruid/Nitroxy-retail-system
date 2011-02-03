@@ -13,6 +13,7 @@ $sales_price = ClientData::post('sales_price');
 $name = ClientData::post('name');
 $category = ClientData::post('category');
 $single = ClientData::post('price_per');
+$multiplyer = ClientData::post('multiplyer');
 if($single != 'product_type' && $single != 'each_product') {
 	$errors['Pris'] = 'Inte valt pris per enskild vara/varotyp';
 }
@@ -36,11 +37,11 @@ for($i=0; $i < count($ean); $i++) {
 		}
 		$contents = new DeliveryContent();
 		if($single) {
-			$product->value = ($product->value * $product->count + $purchase_price[$i] * $count[$i]) / ($product->count + $count[$i]);
-			$contents->cost = $purchase_price[$i];
+			$product->value = ($product->value * $product->count + $purchase_price[$i] * $multiplyer * $count[$i]) / ($product->count + $count[$i]);
+			$contents->cost = $purchase_price[$i] * $multiplyer;
 		} else {
-			$product->value = ($product->value * $product->count + $purchase_price[$i]) / ($product->count + $count[$i]);
-			$contents->cost = $purchase_price[$i] / $count[$i];
+			$product->value = ($product->value * $product->count + $purchase_price[$i] * $multiplyer) / ($product->count + $count[$i]);
+			$contents->cost = $purchase_price[$i] * $multiplyer / $count[$i];
 		}
 		$product->count += $count[$i];
 		$product->name = $name[$i];

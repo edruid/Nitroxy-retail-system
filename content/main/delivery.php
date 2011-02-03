@@ -135,6 +135,10 @@ function update_sum() {
 			</label>
 		</li>
 	</ul>
+	<p>
+		Multipliserare (för moms mm)
+		<input type="text" name="multiplyer" value="1.0" />
+	</p>
 	<table id="delivery_form">
 		<thead>
 			<tr>
