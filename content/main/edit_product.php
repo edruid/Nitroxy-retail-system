@@ -18,16 +18,21 @@ $packages = ProductPackage::selection(array(
 			<td><input type="text" name="name" value="<?=$product->name?>" /></td>
 		</tr>
 		<tr>
+			<th>Status</th>
+			<td>
+				<select name="active">
+					<option value="0" <?=$product->active?'':'selected="selected"'?> >Inaktiv</option>
+					<option value="1" <?=$product->active?'selected="selected"':''?> >Aktiv</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<th>Pris</th>
 			<td><input type="text" name="price" value="<?=$product->price?>" /></td>
 		</tr>
 		<tr>
 			<th>Värde</th>
 			<td><input type="text" name="value" value="<?=$product->value?>" /></td>
-		</tr>
-		<tr>
-			<th>Lager</th>
-			<td><input type="text" name="count" value="<?=$product->count?>" /></td>
 		</tr>
 		<tr>
 			<th>EAN</th>

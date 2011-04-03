@@ -6,9 +6,9 @@ if(empty($_SESSION['login'])) {
 $product = Product::from_id(ClientData::post('product'));
 $fields = array(
 	'name',
+	'active',
 	'price',
 	'value',
-	'count',
 	'ean',
 	'category_id',
 	'inventory_threshold',

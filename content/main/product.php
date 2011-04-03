@@ -14,6 +14,10 @@ $total = $product->value;
 		<td><?=$product->name?></td>
 	</tr>
 	<tr>
+		<th>Status</th>
+		<td><?=$product->active?'Aktiv':'Inaktiv'?></td>
+	</tr>
+	<tr>
 		<th>Pris</th>
 		<td><?=$product->price?></td>
 	</tr>
