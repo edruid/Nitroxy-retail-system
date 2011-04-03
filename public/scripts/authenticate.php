@@ -3,6 +3,7 @@ require '../../includes.php';
 $_SESSION['loggin_form'] = $_POST;
 $request = curl_init('https://bruse.proxxi.org/authenticate.php');
 curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($request, CURLOPT_POST, true);
 curl_setopt($request, CURLOPT_POSTFIELDS, array(
 	'uname' => ClientData::post('username'),
