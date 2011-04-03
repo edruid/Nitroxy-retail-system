@@ -1,10 +1,10 @@
+<script type="text/javascript" src="/js/purchase.js"></script>
 <script type="text/javascript">
 <!--
 var names=new Array();
 var suggestions=new Array();
 var prices=new Array();
 var eans=new Array();
-var lock = false;
 
 <?php
 $products = Product::selection(array(
@@ -14,278 +14,16 @@ $products = Product::selection(array(
 foreach($products as $product) {
 	?>
 	names[<?=$product->id?>]="<?=addslashes(htmlspecialchars_decode($product->name, ENT_QUOTES))?>";
-	suggestions[<?=$product->id?>]="[<?=$product->id?>] <?=addslashes(htmlspecialchars_decode($product->name, ENT_QUOTES))?> (<?=$product->price?> kr)";
+	<? if($product->active): ?>
+		suggestions[<?=$product->id?>]="[<?=$product->id?>] <?=addslashes(htmlspecialchars_decode($product->name, ENT_QUOTES))?> (<?=$product->price?> kr)";
+	<? endif ?>
 	prices[<?=$product->id?>]=<?=$product->price?>;
 	eans['<?=strtolower($product->ean)?>']="<?=$product->id?>";
 	<?
 }
 $transaction = Transaction::from_id(ClientData::request("last_transaction"));
 ?>
-
-function is_empty(obj) {
-	for(var i in obj) {
-		return false;
-	}
-	return true;
-}
-
-var basket=new Object();
-
-// finnished inputing ean, pressed enter. Adding product to list or, if shift is pressed,
-// deleting from list.
-var last_product = null;
-function purchase() {
-	var input_ean=document.getElementById('ean');
-	var ean=input_ean.value;
-	var amount=1;
-	var artno = null;
-	ean=ean.toLowerCase();
-	if(ean=="") {
-		if(!is_empty(basket)) {
-			document.getElementById('recieved').focus();
-		}
-		return false;
-	}
-
-	if(names[ean]==undefined) {
-		if(eans[ean] != undefined) {
-			artno = eans[ean];
-		}
-		for(var i=0;i<suggestions.length;i++) {
-			if(suggestions[i]!=undefined) {
-				var sugg=suggestions[i];
-				sugg=sugg.toLowerCase();
-				if(sugg==ean) {
-					artno=i;
-				}
-			}
-		}
-
-		if(last_product && ean.match(/^[\+\*\-][0-9]+$/)) {
-			var sign = ean.substr(0,1);
-			artno = last_product;
-			amount = parseInt(ean.substr(1));
-			if(basket[artno] == undefined) {
-				basket[artno] = 0;
-			}
-			if(sign == '*') {
-				basket[artno]=amount;
-			} else if(sign == '+') {
-				basket[artno]=basket[artno]+amount;
-			} else if(sign == '-') {
-				basket[artno]=basket[artno]-amount;
-			}
-			if(basket[artno] <= 0) {
-				delete basket[artno];
-			}
-			update_product_list();
-			update_sum();
-			input_ean.value='';
-			return true;
-		}
-
-		if(artno==null) {
-			// Input är ej art.nr eller EAN
-			alert("Oväntad inmatning - ej artikelnummer eller EAN");
-			return false;
-		}
-	} else {
-		// Art.nr givet
-		var artno=ean;
-	}
-	last_product = artno;
-
-	if(basket[artno]==undefined) {
-		basket[artno]=amount;
-	} else {
-		basket[artno]=basket[artno]+amount;
-	}
-
-	update_product_list();
-	update_sum();
-	input_ean.value='';
-	return true;
-}
-
-// redraw the product_list select box from the basket
-function update_product_list() {
-	var product_list=document.getElementById('product_list');
-
-	product_list.innerHTML='';
-
-	for(var i in basket) {
-		if(basket[i]!=NaN) {
-			var namn=document.createElement('option');
-			namn.text=names[i]+" [art "+i+"]";
-			product_list.add(namn,null);
-
-			var pris=document.createElement('option');
-			pris.text=basket[i]+" st * "+prices[i]+" kr = "+basket[i]*prices[i]+" kr";
-			product_list.add(pris,null);
-
-		}
-	}
-}
-
-var sum;
-
-// recalculate the price for the basket
-function update_sum() {
-	var calc_amount=0;
-	for(var i in basket) {
-		if(basket[i]!=NaN) {
-			if(prices[i]==undefined || prices[i]==NaN) {
-				alert("Ett fel uppstod: inget pris är definierat för artikel "+i);
-			} else {
-				calc_amount+=basket[i]*prices[i];
-			}
-		}
-	}
-
-	var diff = calc_amount;
-	calc_amount = Math.round(calc_amount);
-	diff = calc_amount - diff;
-	document.getElementById('transaction_diff').value=diff;
-
-	var sum_elem=document.getElementById('sum');
-	sum_elem.innerHTML=calc_amount+" kr";
-
-	var diff_elem = document.getElementById('diff');
-	diff_elem.innerHTML = diff.toFixed(2)+" kr";
-
-	sum=calc_amount;
-	update_change();
-}
-
-// Update change field when a new digigt is added to the payed field.
-function update_change(e) {
-	var recieved_elem=document.getElementById('recieved');
-	var change_elem=document.getElementById('change');
-	var keynum;
-	var keychar;
-	if(e!=undefined) {
-		if(window.event) // IE
-			{
-			keynum = e.keyCode;
-			}
-		else if(e.which) // Netscape/Firefox/Opera
-			{
-			keynum = e.which;
-			}
-		keychar = String.fromCharCode(keynum);
-		if(keynum==44) {
-			// Kommatecken - ersätt med punkt
-			recieved_elem.value=recieved_elem.value+'.';
-			return false;
-		}
-		if(keynum==46) {
-			// Punkt - ignorera
-			return true;
-		}
-		var finish_transaction=false;
-		if(keynum==13) {
-			// Enter - slutför köp
-			javascript:void((new Image()).src='http://localhost/index.php?random=' + Math.random());
-			return finish(sum, recieved_elem.value, change_elem.innerHTML);
-		}
-		if(keynum==undefined) {
-			// Det här verkar bara hända med TAB
-			// Ignorera
-			return true;
-		}
-		if(keynum==8) {
-			// Backspace - låt användaren göra som den vill (return true),
-			// och kolla hur det blev om 5 ms.
-			setTimeout("update_change()",5);
-			return true;
-		}
-		var numcheck = /\d/;
-		if(!numcheck.test(keychar)) {
-			alert("Var god mata endast in siffror och punkt i fältet. Du tryckte på tangent "+keynum+": "+keychar);
-			return false;
-		}
-	}
-
-	// Tolka inmatningen så att vi kan beräkna från variabeln recieved
-	if(keychar!=undefined && keynum!=13) {
-		var recieved=recieved_elem.value+keychar;
-	} else {
-		var recieved=recieved_elem.value;
-	}
-
-	// Visa inte växel innan mottaget belopp har börjat matas in
-	if(recieved==undefined || recieved=="" || (recieved==0 && is_empty(basket))) {
-		var change=0;
-		change_elem.innerHTML="";
-	} else {
-		var change=recieved-sum;
-		change_elem.innerHTML=change+" kr";
-	}
-
-	// Sätt rätt färg på växelbeloppet
-	if(change < 0) {
-		// Change ska vara röd
-		change_elem.style.color = "red";
-	} else {
-		// Change ska vara grön
-		change_elem.style.color = "green";
-	}
-
-	return true;
-}
-
-// Finish transaction (submit form from recieved field)
-function finish(sum, recieved, change_string) {
-	if(lock) {
-		alert("Formuläret är redan skickat, vänta lite till.");
-		return false;
-	}
-	var change=recieved-sum;
-	if(change<0) {
-		return false;
-	}
-	if(change+" kr"!=change_string) {
-		alert(change);
-		alert(change_string);
-		alert("Ett fel uppstod vid beräkning av växel");
-		return false;
-	}
-	if(confirm("Godkänn?\nAtt betala: "+sum+"\nBetalt: "+recieved+"\nVäxel: "+change)) {
-		lock = true;
-		var img = new Image();
-		img.src="/gfx/loading.gif";
-		img.alt="wait";
-		var wait = document.getElementById('wait');
-		wait.innerHTML = '';
-		wait.appendChild(img);
-		wait.appendChild(document.createTextNode(' Var god vänta.'));
-		var form_elem=document.getElementById('transaction_form');
-		var sum_elem=document.getElementById('transaction_sum');
-		var recieved_elem=document.getElementById('transaction_recieved');
-		var change_elem=document.getElementById('transaction_change');
-		var contents_elem=document.getElementById('transaction_contents');
-
-		sum_elem.value=sum;
-		recieved_elem.value=recieved;
-		change_elem.value=change;
-
-		var contents="";
-		for(var i in basket) {
-			if(basket[i]!=NaN) {
-				contents = contents + i + ":" + basket[i] + "\n";
-			}
-		}
-		contents_elem.value=contents;
-
-		form_elem.submit();
-	} else {
-		return false;
-	}
-	return true;
-}
 --></script> 
-<h1>NitroXy Retail System</h1>
-<hr />
 <h2>Nytt köp</h2>
 <form autocomplete="off" action="" onsubmit="return false;">
 
@@ -302,7 +40,7 @@ function finish(sum, recieved, change_string) {
 			</tr>
 			<tr>
 				<td>Mottaget</td>
-				<td><input style="font-weight: bold; width: 6em;" maxlength="6" tabindex="2" type="text" name="recieved" id="recieved" onkeypress="return update_change(event);" /> kr</td>
+				<td><input style="font-weight: bold; width: 6em;" maxlength="6" tabindex="2" type="text" name="recieved" id="recieved" onkeypress="return key_hook(event);" /> kr</td>
 			</tr>
 			<tr>
 				<td>Växel</td>
