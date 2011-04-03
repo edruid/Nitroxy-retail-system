@@ -21,7 +21,7 @@ foreach($products as $product) {
 	eans['<?=strtolower($product->ean)?>']="<?=$product->id?>";
 	<?
 }
-$transaction = Transaction::from_id(ClientData::request("last_transaction"));
+$transaction = Transaction::last();
 ?>
 --></script> 
 <h2>Nytt köp</h2>
@@ -70,14 +70,14 @@ $transaction = Transaction::from_id(ClientData::request("last_transaction"));
 		</div>
 	</div>
 </form>
-<? if(ClientData::request("last_sum") !== false): ?>
+<? if($transaction): ?>
 	<div id="last_purchase">
 		<h2>Föregående köp</h2>
 		<?=$transaction->timestamp?>
 		<table>
 			<tr>
 				<td>Att betala</td>
-				<td><?=ClientData::request("last_sum")?> kr</td>
+				<td><?=$transaction->amount?> kr</td>
 			</tr>
 			<tr>
 				<td>Mottaget</td>
@@ -85,7 +85,7 @@ $transaction = Transaction::from_id(ClientData::request("last_transaction"));
 			</tr>
 			<tr>
 				<td>Växel</td>
-				<td><?=ClientData::request("last_change")?> kr</td>
+				<td><?=ClientData::request("last_recieved")-$transaction->amount?> kr</td>
 			</tr>
 		</table>
 		<table>
