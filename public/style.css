@@ -111,10 +111,27 @@ div {
 }
 
 /** Special **/
-#product_list {
+#product_list_container {
+	background-color: #eee;
+	height: 30ex;
 	width: 35em;
-	font-size: 11pt;
+	overflow-y: scroll;
+	border: solid black 1px;
+	padding: 2px;
+}
+#product_list {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+#product_list li {
+	font-size: 10pt;
 	color: black;
+	list-style: none;
+}
+.product_price {
+	text-align: right;
+	display: block;
 }
 #ean {
 	width: 35em;

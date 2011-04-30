@@ -1,47 +1,28 @@
+<pre>
 <?php
 require "../../includes.php";
-
-$sum=ClientData::post("sum");
+var_dump($_POST);
+$sum=0;
 $recieved=ClientData::post("recieved");
-$change=ClientData::post("change");
-$diff=ClientData::post("diff");
-
-if($change != $recieved-$sum) {
-	die("Växel är felaktig");
-}
-if($recieved < $sum) {
-	die("För lite betalt");
-}
-
-$contents=ClientData::post("contents");
-
-$contents=trim($contents);
-
-$contents=explode("\n",$contents);
-
-$basket=array();
-foreach($contents as $row) {
-	$row=trim($row);
-	$parts=explode(":",$row);
-	if(count($parts)!=2) {
-		echo "Invalid row \"$row\"\n";
-		die();
-	}
-	$art_no=$parts[0];
-	$count=$parts[1];
-	$basket[$art_no]=$count;
-}
+$product_prices = ClientData::post("product_price");
+$product_counts = ClientData::post("product_count");
 
 $db->autoCommit(false);
 
 $transaction = new Transaction();
 $transaction->amount = 0;
 $transaction->commit();
-
-foreach($basket as $id => $count) {
-	$product = Product::from_id($id);
-	$amount=$product->price*$count;
-	$transaction->amount+=$amount;
+foreach(ClientData::post("product_id") as $i => $product_id) {
+	$product = Product::from_id($product_id);
+	if(!$product) {
+		die("Produkten med id {$product_id} finns inte");
+	}
+	if($product->price != $product_prices[$i]) {
+		die("{$product->name} har ändrat pris sen formuläret laddades. Backa och försök igen. Gammalt pris: {$product->price} kr nytt pris {$product_prices[$i]}");
+	}
+	$count = $product_counts[$i];
+	$amount=$product->price * $count;
+	$transaction->amount += $amount;
 	$product->sell($count);
 	$transaction_content = new TransactionContent();
 	$transaction_content->transaction_id = $transaction->id;
@@ -50,6 +31,8 @@ foreach($basket as $id => $count) {
 	$transaction_content->amount = $amount;
 	$transaction_content->commit();
 }
+$sum = $transaction->amount;
+$diff = abs(round($sum) - $sum);
 if($diff != 0) {
 	$transaction_content = new TransactionContent();
 	$transaction_content->transaction_id = $transaction->id;
@@ -59,11 +42,12 @@ if($diff != 0) {
 	$transaction_content->commit();
 	$transaction->amount+=$diff;
 }
+
+if($transaction->amount < $recieved) {
+	die("Det är för lite betalt.");
+}
 $transaction->commit();
 
-if($transaction->amount != $sum || -0.5 >= $diff || $diff > 0.5 ) {
-	die("Klienten har räknat fel eller priser har ändrats sedan klienten hämtade dem. $diff $sum $transaction->amount");
-}
 $db->commit();
 kick("retail?last_recieved=$recieved");
 
