@@ -2,7 +2,7 @@
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
-$account = Account::from_id(array_shift($request));
+$account = Account::from_code_name(array_shift($request));
 if(!$account) {
 	die('Kontot finns inte');
 }
@@ -21,6 +21,7 @@ if($page == null) {
 		<td><?=AccountTransactionContent::sum('amount', array('account_id' => $account->id))?></td>
 	</tr>
 </table>
+<p><?=$account->description?></p>
 <h2>Transaktioner</h2>
 <table>
 	<thead>

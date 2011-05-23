@@ -16,7 +16,7 @@ $accounts = Account::selection(array('@order' => 'name'));
 				<select name="from_account_id">
 					<option selected="selected" disabled="disabled"></option>
 					<? foreach($accounts as $account): ?>
-						<option value="<?=$account->id?>"><?=$account?></option>
+						<option value="<?=$account->id?>" title="<?=$account->description?>"><?=$account?></option>
 					<? endforeach ?>
 				</select>
 			</td>
@@ -27,7 +27,7 @@ $accounts = Account::selection(array('@order' => 'name'));
 				<select name="to_account_id">
 					<option selected="selected" disabled="disabled"></option>
 					<? foreach($accounts as $account): ?>
-						<option value="<?=$account->id?>"><?=$account?></option>
+						<option value="<?=$account->id?>" title="<?=$account->description?>"><?=$account?></option>
 					<? endforeach ?>
 				</select>
 			</td>

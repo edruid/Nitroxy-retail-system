@@ -27,6 +27,7 @@ $delivery = new Delivery();
 $delivery->description = ClientData::post('description');
 $delivery->user = $user->__toString();
 $delivery->commit();
+$stock_change_amount = 0;
 for($i=0; $i < count($ean); $i++) {
 	if(empty($ean[$i])) {
 		continue;
@@ -42,9 +43,11 @@ for($i=0; $i < count($ean); $i++) {
 		if($single) {
 			$product->value = ($product->value * $product->count + $purchase_price[$i] * $count[$i]) / ($product->count + $count[$i]);
 			$contents->cost = $purchase_price[$i];
+			$stock_change_amount += $purchase_price[$i] * $count[$i];
 		} else {
 			$product->value = ($product->value * $product->count + $purchase_price[$i]) / ($product->count + $count[$i]);
 			$contents->cost = $purchase_price[$i] / $count[$i];
+			$stock_change_amount += $purchase_price[$i];
 		}
 		$product->count += $count[$i];
 		$product->name = $name[$i];
@@ -60,24 +63,48 @@ for($i=0; $i < count($ean); $i++) {
 	}
 }
 $from_till = ClientData::post('from_till');
+$stock_account = Account::from_code_name('stock');
+$stock_change_account = Account::from_code_name('stock_change');
+$transaction = new AccountTransaction();
+$transaction->description = "Inköp id: {$delivery->id}";
+$transaction->user = $user->__toString();
+
+$stock = new AccountTransactionContent();
+$stock->amount = $stock_change_amount;
+$stock->account_id = $stock_account->id;
+
+$stock_change = new AccountTransactionContent();
+$stock_change->amount = -1*$stock_change_amount;
+$stock_change->account_id = $stock_change_account->id;
 if(!is_numeric($from_till)) {
 	$errors['kassa'] = 'Inte fyllt i hur mycket du tagit från kassan';
 } else if($from_till != 0) {
-	$transaction = new AccountTransaction();
-	$transaction->description = "Inköp id: {$delivery->id}";
-	$transaction->user = $user->__toString();
-	$from = new AccountTransactionContent();
-	$from->amount = -1*$from_till;
-	$from->account_id = 1; // Kassa
-	$to = new AccountTransactionContent();
-	$to->amount = $from_till;
-	$to->account_id = 3; // Inköp
-	$transaction->commit();
-	$from->account_transaction_id = $transaction->id;
-	$to->account_transaction_id = $transaction->id;
-	$from->commit();
-	$to->commit();
+	// TODO: book keeping should always be done.
+	// TODO: should be possible to choose from_account.
+	$money_source_account = Account::from_code_name('till');
+	$purchases_account = Account::from_code_name('purchases');
+
+	$money_source = new AccountTransactionContent();
+	$money_source->amount = -1*$from_till;
+	$money_source->account_id = $money_source_account->id;
+
+	$purchases = new AccountTransactionContent();
+	$purchases->amount = $from_till;
+	$purchases->account_id = $purchases_account->id;
+
 }
+$transaction->commit();
+
+if($from_till != 0) {
+	$money_source->account_transaction_id = $transaction->id;
+	$purchases->account_transaction_id = $transaction->id;
+	$money_source->commit();
+	$purchases->commit();
+}
+$stock->account_transaction_id = $transaction->id;
+$stock_change->account_transaction_id = $transaction->id;
+$stock->commit();
+$stock_change->commit();
 
 if(empty($errors) && $at_least_1_item) {
 	$db->commit();

@@ -13,6 +13,10 @@ class Account extends BasicObject {
 	public function __toString() {
 		return (string)$this->name;
 	}
+
+	public static function from_code_name($name) {
+		return parent::from_field('code_name', $name);
+	}
 }
 ?>
 

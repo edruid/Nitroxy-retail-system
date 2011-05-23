@@ -2,7 +2,7 @@
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
-$accounts = Account::selection(array('@order' => 'name'));
+$accounts = Account::selection(array('@order' => array('account_type', 'name',)));
 ?>
 <p><a href="/money_transfer">Ny transaktion</a></p>
 <table>
@@ -15,7 +15,7 @@ $accounts = Account::selection(array('@order' => 'name'));
 	<tbody>
 		<? foreach($accounts as $account): ?>
 			<tr>
-				<td><a href="/account/<?=$account->id?>"><?=$account?></a></td>
+				<td title="<?=$account->description?>"><a href="/account/<?=$account->code_name?>"><?=$account?></a></td>
 				<td><?=AccountTransactionContent::sum('amount', array('account_id' => $account->id))?></td>
 			</tr>
 		<? endforeach ?>
