@@ -3,7 +3,7 @@
  ** Contains application name and version.
  **/
 
-$application['name']="Kiosk Systemet";
+$application['name']="Kiosksystemet";
 
 // Default file from content/
 $application['default_content']="start.php";
