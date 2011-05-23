@@ -6,7 +6,7 @@ $products = Product::selection(array(
 ));
 ?>
 <script type="text/javascript" src="/js/purchase.js"></script>
-<script type="text/javascript" src="<?=absolute_path('js/suggest.js')?>"></script>
+<script type="text/javascript" src="/js/suggest.js"></script>
 <script type="text/javascript">
 <!--
 var products;
