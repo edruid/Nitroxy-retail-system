@@ -43,6 +43,7 @@ Products.prototype = {
 		this.basket = new Object;
 		this.last_product = null;
 		this.sum = 0;
+		this.minBasketAmount = 0;
 		this.products = Array();
 		this.suggestions = Array();
 		this.eans = Array();
@@ -61,7 +62,7 @@ Products.prototype = {
 		}
 	},
 
-	addProduct: function(id, ean, name, suggest_text, count, price, suggested) {
+	addProduct: function(id, ean, name, suggest_text, count, price, suggested, value) {
 		this.products[id] = {
 			id: id,
 			ean: ean,
@@ -69,6 +70,7 @@ Products.prototype = {
 			suggest: suggest_text,
 			count: count,
 			price: price,
+			value: value,
 		};
 		if(suggested) {
 			this.suggestions[id] = suggest_text;
@@ -164,7 +166,7 @@ Products.prototype = {
 		} else {
 			this.basket[artno]=this.basket[artno]+amount;
 		}
-		if(this.basket[artno] <= 0) {
+		if(this.basket[artno] <= this.minBasketAmount) {
 			delete this.basket[artno];
 		}
 		this.updateProductList();
