@@ -1,6 +1,5 @@
 <?php
 require "../../includes.php";
-var_dump($_POST);
 $sum=0;
 $recieved=ClientData::post("recieved");
 $product_prices = ClientData::post("product_price");
@@ -28,6 +27,7 @@ foreach(ClientData::post("product_id") as $i => $product_id) {
 	$transaction_content->product_id = $product->id;
 	$transaction_content->count = $count;
 	$transaction_content->amount = $amount;
+	$transaction_content->stock_usage = $count * $product->value;
 	$transaction_content->commit();
 }
 $sum = $transaction->amount;
@@ -42,8 +42,8 @@ if($diff != 0) {
 	$transaction->amount+=$diff;
 }
 
-if($transaction->amount < $recieved) {
-	die("Det är för lite betalt.");
+if($transaction->amount > $recieved) {
+	die("Det är för lite betalt. $transaction->amount < $recieved");
 }
 $transaction->commit();
 
