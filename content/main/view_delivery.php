@@ -1,4 +1,7 @@
 <?php
+if(empty($_SESSION['login'])) {
+	kick('login?kickback='.kickback_url());
+}
 $delivery = Delivery::from_id(array_shift($request));
 ?>
 <h1>Leverans <?=$delivery->timestamp?></h1>
