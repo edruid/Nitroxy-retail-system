@@ -1,4 +1,4 @@
-<?
+<?php
 require "../../includes.php";
 if(empty($_SESSION['login'])) {
 	$_SESSION['_POST'] = $_POST;

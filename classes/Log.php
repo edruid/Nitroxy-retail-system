@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Log {
 	private $log_name;

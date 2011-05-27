@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Innehåller funktioner för att hantera urler.
  */

@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Innehåller inställningar för sajten.
  */

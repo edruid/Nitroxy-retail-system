@@ -1,4 +1,4 @@
-<?
+<?php
 define('HTML_ACCESS', true);
 require "../includes.php";
 

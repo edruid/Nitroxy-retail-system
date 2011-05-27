@@ -1,5 +1,5 @@
 <h2>Start page</h2>
-<?
+<?php
 $dir =opendir("../content/main/");
 ?>
 <ul>

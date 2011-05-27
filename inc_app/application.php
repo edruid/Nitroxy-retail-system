@@ -1,4 +1,4 @@
-<?
+<?php
 /** inc_app/application.php
  ** Contains application name and version.
  **/

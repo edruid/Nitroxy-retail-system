@@ -1,4 +1,4 @@
-<?
+<?php
 class ClientData {
 	public static function clean($data) {
 		if(HTML_ACCESS) {
