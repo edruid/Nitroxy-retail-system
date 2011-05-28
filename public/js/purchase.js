@@ -75,7 +75,7 @@ Products.prototype = {
 		if(suggested) {
 			this.suggestions[id] = suggest_text;
 		}
-		this.eans[ean] = id;
+		this.eans[ean.toLowerCase()] = id;
 	},
 
 	start: function() {
