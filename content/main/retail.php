@@ -124,7 +124,7 @@ function finish(sum, recieved, change_string) {
 		alert("Ett fel uppstod vid beräkning av växel");
 		return false;
 	}
-	javascript:void((new Image()).src='http://localhost/index.php:1138?random=' + Math.random());
+	javascript:void((new Image()).src='http://localhost:1138?random=' + Math.random());
 	if(confirm("Godkänn?\nAtt betala: "+sum+"\nBetalt: "+recieved+"\nVäxel: "+change)) {
 		lock = true;
 		var wait = document.getElementById('wait');
