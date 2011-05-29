@@ -47,6 +47,8 @@ if(!file_exists($main)) {
 				<li><a href="/list_categories">Kategorier</a></li>
 				<li><a href="/delivery">Ny leverans</a></li>
 				<li><a href="/list_deliveries">Leveranser</a></li>
+				<li><a href="/correct_product">Inventering</a></li>
+				<li><a href="/daily_count">Dagsavslut</a></li>
 				<li><a href="/transaction_log">Transaktionslogg</a></li>
 				<li><a href="/accounts">Bokföring</a></li>
 				<li><a href="/scripts/logout.php">Logga ut</a></li>
