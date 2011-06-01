@@ -47,7 +47,7 @@ $till->commit();
 $diff = new AccountTransactionContent();
 $diff->account_transaction_id = $transaction->id;
 $diff->account_id = Account::from_code_name('diff')->id;
-$diff->amount = $till->amount + $sales->amount;
+$diff->amount = -($till->amount + $sales->amount);
 $diff->commit();
 
 $stock = new AccountTransactionContent();
@@ -59,7 +59,7 @@ $stock->commit();
 $stock_usage = new AccountTransactionContent();
 $stock_usage->account_transaction_id = $transaction->id;
 $stock_usage->account_id = Account::from_code_name('stock_change')->id;
-$stock_usage->amount = - $stock_amount;
+$stock_usage->amount = $stock_amount;
 $stock_usage->commit();
 
 $daily_count = new DailyCount();

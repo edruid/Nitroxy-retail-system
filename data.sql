@@ -33,15 +33,15 @@ REPLACE INTO account set
 	account_type = 'balance';
 REPLACE INTO account set
 	account_id = 5,
-	name = 'Skuld till engagerad',
-	code_name = 'engagerad_debt',
+	name = 'Skuld/förskott till engagerad',
+	code_name = 'engagerad',
 	default_sign = 'kredit',
 	warn_on_non_default = false,
 	description = 'Pengar lånade av privatperson t ex för inköp',
 	account_type = 'balance';
 REPLACE INTO account set
 	account_id = 6,
-	name = 'Förskott till engagerad',
+	name = 'Not used',
 	code_name = 'fordran',
 	default_sign = 'debit',
 	warn_on_non_default = false,
