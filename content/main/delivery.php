@@ -79,12 +79,13 @@ function update_sum() {
 	var counts = table.getElementsByClassName('count');
 	var prices = table.getElementsByClassName('purchase_price');
 	var per_product = !(document.getElementById('product_type').checked);
+	var multiplyer = document.getElementById('multiplyer').value;
 	var sum = 0;
 	for(var i=0; i< counts.length; ++i) {
 		if(per_product) {
-			sum += counts[i].value * prices[i].value;
+			sum += counts[i].value * prices[i].value * multiplyer;
 		} else {
-			sum += prices[i].value * 1;
+			sum += prices[i].value * multiplyer;
 		}
 	}
 	document.getElementById('sum').innerHTML = sum;
@@ -99,15 +100,48 @@ function update_sum() {
 				$old_values['description'] :
 				''?></textarea>
 	</div>
-	<p>
-		Jag har tagit
-		<input type="text"
-			name="from_till"
-			value="<?=$old_values?$old_values['from_till']:''?>"
-			style="width: 3em;" />
-		kr från kassan i samband med detta inköp.<br />
-		Totalt kostnad för leveransen <strong id="sum">0</strong> kr
-	</p>
+	<table>
+		<tr>
+			<th>Pengarna kommer från:</th>
+			<td>
+				<select name="from_account[]">
+					<option
+						value=""
+						disabled="disabled"
+						<? if(!$old_values || $old_values['from_account'][0] == ''): ?>
+							selected="selected"
+						<? endif ?>
+					>
+						Välj konto
+					</option>
+					<? foreach(Account::selection(array('account_type' => 'balance', '@order' => 'name')) as $account): ?>
+						<option
+							value="<?=$account->code_name?>"
+							<? if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
+								selected="selected"
+							<? endif ?>
+							title="<?=$account->description?>"
+						>
+							<?=$account->name?>
+						</option>
+					<? endforeach ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Summa:</th>
+			<td>
+				<input type="text"
+					name="amount[]"
+					value="<?=$old_values?$old_values['amount'][0]:''?>"
+					style="width: 3em;" />
+			</td>
+		</tr>
+		<tr>
+			<th>Totalsumma för leveransen:</th>
+			<td><strong id="sum">0</strong> kr</td>
+		</tr>
+	</table>
 	<ul>
 		<li>
 			<label>
@@ -137,7 +171,16 @@ function update_sum() {
 	</ul>
 	<p>
 		Multipliserare (för moms mm)
-		<input type="text" name="multiplyer" value="1.0" />
+		<input
+			type="text"
+			name="multiplyer"
+			id="multiplyer"
+			<? if($old_values): ?>
+				value="<?=$old_values['multiplyer']?>"
+			<? else: ?>
+				value="1.0"
+			<? endif ?>
+		/>
 	</p>
 	<table id="delivery_form">
 		<thead>

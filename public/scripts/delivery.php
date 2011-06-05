@@ -62,12 +62,12 @@ for($i=0; $i < count($ean); $i++) {
 		$errors[$i] = $e->getMessage();;
 	}
 }
-$from_till = ClientData::post('from_till');
 $stock_account = Account::from_code_name('stock');
 $stock_change_account = Account::from_code_name('stock_change');
 $transaction = new AccountTransaction();
 $transaction->description = "Inköp id: {$delivery->id}";
 $transaction->user = $user->__toString();
+$transaction->commit();
 
 $stock = new AccountTransactionContent();
 $stock->amount = $stock_change_amount;
@@ -76,31 +76,33 @@ $stock->account_id = $stock_account->id;
 $stock_change = new AccountTransactionContent();
 $stock_change->amount = -1*$stock_change_amount;
 $stock_change->account_id = $stock_change_account->id;
-if(!is_numeric($from_till)) {
-	$errors['kassa'] = 'Inte fyllt i hur mycket du tagit från kassan';
-} else if($from_till != 0) {
-	// TODO: book keeping should always be done.
-	// TODO: should be possible to choose from_account.
-	$money_source_account = Account::from_code_name('till');
-	$purchases_account = Account::from_code_name('purchases');
 
-	$money_source = new AccountTransactionContent();
-	$money_source->amount = -1*$from_till;
-	$money_source->account_id = $money_source_account->id;
-
-	$purchases = new AccountTransactionContent();
-	$purchases->amount = $from_till;
-	$purchases->account_id = $purchases_account->id;
-
+$balance_amount = 0;
+$balance_amounts = ClientData::post('amount');
+$balance_accounts = ClientData::post('from_account');
+for($i = 0; $i < count($balance_amounts); $i++) {
+	$balance_amount += $balance_amounts[$i];
+	$account = Account::from_code_name($balance_accounts[$i]);
+	if($account == null && $balance_amounts[$i] != 0) {
+		$errors['konton'] = 'Du måste ange vilket konto pengarna kom ifrån';
+	}
+	$balance = new AccountTransactionContent();
+	$balance->account_id = $account->id;
+	$balance->amount = -$balance_amounts[$i];
+	$balance->account_transaction_id = $transaction->id;
+	$balance->commit();
 }
-$transaction->commit();
-
-if($from_till != 0) {
-	$money_source->account_transaction_id = $transaction->id;
-	$purchases->account_transaction_id = $transaction->id;
-	$money_source->commit();
-	$purchases->commit();
+if(abs($balance_amount - $stock_change_amount) > 0.5) {
+	$errors['kassa'] = 'Lagervärde av produkterna och penningåtgång stämmer inte överens. Du måste tala om vart pengarna kommer ifrån (det är ok att avrunda till närmaste krona)';
 }
+$purchases_account = Account::from_code_name('purchases');
+
+$purchases = new AccountTransactionContent();
+$purchases->amount = $balance_amount;
+$purchases->account_id = $purchases_account->id;
+$purchases->account_transaction_id = $transaction->id;
+$purchases->commit();
+
 $stock->account_transaction_id = $transaction->id;
 $stock_change->account_transaction_id = $transaction->id;
 $stock->commit();
