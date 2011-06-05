@@ -8,6 +8,12 @@ $old_till = TransactionContent::sum('amount', array(
 	'Transaction.timestamp:<=' => date('Y-m-d H:i:s'),
 ));
 $old_till += $daily_count->amount;
+$account_change = AccountTransactionContent::sum('amount', array(
+	'Account.code_name' => 'till',
+	'AccountTransaction.timestamp:>' => $daily_count->time,
+	'AccountTransaction.timestamp:<=' => date('Y-m-d H:i:s'),
+));
+$old_till += $account_change;
 $sales = Transaction::sum('amount', array('timestamp:>' => $daily_count->time));
 $stock_amount = TransactionContent::sum('stock_usage', array(
 	'Transaction.timestamp:>' => $daily_count->time,
