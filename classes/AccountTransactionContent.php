@@ -9,5 +9,16 @@ class AccountTransactionContent extends BasicObject {
 	protected static function table_name() {
 		return 'account_transaction_contents';
 	}
+
+	public function __set($key, $value) {
+		switch($key) {
+			case 'account_id':
+				if(!is_numeric($value) || $value <= 0) {
+					throw new Exception("Du måste ange ett giltigt konto.");
+				}
+				break;
+		}
+		parent::__set($key, $value);
+	}
 }
 ?>
