@@ -101,46 +101,79 @@ function update_sum() {
 				''?></textarea>
 	</div>
 	<table>
-		<tr>
-			<th>Pengarna kommer från:</th>
-			<td>
-				<select name="from_account[]">
-					<option
-						value=""
-						disabled="disabled"
-						<? if(!$old_values || $old_values['from_account'][0] == ''): ?>
-							selected="selected"
-						<? endif ?>
-					>
-						Välj konto
-					</option>
-					<? foreach(Account::selection(array('account_type' => 'balance', '@order' => 'name')) as $account): ?>
+		<tfoot>
+			<tr colspan="2">
+				<td>
+					<a href="#" onclick="
+						var con = document.getElementById('account_container');
+						var account = document.getElementById('account').cloneNode(true);
+						var amount = document.getElementById('amount').cloneNode(true);
+						account.id = '';
+						amount.id = '';
+						amount.getElementsByTagName('input')[0].value = '';
+						con.appendChild(account);
+						con.appendChild(amount);
+						return false;
+					">
+						Lägg till konto
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Totalsumma för leveransen:</th>
+				<td><strong id="sum">0</strong> kr</td>
+			</tr>
+		</tfoot>
+		<tbody id="account_container">
+			<tr id="account">
+				<th>Pengarna kommer från:</th>
+				<td>
+					<select name="from_account[]">
 						<option
-							value="<?=$account->code_name?>"
-							<? if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
+							value=""
+							disabled="disabled"
+							<? if(!$old_values || $old_values['from_account'][0] == ''): ?>
 								selected="selected"
 							<? endif ?>
-							title="<?=$account->description?>"
 						>
-							<?=$account->name?>
+							Välj konto
 						</option>
-					<? endforeach ?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th>Summa:</th>
-			<td>
-				<input type="text"
-					name="amount[]"
-					value="<?=$old_values?$old_values['amount'][0]:''?>"
-					style="width: 3em;" />
-			</td>
-		</tr>
-		<tr>
-			<th>Totalsumma för leveransen:</th>
-			<td><strong id="sum">0</strong> kr</td>
-		</tr>
+						<? foreach(Account::selection(array(
+								'account_type' => 'balance', 
+								'@order' => 'name',
+								'code_name:not_in' => array('stock',),
+						)) as $account): ?>
+							<option
+								value="<?=$account->code_name?>"
+								<? if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
+									selected="selected"
+								<? endif ?>
+								title="<?=$account->description?>"
+							>
+								<?=$account->name?>
+							</option>
+						<? endforeach ?>
+					</select>
+				</td>
+				<td rowspan="2"><a href="#" onclick="
+					var row = parentNode.parentNode;
+					if(row.id != 'account') {
+						row.parentNode.removeChild(row.nextSibling);
+						row.parentNode.removeChild(row);
+					}
+					return false;
+				">X</a></td>
+			</tr>
+			<tr id="amount">
+				<th>Summa:</th>
+				<td>
+					<input type="text"
+						name="amount[]"
+						value="<?=$old_values?$old_values['amount'][0]:''?>"
+						style="width: 3em;" />
+				</td>
+			</tr>
+		</tbody>
 	</table>
 	<ul>
 		<li>

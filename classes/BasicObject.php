@@ -658,6 +658,18 @@ abstract class BasicObject {
 					}
 					$wheres = substr($wheres, 0, -2);
 					$wheres .= ") $glue\n";
+				} elseif($where['operator'] == 'not_in') {
+					$wheres .= "	`{$where['column']}` NOT IN (";
+					if(!is_array($value)){
+						throw new Exception("Operator 'in' should be coupled with an array of values.");
+					}
+					foreach($value as $v){
+						$types .= 's';
+						$wheres .= '?, ';
+						$user_params[] = $v;
+					}
+					$wheres = substr($wheres, 0, -2);
+					$wheres .= ") $glue\n";
 				} elseif($where['operator'] == 'null') {
 					$wheres .= "	`".$where["column"]."` IS NULL $glue\n";
 				} elseif($where['operator'] == 'not_null') {
@@ -711,6 +723,7 @@ abstract class BasicObject {
 			case "regexp":
 			case "like":
 			case "in":
+			case "not_in":
 			case "null":
 			case "not_null":
 				return $expr;

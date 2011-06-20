@@ -62,8 +62,6 @@ for($i=0; $i < count($ean); $i++) {
 		$errors[$i] = $e->getMessage();;
 	}
 }
-$stock_account = Account::from_code_name('stock');
-$stock_change_account = Account::from_code_name('stock_change');
 $transaction = new AccountTransaction();
 $transaction->description = "Inköp id: {$delivery->id}";
 $transaction->user = $user->__toString();
@@ -71,11 +69,11 @@ $transaction->commit();
 
 $stock = new AccountTransactionContent();
 $stock->amount = $stock_change_amount;
-$stock->account_id = $stock_account->id;
+$stock->account_id = Account::from_code_name('stock')->id;
 
 $stock_change = new AccountTransactionContent();
 $stock_change->amount = -1*$stock_change_amount;
-$stock_change->account_id = $stock_change_account->id;
+$stock_change->account_id = Account::from_code_name('stock_change')->id;
 
 $balance_amount = 0;
 $balance_amounts = ClientData::post('amount');
@@ -85,6 +83,7 @@ for($i = 0; $i < count($balance_amounts); $i++) {
 	$account = Account::from_code_name($balance_accounts[$i]);
 	if($account == null && $balance_amounts[$i] != 0) {
 		$errors['konton'] = 'Du måste ange vilket konto pengarna kom ifrån';
+		break;
 	}
 	$balance = new AccountTransactionContent();
 	$balance->account_id = $account->id;
