@@ -9,6 +9,7 @@ $page = ClientData::get('page');
 		<tr>
 			<th>Tid</th>
 			<th>Summa</th>
+			<th>Användare</th>
 			<th>Konton</th>
 			<th>Beskrivning</th>
 		</tr>
