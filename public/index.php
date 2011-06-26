@@ -50,6 +50,8 @@ if(!file_exists($main)) {
 				<li><a href="/correct_product">Inventering</a></li>
 				<li><a href="/daily_count">Dagsavslut</a></li>
 				<li><a href="/transaction_log">Transaktionslogg</a></li>
+				<li><a href="/money_transfer">Ny transaktion</a></li>
+				<li><a href="/account_transactions">Huvudbok</a></li>
 				<li><a href="/accounts">Bokföring</a></li>
 				<li><a href="/scripts/logout.php">Logga ut</a></li>
 			<? else: ?>

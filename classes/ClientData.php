@@ -15,6 +15,12 @@ class ClientData {
 		}
 	}
 
+	public static function get($string) {
+		if(isset($_GET[$string])) {
+			return self::clean($_GET[$string]);
+		}
+		return false;
+	}
 	public static function post($string) {
 		if(isset($_POST[$string])) {
 			return self::clean($_POST[$string]);
