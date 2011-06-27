@@ -17,6 +17,15 @@ class DatabaseConnectioni extends MySQLi
 	private $do_debug;
 
 	/**
+	 * Is the database automatically commiting after each query.
+	 */
+	public function is_autocommit() {
+		$null = null;
+		$ret = $this->prepare_fetch("select @@autocommit as c", $null, '');
+		return $ret['c'] == 1;
+	}
+
+	/**
 	 * Hämta debugging-inställning
 	 * @return boolean true om debug, false annars
 	 */

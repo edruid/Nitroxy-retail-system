@@ -1,7 +1,7 @@
 <?php
 
 class Product extends BasicObject {
-
+	private $_old_price = false;
 	/**
 	 * Used by BasicObject to determine the table name.
 	 * @returns the table name for the database relation.
@@ -28,10 +28,38 @@ class Product extends BasicObject {
 	}
 
 	public function __set($key, $value) {
+		switch($key) {
+			case 'price':
+				if($this->_exists && isset($this->_old_price)) {
+					$this->_old_price = $this->price;
+				}
+		}
 		if($value === '') {
 			$value = null;
 		}
 		return parent::__set($key, $value);
+	}
+
+	public function commit() {
+		global $db;
+		$ac = $db->is_autocommit();
+		if($ac) {
+			$db->autocommit(false);
+		}
+		if(isset($this->_old_price) && $this->_old_price != $this->price) {
+			$log = new ProductLog();
+			$user = (new User($_SESSION['login']));
+			$log->user = $user->__toString();
+			$log->old_price = $this->_old_price;
+			$log->new_price = $this->price;
+			$log->product_id = $this->id;
+			$log->commit();
+		}
+		parent::commit();
+		if($ac) {
+			$db->commit();
+			$db->autocommit(true);
+		}
 	}
 }
 ?>
