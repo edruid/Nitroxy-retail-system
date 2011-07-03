@@ -89,15 +89,75 @@ p.error {
 	background-color: red;
 }
 
-ul.menu {
+ul.menu,
+ul.menu ul {
 	list-style: none;
-	padding: 0px;
+	padding: 0;
+	margin: 0;
+}
+
+ul.menu {
+	display: inline-block;
+	position: relative;
+	z-index: 500;
 }
 
 ul.menu li {
-	display: inline-block;
-	padding: 0 0.2em;
+	float: left;
+	line-height: 3.5ex;
 	border: 1px solid black;
+	padding: 4px 10px;
+}
+
+li.dir:after {
+	content: "V";
+	padding: 0px 3px;
+	border: black solid 1px;
+	width: 1.5em;
+	text-align: center;
+}
+
+ul ul li.dir:after {
+	position: absolute;
+	left: 11em;
+}
+
+ul ul li.dir:hover:after {
+	content: ">";
+	font-weight: bold;
+	position: absolute;
+}
+
+ul.menu li:hover {
+	position: relative;
+	z-index: 502
+}
+
+ul.menu ul {
+	visibility: hidden;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	list-style: none;
+	padding: 0px;
+	z-index: 501;
+	width: 12em;
+}
+
+ul.menu li:hover > ul {
+	visibility: visible;
+}
+
+ul.menu ul li {
+	display: block;
+	background-color: white;
+	width: 100%;
+}
+
+ul.menu ul ul {
+	left: 99%;
+	top: 1px;
 }
 
 .pre {

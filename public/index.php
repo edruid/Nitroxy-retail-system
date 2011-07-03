@@ -43,21 +43,55 @@ if(!file_exists($main)) {
 			<li><a href="/retail">Handla</a></li>
 			<li><a href="/price_list">Prislista</a></li>
 			<? if(!empty($_SESSION['login'])): ?>
-				<li><a href="/stock">Lager</a></li>
-				<li><a href="/list_categories">Kategorier</a></li>
-				<li><a href="/delivery">Ny leverans</a></li>
-				<li><a href="/list_deliveries">Leveranser</a></li>
-				<li><a href="/correct_product">Inventering</a></li>
-				<li><a href="/daily_count">Dagsavslut</a></li>
-				<li><a href="/transaction_log">Transaktionslogg</a></li>
-				<li><a href="/money_transfer">Ny transaktion</a></li>
-				<li><a href="/account_transactions">Huvudbok</a></li>
-				<li><a href="/accounts">Bokföring</a></li>
-				<li><a href="/scripts/logout.php">Logga ut</a></li>
+				<li class="dir">
+					<a href="/stock">Lager</a>
+					<ul>
+						<li class="dir">
+							<a href="/list_categories">Kategorier</a>
+							<ul>
+								<? foreach(Category::selection() as $category): ?>
+									<li><a href="/category/<?=$category->id?>"><?=$category?></a></li>
+								<? endforeach ?>
+							</ul>
+						</li>
+						<li><a href="/delivery">Ny leverans</a></li>
+						<li><a href="/list_deliveries">Leveranser</a></li>
+						<li><a href="/correct_product">Inventering</a></li>
+					</ul>
+				</li>
+				<li class="dir">
+					<a href="/accounts">Bokföring</a>
+					<ul>
+						<li class="dir">
+							<a href="/accounts">Konton</a>
+							<ul>
+								<? foreach(Account::selection() as $account): ?>
+									<li title="<?=$account->description?>">
+										<a href="/account/<?=$account->id?>">
+											<?=$account?>
+										</a>
+									</li>
+								<? endforeach ?>
+							</ul>
+						</li>
+						<li><a href="/daily_count">Dagsavslut</a></li>
+						<li><a href="/money_transfer">Ny transaktion</a></li>
+						<li><a href="/account_transactions">Huvudbok</a></li>
+						<li><a href="/transaction_log">Transaktionslogg</a></li>
+					</ul>
+				</li>
+				<li>
+					<form action="/scripts/logout.php" method="post">
+						<div>
+							<input type="submit" value="Logga ut" />
+						</div>
+					</form>
+				</li>
 			<? else: ?>
 				<li><a href="/login?kickback=<?=htmlspecialchars(kickback_url())?>">Logga in</a></li>
 			<? endif ?>
 		</ul>
+		</div>
 		<?require $main?>
 	</body>
 </html>
