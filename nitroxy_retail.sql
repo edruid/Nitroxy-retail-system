@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nitroxy_retail
 -- ------------------------------------------------------
--- Server version	5.1.41-3ubuntu12.6
+-- Server version	5.1.41-3ubuntu12.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,8 +25,14 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `account_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
+  `default_sign` enum('debit','kredit') COLLATE utf8_swedish_ci NOT NULL,
+  `warn_on_non_default` tinyint(1) NOT NULL DEFAULT '0',
+  `description` text COLLATE utf8_swedish_ci,
+  `account_type` enum('balance','result') COLLATE utf8_swedish_ci DEFAULT NULL,
+  `code_name` varchar(16) COLLATE utf8_swedish_ci DEFAULT NULL,
   PRIMARY KEY (`account_id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `code_name` (`code_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,6 +86,23 @@ CREATE TABLE `categories` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `daily_count`
+--
+
+DROP TABLE IF EXISTS `daily_count`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `daily_count` (
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount` decimal(10,2) NOT NULL,
+  `account_transaction_id` int(10) unsigned DEFAULT NULL,
+  `user` varchar(100) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  PRIMARY KEY (`time`),
+  KEY `account_transaction_id` (`account_transaction_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `deliveries`
 --
 
@@ -111,6 +134,46 @@ CREATE TABLE `delivery_contents` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `delivery_contents_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   CONSTRAINT `delivery_contents_ibfk_2` FOREIGN KEY (`delivery_id`) REFERENCES `deliveries` (`delivery_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_log`
+--
+
+DROP TABLE IF EXISTS `product_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_log` (
+  `product_log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) unsigned NOT NULL,
+  `old_price` decimal(10,2) NOT NULL,
+  `new_price` decimal(10,2) NOT NULL,
+  `changed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` text COLLATE utf8_swedish_ci,
+  PRIMARY KEY (`product_log_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `product_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_logg`
+--
+
+DROP TABLE IF EXISTS `product_logg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_logg` (
+  `product_logg_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) unsigned NOT NULL,
+  `price_before` decimal(10,2) NOT NULL,
+  `price_after` decimal(10,2) NOT NULL,
+  `changed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` text COLLATE utf8_swedish_ci,
+  PRIMARY KEY (`product_logg_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `product_logg_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -148,6 +211,7 @@ CREATE TABLE `products` (
   `value` decimal(8,4) NOT NULL,
   `count` int(11) NOT NULL DEFAULT '0',
   `inventory_threshold` int(10) unsigned DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `ean` (`ean`),
@@ -168,6 +232,7 @@ CREATE TABLE `transaction_contents` (
   `product_id` int(11) unsigned NOT NULL,
   `count` int(11) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
+  `stock_usage` decimal(10,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`transaction_id`,`product_id`),
   KEY `product_id` (`product_id`),
   KEY `transaction_id` (`transaction_id`),
@@ -200,4 +265,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-11-01 22:15:49
+-- Dump completed on 2011-07-05 19:26:51
