@@ -4,14 +4,14 @@ CREATE TABLE `users` (
 	`surname` varchar(100) not null,
 	`username` varchar(100) not null,
 	PRIMARY KEY (`user_id`)
-) ENNGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 INSERT INTO users (`user_id`, `first_name`, `surname`, `username`) VALUES
 	(100, 'Eric', 'Druid', 'druid')
 	(, 'Robert', 'Lövlie', 'topace')
 	(, 'Uffe', 'Lilja', 'wolhay')
 	(, 'Kjell', 'Liden', 'kjellej')
-	(, 'Adam', 'Höse', 'adisblados')
+	(, 'Adam', 'Höse', 'adisbladis')
 	(, 'Patrik', 'Roos', 'roos')
 	(, 'Peter', 'Eriksson', 'coopdot')
 
