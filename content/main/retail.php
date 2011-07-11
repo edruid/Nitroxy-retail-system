@@ -4,6 +4,13 @@ $products = Product::selection(array(
 	'category_id:!=' => 0,
 	'@order' => 'product_id',
 ));
+function get_rand() {
+	$random = rand();
+	if(isset($_SESSION['random']) && $random == $_SESSION['random']) {
+		$random++;
+	}
+	return $random;
+}
 ?>
 <script type="text/javascript" src="/js/purchase.js"></script>
 <script type="text/javascript" src="/js/suggest.js"></script>
@@ -166,6 +173,7 @@ window.addEventListener ?
 <form autocomplete="off" id="retail_form" action="scripts/finish_transaction.php" method="post">
 
 	<div id="this_purchase">
+		<input type="hidden" name="random" value="<?=get_rand()?>" />
 		<h2>Detta köp</h2>
 		<table>
 			<tr>
