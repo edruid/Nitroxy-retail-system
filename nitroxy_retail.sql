@@ -158,26 +158,6 @@ CREATE TABLE `product_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `product_logg`
---
-
-DROP TABLE IF EXISTS `product_logg`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_logg` (
-  `product_logg_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `price_before` decimal(10,2) NOT NULL,
-  `price_after` decimal(10,2) NOT NULL,
-  `changed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user` text COLLATE utf8_swedish_ci,
-  PRIMARY KEY (`product_logg_id`),
-  KEY `product_id` (`product_id`),
-  CONSTRAINT `product_logg_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `product_package`
 --
 
