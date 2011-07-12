@@ -3,7 +3,6 @@ require_once "../../includes.php";
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.kickback_url('daily_count'));
 }
-$user = new User($_SESSION['login']);
 $time = date('Y-m-d H:i:s');
 $daily_count = DailyCount::last();
 $sales_amount = Transaction::sum('amount', array(
@@ -28,7 +27,7 @@ $db->autocommit(false);
 
 $transaction = new AccountTransaction();
 $transaction->description = 'Dagsavslut';
-$transaction->user = $user->__toString();
+$transaction->user_id = $_SESSION['login'];
 $transaction->timestamp = $time;
 $transaction->commit();
 
@@ -66,7 +65,7 @@ $daily_count = new DailyCount();
 $daily_count->time = $time;
 $daily_count->amount = ClientData::post('till');
 $daily_count->account_transaction_id = $transaction->id;
-$daily_count->user = $user->__toString();
+$daily_count->user = $_SESSION['login'];
 $daily_count->commit();
 
 $db->commit();

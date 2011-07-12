@@ -12,7 +12,7 @@ $delivery = Delivery::from_id(array_shift($request));
 	</tr>
 	<tr>
 		<th>Användare</th>
-		<td><?=$delivery->user?></td>
+		<td><?=$delivery->User?></td>
 	</tr>
 	<tr>
 		<th>Total summa</th>

@@ -23,7 +23,7 @@ $page = ClientData::get('page');
 			<tr>
 				<td><a href="/account_transaction/<?=$transaction->id?>"><?=$transaction->timestamp?></a></td>
 				<td class="numeric"><?=AccountTransactionContent::sum('amount', array('amount:>=' => 0, 'account_transaction_id' => $transaction->id))?> kr</td>
-				<td><?=$transaction->user?></td>
+				<td><?=$transaction->User?></td>
 				<td>
 					<ul>
 						<? foreach($transaction->AccountTransactionContent as $content): ?>

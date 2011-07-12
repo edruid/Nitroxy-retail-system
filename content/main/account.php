@@ -42,7 +42,7 @@ if($page == null) {
 		?>
 			<tr>
 				<td><a href="/account_transaction/<?=$transaction_content->account_transaction_id?>"><?=($transaction=$transaction_content->AccountTransaction)?></a></td>
-				<td><?=$transaction->user?></td>
+				<td><?=$transaction->User?></td>
 				<td><?=$transaction_content->amount?></td>
 				<td><?=$transaction->description?></td>
 			</tr>

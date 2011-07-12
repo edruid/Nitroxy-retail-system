@@ -12,7 +12,7 @@
 		<? foreach(Delivery::selection(array('@order' => 'timestamp:desc')) as $delivery): ?>
 			<tr>
 				<td><a href="/view_delivery/<?=$delivery->id?>"><?=$delivery->timestamp?></a></td>
-				<td><?=$delivery->user?></td>
+				<td><?=$delivery->User?></td>
 				<td class="numeric"><?=number(DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id)))?> kr</td>
 				<td class="pre"><?=$delivery->description?></td>
 			</tr>

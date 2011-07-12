@@ -7,12 +7,29 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 INSERT INTO users (`user_id`, `first_name`, `surname`, `username`) VALUES
-	(100, 'Eric', 'Druid', 'druid')
-	(, 'Robert', 'Lövlie', 'topace')
-	(, 'Uffe', 'Lilja', 'wolhay')
-	(, 'Kjell', 'Liden', 'kjellej')
-	(, 'Adam', 'Höse', 'adisbladis')
-	(, 'Patrik', 'Roos', 'roos')
-	(, 'Peter', 'Eriksson', 'coopdot')
+	(100, 'Eric', 'Druid', 'druid'),
+	(1, 'Robert', 'Lövlie', 'topace'),
+	(2, 'Uffe', 'Lilja', 'wolhay'),
+	(3, 'Kjell', 'Linden', 'kjellej'),
+	(4, 'Adam', 'Höse', 'adisbladis'),
+	(5, 'Patrik', 'Roos', 'roos'),
+	(6, 'Peter', 'Eriksson', 'coopdot'),
+	(7, 'Nils', 'Linde', 'nyct3a');
 
-ALTER TABLE account_transaction
+ALTER TABLE account_transaction add column user_id int unsigned not null;
+update account_transaction set user_id = (select user_id from users where concat(first_name, ' \'', username, '\' ', surname) like concat(`user`, '%'));
+ALTER TABLE account_transaction add foreign key (user_id) REFERENCES users (user_id), drop column `user`;
+
+ALTER TABLE daily_count add column user_id int unsigned not null;
+update daily_count set user_id = (select user_id from users where concat(first_name, ' \'', username, '\' ', surname) like concat(`user`, '%'));
+ALTER TABLE daily_count add foreign key (user_id) REFERENCES users (user_id), drop column `user`;
+
+ALTER TABLE deliveries add column user_id int unsigned not null;
+update deliveries set user_id = (select user_id from users where concat(first_name, ' \'', username, '\' ', surname) like concat(`user`, '%'));
+update deliveries set user_id = 100 where user_id = 0;
+ALTER TABLE deliveries add foreign key (user_id) REFERENCES users (user_id), drop column `user`;
+
+ALTER TABLE product_log add column user_id int unsigned not null;
+update product_log set user_id = (select user_id from users where concat(first_name, ' \'', username, '\' ', surname) = `user`);
+ALTER TABLE product_log add foreign key (user_id) REFERENCES users (user_id), drop column `user`;
+

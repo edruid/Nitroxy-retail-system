@@ -9,7 +9,7 @@ $contents = $transaction->AccountTransactionContent;
 <table>
 	<tr>
 		<th>Användare</th>
-		<td><?=$transaction->user?></td>
+		<td><?=$transaction->User?></td>
 	</tr>
 	<tr>
 		<th>Tid</th>
