@@ -11,6 +11,9 @@ function mark($bool) {
 }
 $category = Category::from_id(array_shift($request));
 $i = 0;
+if($category == null) {
+	show_404();
+}
 ?>
 <h1><?=$category->name?></h1>
 <table>
