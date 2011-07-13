@@ -35,6 +35,10 @@ function kick($path) {
 	// (buffered output will be discarded)
 	ob_clean();
 
+	if(preg_match('/^https?:\/\//', $path)) {
+		header("Location: $path");
+		die();
+	}
 	// Construct URL
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
 		$proto='https';
@@ -46,5 +50,13 @@ function kick($path) {
 
 	header("Location: $proto://$host$path");
 	exit;
+}
+
+function show_404() {
+	?>
+	<h1>Sidan du försöker visa finns inte</h1>
+	<p>Vänligen kontrollera url:en och försök igen.</p>
+	<?php
+	die();
 }
 ?>

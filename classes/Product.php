@@ -1,7 +1,7 @@
 <?php
 
 class Product extends BasicObject {
-	private $_old_price = false;
+	private $_old_price;
 	/**
 	 * Used by BasicObject to determine the table name.
 	 * @returns the table name for the database relation.

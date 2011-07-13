@@ -27,7 +27,8 @@ $page = ClientData::get('page');
 				<td>
 					<ul>
 						<? foreach($transaction->AccountTransactionContent as $content): ?>
-							<li><a href="/account/<?=$content->account_id?>"><?=$content->Account?></a></li>
+							<? $account = $content->account ?>
+							<li><a href="/account/<?=$account->code_name?>"><?=$account?></a></li>
 						<? endforeach ?>
 					</ul>
 				</td>
