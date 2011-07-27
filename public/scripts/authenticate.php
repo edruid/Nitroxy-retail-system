@@ -19,6 +19,7 @@ if(!preg_match('/accessess.*"kioskPrice"/s', $result)) {
 	kick('login');
 }
 $_SESSION['loggin_form'] = null;
-$_SESSION['login'] = $result;
-header("Location: ".ClientData::post('kickback'));
+$user = User::login($result);
+$_SESSION['login'] = $user->id;
+kick(ClientData::post('kickback'));
 ?>

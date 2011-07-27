@@ -19,4 +19,3 @@ class Account extends BasicObject {
 	}
 }
 ?>
-

@@ -1,12 +1,11 @@
 <?php
 class User extends BasicObject{
-	private $first_name;
-	private $surname;
-	private $username;
-	private $accesses;
+	public static function table_name() {
+		return 'users';
+	}
 
 	public static function login($data) {
-		preg_match('/^user_id: "(.*)"$/m', $data, $match);
+		preg_match('/^userid: "(.*)"$/m', $data, $match);
 		$user_id = $match[1];
 		preg_match('/^firstname: "(.*)"$/m', $data, $match);
 		$first_name = $match[1];
