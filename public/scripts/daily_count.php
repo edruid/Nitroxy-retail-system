@@ -10,6 +10,7 @@ $sales_amount = Transaction::sum('amount', array(
 	'timestamp:>' => $daily_count->time,
 	'timestamp:<=' => $time,
 ));
+if($sales_amount == null) $sales_amount = 0;
 
 $old_till = AccountTransactionContent::sum('amount', array(
 	'Account.code_name' => 'till',
@@ -22,7 +23,7 @@ $stock_amount = TransactionContent::sum('stock_usage', array(
 	'Transaction.timestamp:>' => $daily_count->time,
 	'Transaction.timestamp:<=' => $time,
 ));
-	
+if($stock_amount == null) $stock_amount = 0;
 
 $db->autocommit(false);
 
