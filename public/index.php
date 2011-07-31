@@ -67,7 +67,7 @@ if(!file_exists($main)) {
 							<ul>
 								<? foreach(Account::selection() as $account): ?>
 									<li title="<?=$account->description?>">
-										<a href="/account/<?=$account->id?>">
+										<a href="/account/<?=$account->code_name?>">
 											<?=$account?>
 										</a>
 									</li>

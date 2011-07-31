@@ -71,4 +71,5 @@ $daily_count->user = $user->__toString();
 $daily_count->commit();
 
 $db->commit();
+kick("/account_transaction/{$transaction->id}");
 ?>
