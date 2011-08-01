@@ -9,13 +9,13 @@ CREATE TABLE `users` (
 
 INSERT INTO users (`user_id`, `first_name`, `surname`, `username`) VALUES
 	(100, 'Eric', 'Druid', 'druid'),
-	(1, 'Robert', 'Lövlie', 'topace'),
-	(2, 'Uffe', 'Lilja', 'wolhay'),
-	(3, 'Kjell', 'Linden', 'kjellej'),
-	(4, 'Adam', 'Höse', 'adisbladis'),
-	(5, 'Patrik', 'Roos', 'roos'),
-	(6, 'Peter', 'Eriksson', 'coopdot'),
-	(7, 'Nils', 'Linde', 'nyct3a');
+	(343, 'Robert', 'Lövlie', 'topace'),
+	(623, 'Uffe', 'Lilja', 'wolhay'),
+	(101, 'Kjell', 'Linden', 'kjellej'),
+	(669, 'Adam', 'Höse', 'adisbladis'),
+	(365, 'Patrik', 'Roos', 'roos'),
+	(287, 'Peter', 'Eriksson', 'coopdot'),
+	(882, 'Nils', 'Linde', 'nyct3a');
 
 select 'account_transaction';
 ALTER TABLE account_transaction add column user_id int unsigned not null;
