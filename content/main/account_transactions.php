@@ -4,38 +4,46 @@ if(empty($_SESSION['login'])) {
 }
 $page = ClientData::get('page');
 ?>
-<table class="alternate">
+<table class="alternate-body">
 	<thead>
 		<tr>
 			<th>Tid</th>
-			<th>Summa</th>
 			<th>Användare</th>
 			<th>Konton</th>
+			<th>Summa</th>
 			<th>Beskrivning</th>
 		</tr>
 	</thead>
-	<tbody>
-		<? foreach(AccountTransaction::selection(array(
-				'@order' => 'timestamp:desc',
-				'@limit' => array($page*50, 50),
-			)) as $transaction):
+	<? foreach(AccountTransaction::selection(array(
+			'@order' => 'timestamp:desc',
+			'@limit' => array($page*50, 50),
+		)) as $transaction):
+	?>
+		<?php
+			$contents = $transaction->AccountTransactionContent(array(
+				'@custom_order' => 'abs(`account_transaction_contents`.`amount`) DESC',
+			));
+			$num_rows = count($contents);
+			$content = array_shift($contents);
+			$account = $content->Account;
 		?>
+		<tbody>
 			<tr>
-				<td><a href="/account_transaction/<?=$transaction->id?>"><?=$transaction->timestamp?></a></td>
-				<td class="numeric"><?=AccountTransactionContent::sum('amount', array('amount:>=' => 0, 'account_transaction_id' => $transaction->id))?> kr</td>
-				<td><?=$transaction->User?></td>
-				<td>
-					<ul>
-						<? foreach($transaction->AccountTransactionContent as $content): ?>
-							<? $account = $content->account ?>
-							<li><a href="/account/<?=$account->code_name?>"><?=$account?></a></li>
-						<? endforeach ?>
-					</ul>
-				</td>
-				<td><?=$transaction->description?></td>
+				<td rowspan="<?=$num_rows?>"><a href="/account_transaction/<?=$transaction->id?>"><?=$transaction->timestamp?></a></td>
+				<td rowspan="<?=$num_rows?>"><?=$transaction->User?></td>
+				<td><a href="/account/<?=$account->code_name?>"><?=$account?></a></td>
+				<td class="numeric"><?=$content->amount?> kr</td>
+				<td rowspan="<?=$num_rows?>"><?=$transaction->description?></td>
 			</tr>
-		<? endforeach ?>
-	</tbody>
+			<? foreach($contents as $content): ?>
+				<?php $account = $content->Account; ?>
+				<tr>
+					<td><a href="/account/<?=$account->code_name?>"><?=$account?></a></td>
+					<td class="numeric"><?=$content->amount?> kr</td>
+				</tr>
+			<? endforeach ?>
+		</tbody>
+	<? endforeach ?>
 </table>
 <p>
 	<? if($page > 0): ?>

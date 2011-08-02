@@ -76,7 +76,7 @@ if(!file_exists($main)) {
 						</li>
 						<li><a href="/daily_count">Dagsavslut</a></li>
 						<li><a href="/money_transfer">Ny transaktion</a></li>
-						<li><a href="/account_transactions">Huvudbok</a></li>
+						<li><a href="/account_transactions">Verifikationslista</a></li>
 						<li><a href="/transaction_log">Transaktionslogg</a></li>
 					</ul>
 				</li>
