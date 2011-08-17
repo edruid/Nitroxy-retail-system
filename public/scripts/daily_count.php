@@ -6,6 +6,17 @@ if(empty($_SESSION['login'])) {
 $user = new User($_SESSION['login']);
 $time = date('Y-m-d H:i:s');
 $daily_count = DailyCount::last();
+if(isset($_SESSION['last_request']) && $_SESSION['last_request'] == ClientData::post('random')) {
+	Message::error('This request has already been sent');
+	kick("/account_transaction/{$daily_count->transaction_id}");
+}
+if(!is_numeric(ClientData::post('till'))) {
+	die('Vänligen kontrollera värdet i kassan, det var inte numeriskt');
+}
+$_SESSION['last_request'] = ClientData::post('random');
+if(strtotime($daily_count->time) + 120 > time()) {
+	die('Det måste gå minst 2 minuter mellan två kassaslut.');
+}
 $sales_amount = Transaction::sum('amount', array(
 	'timestamp:>' => $daily_count->time,
 	'timestamp:<=' => $time,

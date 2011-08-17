@@ -68,7 +68,10 @@ $stock_amount = TransactionContent::sum('stock_usage', array(
 			<tr>
 				<th>I kassan</th>
 				<td id="calculated"><?=$old_till?></td>
-				<td><input type="text" name="till" onkeyup="update_diff(this.value)" /></td>
+				<td>
+					<input type="text" name="till" onkeyup="update_diff(this.value)" />
+					<input type="hidden" name="random" value="<?=rand()?>" />
+				</td>
 				<td id="diff"></td>
 			</tr>
 			<tr>
