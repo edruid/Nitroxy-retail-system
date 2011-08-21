@@ -78,15 +78,19 @@ function update_sum() {
 	var table = document.getElementById('delivery_form');
 	var counts = table.getElementsByClassName('count');
 	var prices = table.getElementsByClassName('purchase_price');
+	var row_sums = table.getElementsByClassName('row-sum');
 	var per_product = !(document.getElementById('product_type').checked);
 	var multiplyer = document.getElementById('multiplyer').value;
 	var sum = 0;
 	for(var i=0; i< counts.length; ++i) {
 		if(per_product) {
-			sum += counts[i].value * prices[i].value * multiplyer;
+			row_sum = counts[i].value * prices[i].value * multiplyer;
+			
 		} else {
-			sum += prices[i].value * multiplyer;
+			row_sum = prices[i].value * multiplyer;
 		}
+		row_sums[i].innerHTML = row_sum;
+		sum += row_sum;
 	}
 	document.getElementById('sum').innerHTML = sum;
 }
@@ -208,6 +212,7 @@ function update_sum() {
 			type="text"
 			name="multiplyer"
 			id="multiplyer"
+			onchange="update_sum();"
 			<? if($old_values): ?>
 				value="<?=$old_values['multiplyer']?>"
 			<? else: ?>
@@ -269,6 +274,12 @@ function update_sum() {
 						<td><input type="text" class="purchase_price"
 								name="purchase_price[]" onblur="update_sum();"
 								value="<?=$old_values['purchase_price'][$i]?>" /></td>
+						<td class="row-sum number">
+							<?=
+								$old_values['purchase_price'][$i] * $old_values['multiplyer'] *
+								($old_values['price_per'] == 'each_product' ? $old_values['count'][$i] : 1)
+							?>
+						</td>
 					</tr>
 				<? endfor ?>
 			<? endif ?>
@@ -293,6 +304,7 @@ function update_sum() {
 						onblur="update_sum();" /></td>
 				<td><input type="text" class="purchase_price"
 						name="purchase_price[]" onblur="update_sum();" /></td>
+				<td class="row-sum number"></td>
 			</tr>
 			<tr id="template" style="display: none;">
 				<td><input type="text" class="ean" name="ean[]"
@@ -302,6 +314,9 @@ function update_sum() {
 				<td><input type="text" class="sales_price" name="sales_price[]" /></td>
 				<td>
 					<select class="category" name="category[]" >
+						<option value="" disabled="disabled" selected="selected">
+							Välj kategori
+						</option>
 						<? foreach($categories as $category): ?>
 							<option value="<?=$category->id?>"><?=$category->name?></option>
 						<? endforeach ?>
@@ -311,6 +326,7 @@ function update_sum() {
 						onblur="update_sum();" /></td>
 				<td><input type="text" class="purchase_price"
 						name="purchase_price[]" onblur="update_sum();" /></td>
+				<td class="row-sum number"></td>
 			</tr>
 		</tbody>
 	</table>
