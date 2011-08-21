@@ -25,7 +25,7 @@ $at_least_1_item = false;
 $db->autoCommit(false);
 $delivery = new Delivery();
 $delivery->description = ClientData::post('description');
-$delivery->user = $user->__toString();
+$delivery->user = $_SESSION['login'];
 $delivery->commit();
 $stock_change_amount = 0;
 for($i=0; $i < count($ean); $i++) {
@@ -64,7 +64,7 @@ for($i=0; $i < count($ean); $i++) {
 }
 $transaction = new AccountTransaction();
 $transaction->description = "Inköp id: {$delivery->id}";
-$transaction->user = $user->__toString();
+$transaction->user = $_SESSION['login'];
 $transaction->commit();
 
 $stock = new AccountTransactionContent();

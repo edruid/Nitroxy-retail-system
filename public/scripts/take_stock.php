@@ -3,14 +3,13 @@ require "../../includes.php";
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
-$user = new User($_SESSION['login']);
 $db->autoCommit(false);
 $products = ClientData::post('product_id');
 $counts = ClientData::post('product_count');
 $money_diff = 0;
 $delivery = new Delivery();
 $delivery->description = "Inventering";
-$delivery->user = $user->__toString();
+$delivery->user = $_SESSION['login'];
 $delivery->commit();
 foreach($products as $i => $product_id) {
 	// Create purchase
@@ -32,7 +31,7 @@ if($money_diff != 0) {
 	$to_account = Account::from_code_name('stock');
 	$transaction = new AccountTransaction();
 	$transaction->description="inventering: {$delivery->id}";
-	$transaction->user = $user->__toString();
+	$transaction->user = $_SESSION['login'];
 	$from = new AccountTransactionContent();
 	$from->amount = $money_diff;
 	$from->account_id = $from_account->id;

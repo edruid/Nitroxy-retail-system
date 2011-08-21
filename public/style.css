@@ -23,6 +23,10 @@ table.alternate tr:nth-child(2n) {
 	background-color: #CCC;
 }
 
+table.alternate-body tbody:nth-child(2n) tr {
+	background-color: #CCC;
+}
+
 table.body_border {
 	border-spacing: 0px;
 }

@@ -48,8 +48,7 @@ class Product extends BasicObject {
 		}
 		if(isset($this->_old_price) && $this->_old_price != $this->price) {
 			$log = new ProductLog();
-			$user = (new User($_SESSION['login']));
-			$log->user = $user->__toString();
+			$log->user_id = $_SESSION['login'];
 			$log->old_price = $this->_old_price;
 			$log->new_price = $this->price;
 			$log->product_id = $this->id;

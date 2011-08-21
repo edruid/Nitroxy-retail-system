@@ -1,17 +1,28 @@
 <?php
-class User {
-	private $first_name;
-	private $surname;
-	private $username;
-	private $accesses;
+class User extends BasicObject{
+	public static function table_name() {
+		return 'users';
+	}
 
-	public function __construct($data) {
+	public static function login($data) {
+		preg_match('/^userid: "(.*)"$/m', $data, $match);
+		$user_id = $match[1];
 		preg_match('/^firstname: "(.*)"$/m', $data, $match);
-		$this->first_name = $match[1];
+		$first_name = $match[1];
 		preg_match('/^surname: "(.*)"$/m', $data, $match);
-		$this->surname = $match[1];
+		$surname = $match[1];
 		preg_match('/^username: "(.*)"$/m', $data, $match);
-		$this->username = $match[1];
+		$username = $match[1];
+		$user = User::from_id($user_id);
+		if(!$user) {
+			$user = new User();
+			$user->user_id = $user_id;
+		}
+		$user->username = $username;
+		$user->first_name = $first_name;
+		$user->surname = $surname;
+		$user->commit();
+		return $user;
 	}
 
 	public function __toString() {

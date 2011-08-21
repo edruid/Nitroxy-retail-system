@@ -9,3 +9,5 @@ GRANT select, insert ON nitroxy_retail.product_package TO 'nitroxy_retail'@'loca
 GRANT select, insert, update ON nitroxy_retail.products TO 'nitroxy_retail'@'localhost';
 GRANT select, insert ON nitroxy_retail.transaction_contents TO 'nitroxy_retail'@'localhost';
 GRANT select, insert ON nitroxy_retail.transactions TO 'nitroxy_retail'@'localhost';
+GRANT select, insert, update ON nitroxy_retail.users TO 'nitroxy_retail'@'localhost';
+GRANT select, insert ON nitroxy_retail.daily_count TO 'nitroxy_retail'@'localhost';

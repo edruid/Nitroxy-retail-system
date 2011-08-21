@@ -238,7 +238,7 @@ abstract class BasicObject {
 			$name = $this->id_name($name);
 			$this->$name = $value->id;
 		} else {
-			throw new Exception("unknown property '$name'");
+			throw new Exception("unknown property '$name' for table '{$this->table_name()}'");
 		}
 	}
 

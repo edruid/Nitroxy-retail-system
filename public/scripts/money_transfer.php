@@ -3,12 +3,11 @@ require "../../includes.php";
 if(empty($_SESSION['login'])) {
 	kick('login?kickback='.htmlspecialchars(kickback_url()));
 }
-$user = new User($_SESSION['login']);
 $db->autocommit(false);
 try{
 	$transaction = new AccountTransaction();
 	$transaction->description = ClientData::post('description');
-	$transaction->user = $user->__toString();
+	$transaction->user = $_SESSION['login'];
 	$from = new AccountTransactionContent();
 	$from->amount = -1*ClientData::post('amount');
 	$from->account_id = ClientData::post('from_account_id');

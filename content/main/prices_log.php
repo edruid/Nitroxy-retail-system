@@ -21,7 +21,7 @@ $prices = ProductLog::selection();
 				<td class="numeric"><?=$price->old_price?> kr</td>
 				<td class="numeric"><?=$price->new_price?> kr</td>
 				<td><?=$price->changed_at?></td>
-				<td><?=$price->user?></td>
+				<td><?=$price->User?></td>
 			</tr>
 		<? endforeach ?>
 	</tbody>
