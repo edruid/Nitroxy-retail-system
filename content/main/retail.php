@@ -17,6 +17,7 @@ function get_rand() {
 <script type="text/javascript">
 <!--
 var products;
+var last_empty;
 
 /**
  * Takes a keyPressed event in recieved amount and deciedes what
@@ -28,7 +29,11 @@ function keyHook(e) {
 	var keynum;
 	var keychar;
 	var finish_transaction=false;
+	var last_empty = new Date();
 
+	if(recieved.value == ''){
+		last_empty = new Date();
+	}
 	if(window.event) { // IE
 		keynum = e.keyCode;
 	} else if(e.which) { // Netscape/Firefox/Opera
@@ -37,9 +42,12 @@ function keyHook(e) {
 	keychar = String.fromCharCode(keynum);
 
 	if(fix_comma(e, recieved_elem)) {
-		setTimeout("update_change()",5);
+		setTimeout(update_change,5);
 		return false;
 	} else if(keynum==13) { // return/enter
+		if(new Date().getTime() < last_empty.getTime() + 0.05) {
+			return false;
+		}
 		return finish(sum, recieved_elem.value, change_elem.innerHTML);
 	}
 	var numcheck = /\d/;
