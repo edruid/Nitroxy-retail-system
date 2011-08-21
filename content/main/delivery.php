@@ -246,6 +246,15 @@ function update_sum() {
 								value="<?=$old_values['sales_price'][$i]?>" /></td>
 						<td>
 							<select class="category" name="category[]" >
+								<option
+									value=""
+									disabled="disabled"
+									<? if(!$old_values || $old_values['category'][$i] == ''): ?>
+										selected="selected"
+									<? endif ?>
+								>
+									Välj kategori
+								</option>
 								<? foreach($categories as $category): ?>
 									<option value="<?=$category->id?>"
 											<?=$old_values['category'][$i]==$category->id?'selected="selected"':''?>>
@@ -270,6 +279,9 @@ function update_sum() {
 				<td><input type="text" class="sales_price" name="sales_price[]" /></td>
 				<td>
 					<select class="category" name="category[]" >
+						<option value="" disabled="disabled" selected="selected">
+							Välj kategori
+						</option>
 						<? foreach($categories as $category): ?>
 							<option value="<?=$category->id?>">
 								<?=$category->name?>
