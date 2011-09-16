@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.1.41, for debian-linux-gnu (i486)
+-- MySQL dump 10.13  Distrib 5.1.41, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: nitroxy_retail
 -- ------------------------------------------------------
@@ -84,6 +84,21 @@ CREATE TABLE `categories` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `count_diffs`
+--
+
+DROP TABLE IF EXISTS `count_diffs`;
+/*!50001 DROP VIEW IF EXISTS `count_diffs`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `count_diffs` (
+  `end` timestamp,
+  `start` timestamp,
+  `amount` decimal(10,2)
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `daily_count`
@@ -235,6 +250,46 @@ CREATE TABLE `transactions` (
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `user_id` int(10) unsigned NOT NULL,
+  `first_name` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
+  `surname` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
+  `username` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping routines for database 'nitroxy_retail'
+--
+
+--
+-- Final view structure for view `count_diffs`
+--
+
+/*!50001 DROP TABLE IF EXISTS `count_diffs`*/;
+/*!50001 DROP VIEW IF EXISTS `count_diffs`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `count_diffs` AS select `d1`.`time` AS `end`,(select max(`d2`.`time`) AS `max(time)` from `daily_count` `d2` where (`d2`.`time` < `d1`.`time`)) AS `start`,`at`.`amount` AS `amount` from ((`daily_count` `d1` join `account_transaction_contents` `at` on((`d1`.`account_transaction_id` = `at`.`account_transaction_id`))) join `account` on((`at`.`account_id` = `account`.`account_id`))) where (`account`.`code_name` = 'diff') */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -245,4 +300,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-07-05 19:26:51
+-- Dump completed on 2011-09-16  7:59:15
