@@ -31,7 +31,7 @@ function keyHook(e) {
 	var finish_transaction=false;
 	var last_empty = new Date();
 
-	if(recieved.value == ''){
+	if(recieved_elem.value == ''){
 		last_empty = new Date();
 	}
 	if(window.event) { // IE
