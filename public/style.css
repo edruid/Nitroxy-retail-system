@@ -175,6 +175,10 @@ div {
 }
 
 /** Special **/
+.sales_price, .count, .purchase_price {
+	width: 6em;
+}
+
 #product_list_container {
 	background-color: #eee;
 	height: 30ex;
