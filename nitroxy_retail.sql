@@ -46,9 +46,11 @@ DROP TABLE IF EXISTS `account_transaction`;
 CREATE TABLE `account_transaction` (
   `account_transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` text COLLATE utf8_swedish_ci,
-  `user` varchar(100) COLLATE utf8_swedish_ci DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`account_transaction_id`)
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`account_transaction_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `account_transaction_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,9 +113,10 @@ CREATE TABLE `daily_count` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `amount` decimal(10,2) NOT NULL,
   `account_transaction_id` int(10) unsigned DEFAULT NULL,
-  `user` varchar(100) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`time`),
-  KEY `account_transaction_id` (`account_transaction_id`)
+  KEY `account_transaction_id` (`account_transaction_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -128,8 +131,10 @@ CREATE TABLE `deliveries` (
   `delivery_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` text COLLATE utf8_swedish_ci NOT NULL,
-  `user` varchar(100) COLLATE utf8_swedish_ci DEFAULT '',
-  PRIMARY KEY (`delivery_id`)
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`delivery_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `deliveries_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,9 +170,11 @@ CREATE TABLE `product_log` (
   `old_price` decimal(10,2) NOT NULL,
   `new_price` decimal(10,2) NOT NULL,
   `changed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user` text COLLATE utf8_swedish_ci,
+  `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`product_log_id`),
   KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `product_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `product_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -300,4 +307,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-16  7:59:15
+-- Dump completed on 2011-10-01 14:31:50
