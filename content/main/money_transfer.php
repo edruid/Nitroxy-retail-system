@@ -34,7 +34,7 @@ $accounts = Account::selection(array('@order' => 'name'));
 		</tr>
 		<tr>
 			<th>Summa</th>
-			<td><input type="text" name="amount" /></td>
+			<td><input type="text" name="amount" onkeypress="fix_comma(event, this);" /></td>
 		</tr>
 		<tr>
 			<td colspan="2"><input type="submit" value="Bokför" /></td>

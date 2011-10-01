@@ -23,6 +23,7 @@ if(!file_exists($main)) {
 		<link type="text/css" rel="stylesheet" href="<?=absolute_path('style.css'); ?>" />
 		<script type="text/javascript" src="<?=absolute_path('js/dom.js')?>"></script>
 		<script type="text/javascript" src="/js/sort.js"></script>
+		<script type="text/javascript" src="/js/utils.js"></script>
 		<script type="text/javascript">
 		<!--
 		function set_initial_focus() {

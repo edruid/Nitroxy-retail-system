@@ -173,6 +173,7 @@ function update_sum() {
 				<td>
 					<input type="text"
 						name="amount[]"
+						onkeyress="fix_comma(event, this);"
 						value="<?=$old_values?$old_values['amount'][0]:''?>"
 						style="width: 3em;" />
 				</td>
@@ -213,6 +214,7 @@ function update_sum() {
 			name="multiplyer"
 			id="multiplyer"
 			onchange="update_sum();"
+			onkeyress="fix_comma(event, this);"
 			<? if($old_values): ?>
 				value="<?=$old_values['multiplyer']?>"
 			<? else: ?>
@@ -246,9 +248,15 @@ function update_sum() {
 								value="<?=$old_values['ean'][$i]?>" /></td>
 						<td><input type="text" class="name" name="name[]"
 								value="<?=$old_values['name'][$i]?>" /></td>
-						<td><input type="text" class="sales_price"
+						<td>
+							<input
+								type="text"
+								class="sales_price"
 								name="sales_price[]"
-								value="<?=$old_values['sales_price'][$i]?>" /></td>
+								onkeypress="fix_comma(event, this)"
+								value="<?=$old_values['sales_price'][$i]?>"
+							/>
+						</td>
 						<td>
 							<select class="category" name="category[]" >
 								<option
@@ -271,9 +279,16 @@ function update_sum() {
 						<td><input type="text" class="count" name="count[]"
 								onblur="update_sum();"
 								value="<?=$old_values['count'][$i]?>" /></td>
-						<td><input type="text" class="purchase_price"
-								name="purchase_price[]" onblur="update_sum();"
-								value="<?=$old_values['purchase_price'][$i]?>" /></td>
+						<td>
+							<input
+								type="text"
+								class="purchase_price"
+								name="purchase_price[]"
+								onblur="update_sum();"
+								onkeypress="fix_comma(event, this)"
+								value="<?=$old_values['purchase_price'][$i]?>"
+							/>
+						</td>
 						<td class="row-sum number">
 							<?=
 								$old_values['purchase_price'][$i] * $old_values['multiplyer'] *
@@ -287,7 +302,14 @@ function update_sum() {
 				<td><input type="text" class="ean" name="ean[]" onblur="addLine()"
 						onkeypress="return updateInfo(event, this)" /></td>
 				<td><input type="text" class="name" name="name[]" /></td>
-				<td><input type="text" class="sales_price" name="sales_price[]" /></td>
+				<td>
+					<input
+						type="text"
+						class="sales_price"
+						name="sales_price[]"
+						onkeypress="fix_comma(event, this)"
+					/>
+				</td>
 				<td>
 					<select class="category" name="category[]" >
 						<option value="" disabled="disabled" selected="selected">
@@ -302,8 +324,15 @@ function update_sum() {
 				</td>
 				<td><input type="text" class="count" name="count[]"
 						onblur="update_sum();" /></td>
-				<td><input type="text" class="purchase_price"
-						name="purchase_price[]" onblur="update_sum();" /></td>
+				<td>
+					<input
+						type="text"
+						class="purchase_price"
+						name="purchase_price[]"
+						onblur="update_sum();"
+						onkeypress="fix_comma(event, this)"
+					/>
+				</td>
 				<td class="row-sum number"></td>
 			</tr>
 			<tr id="template" style="display: none;">
@@ -311,7 +340,14 @@ function update_sum() {
 						onblur="addLine()"
 						onkeypress="return updateInfo(event, this)" /></td>
 				<td><input type="text" class="name" name="name[]" /></td>
-				<td><input type="text" class="sales_price" name="sales_price[]" /></td>
+				<td>
+					<input
+						type="text"
+						class="sales_price"
+						onkeypress="fix_comma(event, this)"
+						name="sales_price[]"
+					/>
+				</td>
 				<td>
 					<select class="category" name="category[]" >
 						<option value="" disabled="disabled" selected="selected">
