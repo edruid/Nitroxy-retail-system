@@ -15,7 +15,14 @@ class DailyCount extends BasicObject {
 			'@order' => 'time:desc',
 			'@limit' => 1,
 		));
-		return array_shift($ret);
+		$ret = array_shift($ret);
+		if($ret == null) {
+			// Create dummy count
+			$ret = new DailyCount();
+			$ret->time = '000-00-00';
+			$ret->amount = 0;
+		}
+		return $ret;
 	}
 
 	public function __toString() {

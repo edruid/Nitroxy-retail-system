@@ -75,7 +75,7 @@ $daily_count = new DailyCount();
 $daily_count->time = $time;
 $daily_count->amount = ClientData::post('till');
 $daily_count->account_transaction_id = $transaction->id;
-$daily_count->user = $_SESSION['login'];
+$daily_count->user_id = $_SESSION['login'];
 $daily_count->commit();
 
 $db->commit();
