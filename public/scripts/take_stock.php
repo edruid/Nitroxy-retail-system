@@ -1,8 +1,6 @@
 <?php
 require "../../includes.php";
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url()));
-}
+verify_login(kickback_url('take_stock'));
 $db->autoCommit(false);
 $products = ClientData::post('product_id');
 $counts = ClientData::post('product_count');

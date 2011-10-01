@@ -1,8 +1,6 @@
 <?php
 require_once "../../includes.php";
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.kickback_url('daily_count'));
-}
+verify_login(kickback_url('daily_count'));
 $time = date('Y-m-d H:i:s');
 $daily_count = DailyCount::last();
 if(isset($_SESSION['last_request']) && $_SESSION['last_request'] == ClientData::post('random')) {

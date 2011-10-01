@@ -1,9 +1,6 @@
 <?php
 require "../../includes.php";
-if(empty($_SESSION['login'])) {
-	$_SESSION['_POST'] = $_POST;
-	kick('login?kickback='.htmlspecialchars(kickback_url('delivery')));
-}
+verify_login(kickback_url('delivery'));
 $user = new User($_SESSION['login']);
 
 $ean = ClientData::post('ean');

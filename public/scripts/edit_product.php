@@ -1,8 +1,6 @@
 <?php
 require "../../includes.php";
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url("edit_product/".ClientData::post('product'))));
-}
+verify_login(kickback_url("edit_product/".ClientData::post('product')));
 $product = Product::from_id(ClientData::post('product'));
 $fields = array(
 	'name',

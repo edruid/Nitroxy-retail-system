@@ -1,8 +1,6 @@
 <?php
 require "../../includes.php";
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url()));
-}
+verify_login(kickback_url('money_transfer'));
 $db->autocommit(false);
 try{
 	$transaction = new AccountTransaction();
