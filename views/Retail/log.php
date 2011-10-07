@@ -2,13 +2,13 @@
 <div>
 <? if($page > 0): ?>
 	<a href="/Retail/log">&lt;&lt;&lt;</a>
-	<a href="Retail/log/<?=$page-1?>">föregående</a>
+	<a href="/Retail/log/<?=$page-1?>">föregående</a>
 <? else: ?>
 	&lt;&lt;&lt;
 	föregående
 <? endif ?>
 <? if($page < $last_page): ?>
-	<a href="/Retail/log/<?=$curr_page+1?>">nästa</a>
+	<a href="/Retail/log/<?=$page+1?>">nästa</a>
 	<a href="/Retail/log/<?=$last_page?>">&gt;&gt;&gt;</a>
 <? else: ?>
 	nästa
@@ -20,7 +20,7 @@
 		<tbody>
 			<tr>
 				<th colspan="2"><?=$transaction->timestamp?></th>
-				<th><?=$transaction->amount?> kr</th>
+				<th class="numeric"><?=$transaction->amount?> kr</th>
 			</tr>
 			<? foreach($transaction->TransactionContent() as $content): ?>
 				<tr>
@@ -29,8 +29,8 @@
 							<?=$content->Product?>
 						</a>
 					</td>
-					<td><?=$content->count?> st</td>
-					<td><?=$content->amount?> kr</td>
+					<td class="numeric"><?=$content->count?> st</td>
+					<td class="numeric"><?=$content->amount?> kr</td>
 				</tr>
 			<? endforeach ?>
 		</tbody>
@@ -39,13 +39,13 @@
 <div>
 <? if($page > 0): ?>
 	<a href="/Retail/log">&lt;&lt;&lt;</a>
-	<a href="Retail/log/<?=$page-1?>">föregående</a>
+	<a href="/Retail/log/<?=$page-1?>">föregående</a>
 <? else: ?>
 	&lt;&lt;&lt;
 	föregående
 <? endif ?>
 <? if($page < $last_page): ?>
-	<a href="/Retail/log/<?=$curr_page+1?>">nästa</a>
+	<a href="/Retail/log/<?=$page+1?>">nästa</a>
 	<a href="/Retail/log/<?=$last_page?>">&gt;&gt;&gt;</a>
 <? else: ?>
 	nästa

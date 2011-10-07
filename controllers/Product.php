@@ -5,7 +5,41 @@ class ProductC extends Controller {
 	public function modify($params) {
 		$this->_access_type('script');
 		verify_login(kickback_url());
-		global $db;
+		$product = Product::from_id(ClientData::post('product'));
+		if(!$product) {
+			Message::add_error('Produkten finns inte');
+			kick('/Product/index');
+		}
+		$fields = array(
+			'name',
+			'active',
+			'price',
+			'value',
+			'ean',
+			'category_id',
+			'inventory_threshold',
+		);
+		foreach($fields as $field) {
+			$product->$field = ClientData::post($field);
+		}
+		$product->commit();
+		Message::add_error("Produkten har blivit uppdaterad");
+		kick("/Product/view/{$product->id}");
+	}
+
+	public function edit($params) {
+		$this->_access_type('html');
+		verify_login(kickback_url());
+		$this->product = Product::from_id(array_shift($params));
+		if(!$this->product) {
+			self::_partial('Static/not_found');
+			return;
+		}
+		$this->categories = Category::selection();
+		$this->packages = ProductPackage::selection(array(
+			'package' => $this->product->id,
+		));
+		self::_partial('Layout/html', $this);
 	}
 
 	public function price_list($params) {

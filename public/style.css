@@ -50,7 +50,7 @@ table.body_border tbody tr th:first-child {
 	border-left: 1px solid black;
 }
 
-td.numeric {
+.numeric {
 	text-align: right;
 }
 

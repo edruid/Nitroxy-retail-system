@@ -1,17 +1,4 @@
-<?php
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url()));
-}
-$product = Product::from_id(array_shift($request));
-if(!$product) {
-	die('unknown product');
-}
-$categories = Category::selection();
-$packages = ProductPackage::selection(array(
-	'package' => $product->id,
-));
-?>
-<form action="/scripts/edit_product.php" method="post">
+<form action="/Product/modify/<?=$product->id?>" method="post">
 	<table>
 		<tr>
 			<th>Namn<input type="hidden" name="product" value="<?=$product->id?>" /></th>
