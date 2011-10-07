@@ -306,6 +306,9 @@ abstract class BasicObject {
 			}
 		}
 		$stmt = $db->prepare($query);
+		if($stmt == false) {
+			throw new Exception("Internal error, failed to execute query:\n<pre>$query\n".$db->error.'</pre>');
+		}
 		call_user_func_array(array($stmt, 'bind_param'), $params);
 		if(!$stmt->execute()) {
 			throw new Exception("Internal error, failed to execute query:\n<pre>$query\n".$stmt->error.'</pre>');
