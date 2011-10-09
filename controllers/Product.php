@@ -95,5 +95,63 @@ class ProductC extends Controller {
 		$this->stock_value = Product::sum(array('value', '*', 'count'));
 		self::_partial('Layout/html', $this);
 	}
-		
+	
+	public function take_stock($params) {
+		$this->_access_type('html');
+		verify_login(kickback_url());
+		$this->products = Product::selection(array(
+			'category_id:!=' => 0,
+			'@order' => 'product_id',
+		));
+		$this->_register_global('js', array(
+			'purchase.js',
+			'suggest.js',
+			'take_stock.js',
+		));
+		self::_partial('Layout/html', $this);
+	}
+
+	public function taken_stock($params) {
+		$this->_access_type('script');
+		verify_login(kickback_url());
+		global $db;
+		$db->autocommit(false);
+		$products = ClientData::post('product_id');
+		$counts = ClientData::post('product_count');
+		$money_diff = 0;
+		$delivery = new Delivery();
+		$delivery->description = "Inventering";
+		$delivery->user_id = $_SESSION['login'];
+		$delivery->commit();
+		foreach($products as $i => $product_id) {
+			// Create purchase
+			$product = Product::from_id($product_id);
+			$diff = $counts[$i] - $product->count;
+			if($diff != 0) {
+				$money_diff += $diff * $product->value;
+				$product->count = $counts[$i];
+				$product->commit();
+				$contents = new DeliveryContent();
+				$contents->cost = 0;
+				$contents->delivery_id = $delivery->id;
+				$contents->product_id = $product->id;
+				$contents->count = $diff;
+				$contents->commit();
+			}
+		}
+		if($money_diff != 0) {
+			$from_account = Account::from_code_name('stock_diff');
+			$to_account = Account::from_code_name('stock');
+			$transaction = new AccountTransaction();
+			$transaction->description="inventering: {$delivery->id}";
+			$transaction->user_id = $_SESSION['login'];
+			$transaction->commit();
+			$transaction->add_contents(array(
+				'stock_diff' => $money_diff,
+				'stock'      => -$money_diff,
+			));
+		}
+		$db->commit();
+		kick("/Delivery/view/{$delivery->id}");
+	}
 }
