@@ -71,7 +71,7 @@
 					</ul>
 				</li>
 				<li>
-					<form action="Session/logout" method="post">
+					<form action="/Session/logout" method="post">
 						<div>
 							<input type="submit" value="Logga ut" />
 						</div>

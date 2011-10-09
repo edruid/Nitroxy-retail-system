@@ -33,4 +33,10 @@ class SessionC extends Controller {
 		$_SESSION['login'] = $user->id;
 		kick(ClientData::post('kickback'));
 	}
+
+	public function logout($params) {
+		$this->_access_type('script');
+		unset($_SESSION['login']);
+		kick($_SERVER['HTTP_REFERER']);
+	}
 }
