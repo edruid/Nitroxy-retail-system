@@ -40,14 +40,6 @@ REPLACE INTO account set
 	description = 'Pengar lånade av privatperson t ex för inköp',
 	account_type = 'balance';
 REPLACE INTO account set
-	account_id = 6,
-	name = 'Not used',
-	code_name = 'fordran',
-	default_sign = 'debit',
-	warn_on_non_default = false,
-	description = 'Pengar utlånade till privatperson som förskott',
-	account_type = 'balance';
-REPLACE INTO account set
 	account_id = 7,
 	name = 'Lager',
 	code_name = 'stock',
