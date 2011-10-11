@@ -26,22 +26,19 @@
 		</script>
 	</head>
 	<body>
-		<? foreach(Message::get_errors() as $error): ?>
-			<p class="error"><?=$error?></p>
-		<? endforeach ?>
 		<ul class="menu">
 			<li><a href="/Retail">Handla</a></li>
 			<li><a href="/Product/price_list">Prislista</a></li>
-			<? if(!empty($_SESSION['login'])): ?>
+			<?php if(!empty($_SESSION['login'])): ?>
 				<li class="dir">
 					<a href="/Product/stock">Lager</a>
 					<ul>
 						<li class="dir">
 							<a href="/Category">Kategorier</a>
 							<ul>
-								<? foreach(Category::selection() as $category): ?>
+								<?php foreach(Category::selection() as $category): ?>
 									<li><a href="/Category/view/<?=$category->id?>"><?=$category?></a></li>
-								<? endforeach ?>
+								<?php endforeach ?>
 							</ul>
 						</li>
 						<li><a href="/Delivery/create">Ny leverans</a></li>
@@ -55,13 +52,13 @@
 						<li class="dir">
 							<a href="/Account">Konton</a>
 							<ul>
-								<? foreach(Account::selection() as $account): ?>
+								<?php foreach(Account::selection() as $account): ?>
 									<li title="<?=$account->description?>">
 										<a href="/Account/view/<?=$account->code_name?>">
 											<?=$account?>
 										</a>
 									</li>
-								<? endforeach ?>
+								<?php endforeach ?>
 							</ul>
 						</li>
 						<li><a href="/DailyCount">Dagsavslut</a></li>
@@ -77,12 +74,23 @@
 						</div>
 					</form>
 				</li>
-			<? else: ?>
-				<li><a href="/Session/login?kickback=<?=htmlspecialchars(kickback_url())?>">Logga in</a></li>
-			<? endif ?>
+			<?php else: ?>
+				<li>
+					<a href="/Session/login?kickback=<?=htmlspecialchars(kickback_url())?>">
+						Logga in
+					</a>
+				</li>
+			<?php endif ?>
 		</ul>
-		</div>
-		<? $this->_partial($content) ?>
+		<?php foreach(Message::get_errors() as $error): ?>
+			<p class="error"><?=$error?></p>
+		<?php endforeach ?>
+		<?php foreach(Message::get_warnings() as $warning): ?>
+			<p class="warning"><?=$warning?></p>
+		<?php endforeach ?>
+		<?php foreach(Message::get_notices() as $notice): ?>
+			<p class="notice"><?=$notice?></p>
+		<?php endforeach ?>
+		<?php $this->_partial($content) ?>
 	</body>
 </html>
-

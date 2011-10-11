@@ -85,6 +85,22 @@ p.error {
 	margin: 0.7ex 0em;
 }
 
+p.warning {
+	background-color: yellow;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0.3ex 0.3em;
+	margin: 0.7ex 0em;
+}
+
+p.notice {
+	background-color: green;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0.3ex 0.3em;
+	margin: 0.7ex 0em;
+}
+
 .box_finisher {
 	clear: both;
 }

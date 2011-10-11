@@ -23,7 +23,7 @@ class ProductC extends Controller {
 			$product->$field = ClientData::post($field);
 		}
 		$product->commit();
-		Message::add_error("Produkten har blivit uppdaterad");
+		Message::add_notice("Produkten har blivit uppdaterad");
 		kick("/Product/view/{$product->id}");
 	}
 

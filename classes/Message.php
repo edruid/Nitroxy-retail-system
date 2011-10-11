@@ -20,6 +20,14 @@ class Message {
 		return self::get('error');
 	}
 
+	public static function get_warnings() {
+		return self::get('warning');
+	}
+
+	public static function get_notices() {
+		return self::get('notice');
+	}
+
 	private static function get($type) {
 		$ret = ClientData::session("messages_".strtolower($type));
 		unset($_SESSION["messages_".strtolower($type)]);

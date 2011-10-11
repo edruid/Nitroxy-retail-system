@@ -24,6 +24,7 @@ class TransactionC extends Controller {
 		} catch(Exception $e) {
 			die("Nånting gick fel:<pre>{$e->getMessage()}</pre>");
 		}
+		Message::add_notice("Transaktionen är nu bokförd");
 		kick("/Transaction/view/{$transaction->id}");
 	}
 
