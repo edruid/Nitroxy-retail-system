@@ -42,6 +42,20 @@ class ProductC extends Controller {
 		self::_partial('Layout/html', $this);
 	}
 
+	public function log($params) {
+		$this->_access_type('html');
+		verify_login(kickback_url());
+		$search = array(
+			'@order' => array('Product.name', 'changed_at'),
+		);
+		$product_id = array_shift($params);
+		if(is_numeric($product_id)) {
+			$search['product_id'] = $product_id;
+		}
+		$this->prices = ProductLog::selection($search);
+		self::_partial('Layout/html', $this);
+	}
+
 	public function price_list($params) {
 		$this->_access_type('html');
 		$this->categories = Category::selection(array(

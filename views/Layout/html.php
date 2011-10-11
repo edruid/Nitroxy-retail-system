@@ -44,6 +44,7 @@
 						<li><a href="/Delivery/create">Ny leverans</a></li>
 						<li><a href="/Delivery/index">Leveranser</a></li>
 						<li><a href="/Product/take_stock">Inventering</a></li>
+						<li><a href="/Product/log">Prislogg</a></li>
 					</ul>
 				</li>
 				<li class="dir">

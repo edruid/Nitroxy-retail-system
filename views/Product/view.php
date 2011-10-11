@@ -22,6 +22,7 @@
 	<tr>
 		<th>Pris</th>
 		<td class="numeric"><?=number($product->price)?> kr</td>
+		<td><a href="/Product/log/<?=$product->id?>">log</a></td>
 	</tr>
 	<tr>
 		<th>Värde</th>
