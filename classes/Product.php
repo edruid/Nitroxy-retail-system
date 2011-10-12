@@ -30,7 +30,7 @@ class Product extends BasicObject {
 	public function __set($key, $value) {
 		switch($key) {
 			case 'price':
-				if($this->_exists && isset($this->_old_price)) {
+				if($this->_exists && !isset($this->_old_price)) {
 					$this->_old_price = $this->price;
 				}
 		}

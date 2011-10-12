@@ -17,5 +17,16 @@ class Account extends BasicObject {
 	public static function from_code_name($name) {
 		return parent::from_field('code_name', $name);
 	}
+
+	public function __get($key) {
+		switch($key) {
+			case 'balance':
+				return AccountTransactionContent::sum('amount', array(
+					'account_id' => $this->id
+				));
+			default:
+				return parent::__get($key);
+		}
+	}
 }
 ?>

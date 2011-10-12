@@ -50,7 +50,7 @@ table.body_border tbody tr th:first-child {
 	border-left: 1px solid black;
 }
 
-td.numeric {
+.numeric {
 	text-align: right;
 }
 
@@ -79,6 +79,22 @@ img {
 
 p.error {
 	background-color: red;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0.3ex 0.3em;
+	margin: 0.7ex 0em;
+}
+
+p.warning {
+	background-color: yellow;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0.3ex 0.3em;
+	margin: 0.7ex 0em;
+}
+
+p.notice {
+	background-color: green;
 	font-weight: bold;
 	border: 1px solid black;
 	padding: 0.3ex 0.3em;

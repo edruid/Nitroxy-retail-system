@@ -1,7 +1,4 @@
 <?php
-if(!defined('HTML_ACCESS')) {
-	define('HTML_ACCESS', false);
-}
 // Get settings
 require_once "settings.php";
 

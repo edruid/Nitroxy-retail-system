@@ -26,8 +26,16 @@ function absolute_path($path,$called_from_notindex=false) {
 	return $absolute_path;
 }
 
-function kickback_url($request = false) {
-	return "http".(isset($_SERVER['HTTPS'])?'s':'')."://{$_SERVER['HTTP_HOST']}".($request?'/'.$request:$_SERVER['REQUEST_URI']);
+function kickback_url($request = null) {
+	if($request == null) {
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+			return $_SERVER['HTTP_REFERER'];
+		}
+		$request = $_SERVER['REQUEST_URI'];
+	}
+	if($request[0] == '/') $request = substr($request, 1);
+	$http = (isset($_SERVER['HTTPS'])?'https':'http');
+	return "$http://{$_SERVER['HTTP_HOST']}/$request";
 }
 
 function kick($path) {

@@ -1,5 +1,6 @@
 <?php
 require "../../includes.php";
+define('HTML_ACCESS', false);
 $result = array(&$count, &$date, &$product_id);
 $stmt = $db->prepare_full("
 	SELECT

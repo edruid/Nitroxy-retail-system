@@ -157,19 +157,22 @@ Products.prototype = {
 		for(var i in this.basket) {
 			if(this.basket[i]!=NaN) {
 				var product = this.products[i];
-				var namn=document.createElement('li');
-				namn.innerHTML=product.name+" [art "+i+"]"+
-					"<div class=\"product_price\">"+
-					this.basket[i]+" st * "+product.price+" kr = "+this.basket[i]*product.price+" kr"+
-					"</div>"+
-					'<input type="hidden" name="product_id[]" value="'+i+'"/>'+
-					'<input type="hidden" name="product_price[]" value="'+product.price+'"/>'+
-					'<input type="hidden" name="product_count[]" value="'+this.basket[i]+'" />';
-				this.productList.appendChild(namn);
-
-
+				var item = this.diplayProductListItem(product, this.basket[i]);
+				this.productList.appendChild(item);
 			}
 		}
+	},
+
+	diplayProductListItem: function(product, count) {
+		var item=document.createElement('li');
+		item.innerHTML=product.name+" [art "+product.id+"]"+
+			"<div class=\"product_price\">"+
+			count+" st * "+product.price+" kr = "+count*product.price+" kr"+
+			"</div>"+
+			'<input type="hidden" name="product_id[]" value="'+product.id+'"/>'+
+			'<input type="hidden" name="product_price[]" value="'+product.price+'"/>'+
+			'<input type="hidden" name="product_count[]" value="'+count+'" />';
+		return item;
 	},
 
 	_getElement: function(element) {
