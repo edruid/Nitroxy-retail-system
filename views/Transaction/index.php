@@ -1,8 +1,4 @@
-<?php
-if(empty($_SESSION['login'])) {
-	kick('login?kickback='.htmlspecialchars(kickback_url()));
-}
-?>
+<?php self::_partial('Helper/pager', array('/Transaction/index/%d', $page, $last_page)) ?>
 <table class="alternate-body">
 	<thead>
 		<tr>
@@ -40,9 +36,4 @@ if(empty($_SESSION['login'])) {
 		</tbody>
 	<? endforeach ?>
 </table>
-<p>
-	<? if($page > 0): ?>
-		<a href="/Transaction/index/<?=$page-1?>">&lt; Senare</a>
-	<? endif ?>
-	<a href="/Transaction/index/<?=$page+1?>">Tidigare &gt;</a>
-</p>
+<?php self::_partial('Helper/pager', array('/Transaction/index/%d', $page, $last_page)) ?>

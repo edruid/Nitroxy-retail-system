@@ -103,7 +103,12 @@ class DeliveryC extends Controller {
 
 	public function index($params) {
 		$this->_access_type('html');
-		$this->deliveries = Delivery::selection(array('@order' => 'timestamp:desc'));
+		$this->page = array_shift($params);
+		$this->deliveries = Delivery::selection(array(
+			'@order' => 'timestamp:desc',
+			'@limit' => array($this->page * 50, 50),
+		));
+		$this->last_page = ceil(Delivery::count()/50)-1;
 		self::_partial('Layout/html', $this);
 	}
 

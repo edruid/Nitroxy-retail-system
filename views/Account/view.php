@@ -1,3 +1,6 @@
+<?php self::_partial('Helper/pager', array(
+	"/Account/view/{$account->code_name}/%d", $page, $last_page
+)) ?>
 <table>
 	<tr>
 		<th>Konto</th>
@@ -5,7 +8,7 @@
 	</tr>
 	<tr>
 		<th>Saldo</td>
-		<td><?=$balance?></td>
+		<td class="numeric"><?=$balance?> kr</td>
 	</tr>
 </table>
 <p><?=$account->description?></p>
@@ -20,9 +23,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? 
-			foreach($contents as $content):
-		?>
+		<?php foreach($contents as $content): ?>
 			<tr>
 				<td>
 					<a href="/Transaction/view/<?=$content->account_transaction_id?>">
@@ -36,3 +37,6 @@
 		<? endforeach ?>
 	</tbody>
 </table>
+<?php self::_partial('Helper/pager', array(
+	"/Account/view/{$account->code_name}/%d", $page, $last_page
+)) ?>

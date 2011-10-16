@@ -1,3 +1,4 @@
+<?php self::_partial('Helper/pager', array('/Delivery/index/%d', $page, $last_page)) ?>
 <h1>Leveranser</h1>
 <table class="alternate">
 	<thead>
@@ -19,3 +20,4 @@
 		<? endforeach ?>
 	</tbody>
 </table>
+<?php self::_partial('Helper/pager', array('/Delivery/index/%d', $page, $last_page)) ?>

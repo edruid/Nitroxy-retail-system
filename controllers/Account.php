@@ -27,6 +27,9 @@ class AccountC extends Controller {
 			'@order' => 'AccountTransaction.timestamp:desc',
 			'@limit' => array($this->page*30, $this->page*30+30),
 		));
+		$this->last_page=ceil(AccountTransactionContent::count(array(
+			'account_id' => $this->account->id
+		))/30)-1;
 		self::_partial('Layout/html', $this);
 	}
 

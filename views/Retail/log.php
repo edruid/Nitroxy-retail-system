@@ -1,20 +1,5 @@
 <h1>Transaktionslogg</h1>
-<div>
-<? if($page > 0): ?>
-	<a href="/Retail/log">&lt;&lt;&lt;</a>
-	<a href="/Retail/log/<?=$page-1?>">föregående</a>
-<? else: ?>
-	&lt;&lt;&lt;
-	föregående
-<? endif ?>
-<? if($page < $last_page): ?>
-	<a href="/Retail/log/<?=$page+1?>">nästa</a>
-	<a href="/Retail/log/<?=$last_page?>">&gt;&gt;&gt;</a>
-<? else: ?>
-	nästa
-	&gt;&gt;&gt;
-<? endif ?>
-</div>
+<?php self::_partial('Helper/pager', array('/Retail/log/%d', $page, $last_page)) ?>
 <table class="body_border">
 	<? foreach($transactions as $transaction): ?>
 		<tbody>
@@ -36,19 +21,4 @@
 		</tbody>
 	<? endforeach ?>
 </table>
-<div>
-<? if($page > 0): ?>
-	<a href="/Retail/log">&lt;&lt;&lt;</a>
-	<a href="/Retail/log/<?=$page-1?>">föregående</a>
-<? else: ?>
-	&lt;&lt;&lt;
-	föregående
-<? endif ?>
-<? if($page < $last_page): ?>
-	<a href="/Retail/log/<?=$page+1?>">nästa</a>
-	<a href="/Retail/log/<?=$last_page?>">&gt;&gt;&gt;</a>
-<? else: ?>
-	nästa
-	&gt;&gt;&gt;
-<? endif ?>
-</div>
+<?php self::_partial('Helper/pager', array('/Retail/log/%d', $page, $last_page)) ?>
