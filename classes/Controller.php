@@ -111,11 +111,6 @@ class Controller {
 	}
 
 	public static function _partial($path, $data = array()) {
-		static $paths = array();
-		if(isset($paths[$path])) {
-			die("$path was repeated");
-		}
-		$paths[$path] = true;
 		self::_stack($path, $data, 'display')->_display();
 	}
 
