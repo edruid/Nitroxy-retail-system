@@ -87,7 +87,11 @@ class DeliveryC extends Controller {
 		}
 		$transactions['purchases'] = $balance_amount;
 
-		$transaction->add_contents($transactions);
+		try{
+			$transaction->add_contents($transactions);
+		} catch(Exception $e) {
+			$errors['Konton'] = $e->getMessage();
+		}
 
 		if(empty($errors) && $at_least_1_item) {
 			$db->commit();
