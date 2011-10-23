@@ -146,6 +146,9 @@ var products = new Array();
 				<th>Kategori</th>
 				<th>Antal</th>
 				<th>Inköpspris</th>
+				<th>Rad kostnad</th>
+				<th>a kostnad</th>
+				<th>Marginal</th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -154,106 +157,64 @@ var products = new Array();
 			</tr>
 		</tfoot>
 		<tbody id="delivery_products">
-			<? if($old_values): ?>
-				<? for($i=0; $i < count($old_values['ean'])-2; $i++): ?>
-					<tr>
-						<td><input type="text" class="ean" name="ean[]"
-								onblur="addLine()"
-								onkeypress="return updateInfo(event, this)"
-								value="<?=$old_values['ean'][$i]?>" /></td>
-						<td><input type="text" class="name" name="name[]"
-								value="<?=$old_values['name'][$i]?>" /></td>
-						<td>
-							<input
-								type="text"
-								class="sales_price"
-								name="sales_price[]"
-								onkeypress="fix_comma(event, this)"
-								value="<?=$old_values['sales_price'][$i]?>"
-							/>
-						</td>
-						<td>
-							<select class="category" name="category[]" >
-								<option
-									value=""
-									disabled="disabled"
-									<? if(!$old_values || $old_values['category'][$i] == ''): ?>
-										selected="selected"
-									<? endif ?>
-								>
-									Välj kategori
-								</option>
-								<? foreach($categories as $category): ?>
-									<option
-										value="<?=$category->id?>"
-										<?php if($old_values['category'][$i]==$category->id): ?>
-											selected="selected"
-										<?php endif ?>
-									>
-										<?=$category->name?>
-									</option>
-								<? endforeach ?>
-							</select>
-						</td>
-						<td><input type="text" class="count" name="count[]"
-								onblur="update_sum();"
-								value="<?=$old_values['count'][$i]?>" /></td>
-						<td>
-							<input
-								type="text"
-								class="purchase_price"
-								name="purchase_price[]"
-								onblur="update_sum();"
-								onkeypress="fix_comma(event, this)"
-								value="<?=$old_values['purchase_price'][$i]?>"
-							/>
-						</td>
-						<td class="row-sum number">
-							<?=
-								$old_values['purchase_price'][$i] * $old_values['multiplyer'] *
-								($old_values['price_per'] == 'each_product' ? $old_values['count'][$i] : 1)
-							?>
-						</td>
-					</tr>
-				<? endfor ?>
-			<? endif ?>
-			<tr>
-				<td><input type="text" class="ean" name="ean[]" onblur="addLine()"
-						onkeypress="return updateInfo(event, this)" /></td>
-				<td><input type="text" class="name" name="name[]" /></td>
-				<td>
-					<input
-						type="text"
-						class="sales_price"
-						name="sales_price[]"
-						onkeypress="fix_comma(event, this)"
-					/>
-				</td>
-				<td>
-					<select class="category" name="category[]" >
-						<option value="" disabled="disabled" selected="selected">
-							Välj kategori
-						</option>
-						<? foreach($categories as $category): ?>
-							<option value="<?=$category->id?>">
-								<?=$category->name?>
+			<?php foreach($values as $row): ?>
+				<tr>
+					<td><input type="text" class="ean" name="ean[]"
+							onblur="addLine()"
+							onkeypress="return updateInfo(event, this)"
+							value="<?=$row['ean']?>" /></td>
+					<td><input type="text" class="name" name="name[]"
+							value="<?=$row['name']?>" /></td>
+					<td>
+						<input
+							type="text"
+							class="sales_price"
+							name="sales_price[]"
+							onkeypress="fix_comma(event, this)"
+							value="<?=$row['sales_price']?>"
+						/>
+					</td>
+					<td>
+						<select class="category" name="category[]" >
+							<option
+								value=""
+								disabled="disabled"
+								<?php if($row['category'] == ''): ?>
+									selected="selected"
+								<?php endif ?>
+							>
+								Välj kategori
 							</option>
-						<? endforeach ?>
-					</select>
-				</td>
-				<td><input type="text" class="count" name="count[]"
-						onblur="update_sum();" /></td>
-				<td>
-					<input
-						type="text"
-						class="purchase_price"
-						name="purchase_price[]"
-						onblur="update_sum();"
-						onkeypress="fix_comma(event, this)"
-					/>
-				</td>
-				<td class="row-sum number"></td>
-			</tr>
+							<?php foreach($categories as $category): ?>
+								<option
+									value="<?=$category->id?>"
+									<?php if($row['category']==$category->id): ?>
+										selected="selected"
+									<?php endif ?>
+								>
+									<?=$category->name?>
+								</option>
+							<?php endforeach ?>
+						</select>
+					</td>
+					<td><input type="text" class="count" name="count[]"
+							onblur="update_sum();"
+							value="<?=$row['count']?>" /></td>
+					<td>
+						<input
+							type="text"
+							class="purchase_price"
+							name="purchase_price[]"
+							onblur="update_sum();"
+							onkeypress="fix_comma(event, this)"
+							value="<?=$row['purchase_price']?>"
+						/>
+					</td>
+					<td class="row-sum numeric"></td>
+					<td class="row-a numeric"></td>
+					<td class="row-margin numeric"></td>
+				</tr>
+			<?php endforeach ?>
 			<tr id="template" style="display: none;">
 				<td><input type="text" class="ean" name="ean[]"
 						onblur="addLine()"
@@ -281,7 +242,9 @@ var products = new Array();
 						onblur="update_sum();" /></td>
 				<td><input type="text" class="purchase_price"
 						name="purchase_price[]" onblur="update_sum();" /></td>
-				<td class="row-sum number"></td>
+				<td class="row-sum numeric"></td>
+				<td class="row-a numeric"></td>
+				<td class="row-margin numeric"></td>
 			</tr>
 		</tbody>
 	</table>

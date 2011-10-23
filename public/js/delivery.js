@@ -54,19 +54,28 @@ function update_sum() {
 	var table = document.getElementById('delivery_form');
 	var counts = table.getElementsByClassName('count');
 	var prices = table.getElementsByClassName('purchase_price');
+	var sales = table.getElementsByClassName('sales_price');
 	var row_sums = table.getElementsByClassName('row-sum');
+	var row_as = table.getElementsByClassName('row-a');
+	var row_margins = table.getElementsByClassName('row-margin');
 	var per_product = !(document.getElementById('product_type').checked);
 	var multiplyer = document.getElementById('multiplyer').value;
 	var sum = 0;
+	var row_sum = 0;
+	var row_a = 0;
 	for(var i=0; i< counts.length; ++i) {
 		if(per_product) {
 			row_sum = counts[i].value * prices[i].value * multiplyer;
-			
+			row_a = prices[i].value * multiplyer;
 		} else {
 			row_sum = prices[i].value * multiplyer;
+			row_a = prices[i].value / counts[i].value * multiplyer;
 		}
-		row_sums[i].innerHTML = row_sum;
+		row_sums[i].innerHTML = Math.round(row_sum*100)/100 + ' kr';
+		row_as[i].innerHTML = Math.round(row_a*100)/100 + ' kr';
+		var revenue = sales[i].value - row_a;
+		row_margins[i].innerHTML = Math.round(revenue / sales[i].value * 100)+' %';
 		sum += row_sum;
 	}
-	document.getElementById('sum').innerHTML = sum;
+	document.getElementById('sum').innerHTML = Math.round(sum*100)/100;
 }

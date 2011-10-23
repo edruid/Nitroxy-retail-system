@@ -132,6 +132,28 @@ class DeliveryC extends Controller {
 		));
 		$this->_register_global('js', array('delivery.js'));
 		$this->old_values = ClientData::session('_POST');
+		$values = array();
+		if($this->old_values) {
+			for($i=0; $i < count($this->old_values['ean'])-2; $i++) {
+				$values[] = array(
+					'ean'            => $this->old_values['ean'][$i],
+					'name'           => $this->old_values['name'][$i],
+					'sales_price'    => $this->old_values['sales_price'][$i],
+					'category'       => $this->old_values['category'][$i],
+					'count'          => $this->old_values['count'][$i],
+					'purchase_price' => $this->old_values['purchase_price'][$i],
+				);
+			}
+		}
+		$values[] = array(
+			'ean'            => '',
+			'name'           => '',
+			'sales_price'    => '',
+			'category'       => '',
+			'count'          => '',
+			'purchase_price' => '',
+		);
+		$this->values = $values;
 		unset($_SESSION['_POST']);
 		self::_partial('Layout/html', $this);
 	}
