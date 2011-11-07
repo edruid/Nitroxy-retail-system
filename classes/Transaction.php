@@ -27,14 +27,14 @@ class Transaction extends BasicObject {
 		if(!$product) {
 			throw new Exception("Produkten med id {$product_id} finns inte");
 		}
-		if($product->price != $price) {
+		if($product->price != $price && $product_id != 0) {
 			throw new Exception("{$product->name} har ändrat pris sen formuläret laddades. Försök igen! Gammalt pris: {$product->price} kr nytt pris {$product_prices[$i]}");
 		}
 		$product->sell($count);
 		$content = new TransactionContent();
 		$content->product_id = $product->id;
 		$content->count = $count;
-		$content->amount = $product->price * $count;
+		$content->amount = $price * $count;
 		$content->stock_usage = $count * $product->value;
 		$this->amount += $content->amount;
 		$this->contents[] = $content;

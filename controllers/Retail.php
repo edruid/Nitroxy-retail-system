@@ -53,13 +53,7 @@ class RetailC extends Controller {
 		}
 		$diff = abs(round($transaction->amount) - $transaction->amount);
 		if($diff != 0) {
-			$content = new TransactionContent();
-			$content->product_id = 0;
-			$content->count = 1;
-			$content->amount = $diff;
-			$content->transaction_id = $transaction->id;
-			$transaction->amount+=$diff;
-			$transaction->commit();
+			$transaction->add_content(0, $diff, 1);
 		}
 
 		if($transaction->amount > $recieved) {
