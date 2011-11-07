@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.1.58, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: nitroxy_retail
 -- ------------------------------------------------------
--- Server version	5.1.41-3ubuntu12.10
+-- Server version	5.1.58-1ubuntu1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -86,21 +86,6 @@ CREATE TABLE `categories` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `count_diffs`
---
-
-DROP TABLE IF EXISTS `count_diffs`;
-/*!50001 DROP VIEW IF EXISTS `count_diffs`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `count_diffs` (
-  `end` timestamp,
-  `start` timestamp,
-  `amount` decimal(10,2)
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `daily_count`
@@ -278,25 +263,63 @@ CREATE TABLE `users` (
 --
 -- Dumping routines for database 'nitroxy_retail'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `merge_products` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `merge_products`( IN _main int, IN _merge int )
+    MODIFIES SQL DATA
+BEGIN
+	DECLARE _value decimal(10,4);
+	DECLARE _count int;
+	DECLARE _inventory_threshold int;
+	
+	
+	INSERT INTO transaction_contents (transaction_id, product_id, count, amount, stock_usage)
+		(SELECT transaction_id, _main, count, amount, stock_usage FROM transaction_contents AS tc WHERE tc.product_id = _merge)
+		ON DUPLICATE KEY UPDATE
+			count = transaction_contents.count + tc.count,
+			stock_usage = transaction_contents.stock_usage + tc.stock_usage,
+			amount = transaction_contents.amount + tc.amount;
+	DELETE FROM transaction_contents WHERE product_id = _merge;
 
---
--- Final view structure for view `count_diffs`
---
+	
+	DELETE FROM product_log WHERE product_id = _merge;
+	
+	
+	INSERT INTO delivery_contents (delivery_id, product_id, count, cost)
+		(SELECT delivery_id, _main, count, cost FROM delivery_contents AS dc WHERE dc.product_id = _merge)
+		ON DUPLICATE KEY UPDATE
+			cost =  COALESCE((delivery_contents.cost * delivery_contents.count + dc.cost * dc.count) / (delivery_contents.count + dc.count), delivery_contents.cost),
+			count = delivery_contents.count + dc.count;
+	DELETE FROM delivery_contents WHERE product_id = _merge;
 
-/*!50001 DROP TABLE IF EXISTS `count_diffs`*/;
-/*!50001 DROP VIEW IF EXISTS `count_diffs`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `count_diffs` AS select `d1`.`time` AS `end`,(select max(`d2`.`time`) AS `max(time)` from `daily_count` `d2` where (`d2`.`time` < `d1`.`time`)) AS `start`,`at`.`amount` AS `amount` from ((`daily_count` `d1` join `account_transaction_contents` `at` on((`d1`.`account_transaction_id` = `at`.`account_transaction_id`))) join `account` on((`at`.`account_id` = `account`.`account_id`))) where (`account`.`code_name` = 'diff') */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
+	
+	UPDATE product_package SET product_id = _main WHERE product_id = _merge;
+	UPDATE product_package SET package = _main WHERE package = _merge;
+
+	
+	SELECT count, value, inventory_threshold INTO _count, _value, _inventory_threshold FROM products WHERE product_id = _merge;
+	UPDATE products SET
+		value = COALESCE((value * count + _count * _value) / (count + _count), value),
+		count = count + _count,
+		inventory_threshold = COALESCE(inventory_threshold, _inventory_threshold)
+		WHERE products.product_id = _main;
+	
+	
+	DELETE FROM products WHERE product_id = _merge;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -307,4 +330,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-01 14:31:50
+-- Dump completed on 2011-11-07  8:40:14
