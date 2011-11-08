@@ -43,13 +43,13 @@ class DailyCountC extends Controller {
 			kick("/Transaction/view/{$daily_count->account_transaction_id}");
 		}
 		if(!is_numeric(ClientData::post('till'))) {
-			Message::error('Vänligen kontrollera värdet i kassan, det var inte numeriskt');
+			Message::add_error('Vänligen kontrollera värdet i kassan, det var inte numeriskt');
 			kick('/DailyCount');
 		}
 
 		$_SESSION['last_request'] = ClientData::post('random');
-		if(strtotime($daily_count->time) + 120 > time()) {
-			Message::error('Det måste gå minst 2 minuter mellan två kassaslut.');
+		if(strtotime($daily_count->time) + 10 > time()) {
+			Message::add_error('Det måste gå minst 10 sekunder mellan två kassaslut.');
 			kick('/DailyCount');
 		}
 		$sales_amount = Transaction::sum('amount', array(
