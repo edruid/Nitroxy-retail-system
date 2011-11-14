@@ -1,5 +1,12 @@
 <?php
 class UserC extends Controller {
+	protected $_default_site = 'index';
+
+	public function __construct($site, $data = array()) {
+		parent::__construct($site, $data);
+		verify_login(kickback_url());
+	}
+
 	public function index($params) {
 		self::_access_type('html');
 		$this->users = User::selection(array(
