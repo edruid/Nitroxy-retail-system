@@ -23,6 +23,12 @@ class Controller {
 					!in_array(strpos($_SERVER['HTTP_REFERER'], "://{$_SERVER['HTTP_HOST']}"), array(4,5))) {
 				throw new Exception("Referer missmatch. Suspected CSRF attack. Referer is: {$_SERVER['HTTP_REFERER']} host is: {$_SERVER['HTTP_HOST']}");
 			}
+			$random = ClientData::post('random');
+			if($random && ClientData::session('random') == $random) {
+				throw new DoubleSubmitException('This form has already been posted.');
+			} elseif($random) {
+				ClientData::session_set('random', $random);
+			}
 		}
 	}
 
@@ -128,4 +134,5 @@ class Controller {
 		require "../views/{$this->_path}.php";
 	}
 }
+class DoubleSubmitException extends Exception {}
 ?>

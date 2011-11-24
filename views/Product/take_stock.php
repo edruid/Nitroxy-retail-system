@@ -48,6 +48,7 @@ window.addEventListener ?
 <h2>Inventering</h2>
 <form autocomplete="off" id="stock_taking_form" action="/Product/taken_stock" method="post">
 	<div style="float: left;">
+		<input type="hidden" name="random" value="<?=get_rand()?>" />
 		<div id="product_list_container">
 			<ul id="product_list">
 				<li style="display: none;"></li>

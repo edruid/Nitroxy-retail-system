@@ -15,6 +15,7 @@ var products = new Array();
 <form action="/Delivery/make" method="post"
 		onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
 	<div>
+		<input type="hidden" name="random" value="<?=get_rand()?>" />
 		<textarea rows="5" cols="50" name="description" id="initial_focus"><?=$old_values?
 				$old_values['description'] :
 				''?></textarea>
