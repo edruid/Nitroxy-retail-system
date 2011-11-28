@@ -40,10 +40,6 @@ class RetailC extends Controller {
 		$prices = ClientData::post("product_price");
 		$counts = ClientData::post("product_count");
 
-		if(isset($_SESSION['random']) && $_SESSION['random'] == ClientData::post('random')) {
-			die('Form was already submitted');
-		}
-
 		$db->autoCommit(false);
 
 		$transaction = new Transaction();
