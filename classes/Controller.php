@@ -116,6 +116,10 @@ class Controller {
 		return new $controller(array_shift($tokens), $data);
 	}
 
+	/** @args: 
+	*     $path = the path of the class that should do the rendering
+	*     $data  (unsure...)
+	*/
 	public static function _partial($path, $data = array()) {
 		self::_stack($path, $data, 'display')->_display();
 	}
