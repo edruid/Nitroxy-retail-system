@@ -1,14 +1,17 @@
 <form action="/Category/make" method="post">
-	<h3>Lägg till kategori</h3>
-	<table>
-		<tr>
-			<th>Namn</th>
-			<td><input type="text" name="name"/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="submit" value="skapa" /></td>
-		</tr>
-	</table>
+	<fieldset>
+		<legend>Lägg till kategori</legend>
+		<input type="hidden" name="random" value="<?=get_rand()?>" />
+		<table>
+			<tr>
+				<th>Namn</th>
+				<td><input type="text" name="name"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="skapa" /></td>
+			</tr>
+		</table>
+	</fieldset>
 </form>
 <table class="alternate" id="categories">
 	<thead>

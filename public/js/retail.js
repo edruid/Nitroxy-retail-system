@@ -27,7 +27,7 @@ function keyHook(e) {
 		setTimeout(update_change,5);
 		return false;
 	} else if(keynum==13) { // return/enter
-		if(new Date().getTime() < last_empty.getTime() + 0.05) {
+		if(new Date().getTime() > last_empty.getTime() + 0.01) {
 			return false;
 		}
 		return finish(sum, recieved_elem.value, change_elem.innerHTML);

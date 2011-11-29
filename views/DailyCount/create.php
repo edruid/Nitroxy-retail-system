@@ -47,7 +47,7 @@
 				<td id="calculated" class="numeric"><?=number($old_till)?></td>
 				<td>
 					<input type="text" name="till" onkeyup="update_diff(this.value)" onkeypress="fix_comma(event, this);" />
-					<input type="hidden" name="random" value="<?=rand()?>" />
+					<input type="hidden" name="random" value="<?=get_rand()?>" />
 				</td>
 				<td id="diff"></td>
 			</tr>
