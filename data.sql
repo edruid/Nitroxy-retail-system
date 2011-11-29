@@ -105,7 +105,7 @@ REPLACE INTO account set
 	account_type = 'result';
 REPLACE INTO account set
 	account_id = 15,
-	name = 'Donnationer',
+	name = 'Donationer',
 	code_name = 'donations',
 	default_sign = 'kredit',
 	warn_on_non_default = true,
