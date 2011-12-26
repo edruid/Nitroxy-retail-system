@@ -7,4 +7,5 @@
 $settings['debug']=true;
 $debug=$settings['debug'];
 
+$webpage_stage = "nitroxy_retail";
 ?>

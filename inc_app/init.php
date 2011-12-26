@@ -36,5 +36,5 @@ function __autoload($class) {
 /**
  * Klasser som behöver instantieras till en global.
  */
-$db = new DatabaseConnectioni("nitroxy_retail", true);
+$db = new DatabaseConnectioni($webpage_stage, true);
 ?>
