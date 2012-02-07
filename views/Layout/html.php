@@ -66,6 +66,13 @@
 						<li><a href="/Transaction/create">Ny transaktion</a></li>
 						<li><a href="/Transaction/index">Verifikationslista</a></li>
 						<li><a href="/Retail/log">Transaktionslogg</a></li>
+						<li class="dir">
+							<a href="/Report">Rapporter</a>
+							<ul>
+								<li><a href="/Report/result">Resultatrapport</a></li>
+								<li><a href="/Report/balance">Balansrapport</a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li>
