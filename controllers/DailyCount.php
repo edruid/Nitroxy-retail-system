@@ -80,11 +80,11 @@ class DailyCountC extends Controller {
 		$transaction->timestamp = $time;
 		$transaction->commit();
 		$transaction->add_contents(array(
-			'sales'        => -$sales_amount,
-			'till'         => $till,
-			'diff'         => $sales_amount - $till,
-			'stock'        => -$stock_amount,
-			'stock_change' => $stock_amount,
+			'sales'     => -$sales_amount,
+			'till'      => $till,
+			'diff'      => $sales_amount - $till,
+			'stock'     => -$stock_amount,
+			'purchases' => $stock_amount,
 		));
 
 		$daily_count = new DailyCount();

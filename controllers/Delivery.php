@@ -72,7 +72,6 @@ class DeliveryC extends Controller {
 		$transaction->commit();
 		$transactions = array(
 			'stock'        => $stock_change_amount,
-			'stock_change' => -$stock_change_amount,
 		);
 
 		$balance_amount = 0;
@@ -85,7 +84,6 @@ class DeliveryC extends Controller {
 		if(abs($balance_amount - $stock_change_amount) > 0.5) {
 			$errors['kassa'] = 'Lagervärde av produkterna och penningåtgång stämmer inte överens. Du måste tala om vart pengarna kommer ifrån (det är ok att avrunda till närmaste krona)';
 		}
-		$transactions['purchases'] = $balance_amount;
 
 		try{
 			$transaction->add_contents($transactions);
