@@ -39,13 +39,13 @@ class User extends BasicObject{
 			throw new Exception("Fel användarnamn och/eller lösenord");
 		}
 
-		preg_match('/^userid: "(.*)"$/m', $data, $match);
+		preg_match('/^userid: "(.*)"$/m', $result, $match);
 		$user_id = $match[1];
-		preg_match('/^firstname: "(.*)"$/m', $data, $match);
+		preg_match('/^firstname: "(.*)"$/m', $result, $match);
 		$first_name = $match[1];
-		preg_match('/^surname: "(.*)"$/m', $data, $match);
+		preg_match('/^surname: "(.*)"$/m', $result, $match);
 		$surname = $match[1];
-		preg_match('/^username: "(.*)"$/m', $data, $match);
+		preg_match('/^username: "(.*)"$/m', $result, $match);
 		$username = $match[1];
 		$user = User::from_id($user_id);
 		if(!$user) {
