@@ -48,7 +48,7 @@ class TransactionC extends Controller {
 			'@order' => 'timestamp:desc',
 			'@limit' => array($this->page*50, 50),
 		));
-		$this->last_page = ceil(AccountTransction::count()/50)-1;
+		$this->last_page = ceil(AccountTransaction::count()/50)-1;
 		$this->_partial('Layout/html', $this);
 	}
 }
