@@ -3,7 +3,7 @@ function number($float) {
 	if($float === null) {
 		return '-';
 	}
-	return number_format($float, 2, '.', '');
+	return number_format($float, 2, '.', ' ');
 }
 
 function verify_login($url = null){
