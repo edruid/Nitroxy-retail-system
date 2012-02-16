@@ -61,7 +61,7 @@
 </table>
 <div>
 	<h2>EAN</h2>
-	<img src="/gfx/barcode.php?barcode=<?=$product->ean?>&amp;width=300" alt="<?=$product->ean?>" />
+	<img src="/gfx/barcode.php?code=<?= urlencode($product->ean) ?>" alt="<?=$product->ean?>" />
 </div>
 <? if($packages): ?>
 	<h2>Andra produkter som ingår i den här</h2>

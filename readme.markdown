@@ -18,6 +18,7 @@ The project is in active use but should be considerd an unstable alpha.
 * php-curl (used by login service which might want to be replaced)
 * php-mysql
 * MySQL
+* gnu-barcode (deb package barcode)
 
 The project requires a webserver, it has been developed and tested with apache
 webserver but try a different one and it might work.
@@ -28,15 +29,19 @@ This project has only been tested to work with firefox and chromium but other br
 # Setting up the system
 ## Installation
 1. Place the content of the project in a folder
-2. Create an empty mysql database for the project. If the database name is not "nitroxy_retail" grant.sql needs to be updated accordingly.
-3. Create a db user. If the name of the user is not "nitroxy_retail", grant.sql needs to be updated accordingly.
-4. Copy db_settings/nitroxy_retail.php to db_settings/nitroxy_retail.local.php and edit the settings to your configuration.
+2. Create an empty mysql database for the project. If the database name is not "nitroxy\_retail" grant.sql needs to be updated accordingly.
+3. Create a db user. If the name of the user is not "nitroxy\_retail", grant.sql needs to be updated accordingly.
+4. Copy db\_settings/nitroxy\_retail.php to db\_settings/nitroxy\_retail.local.php and edit the settings to your configuration.
 5. Run (in order) 
-   1. source nitroxy_retail.sql
+   1. source nitroxy\_retail.sql
    2. source data.sql
    3. source grant.sql
-6. Point your webserver to the public directory
-7. Unless you are from the society Proxxi you want to do something about what is done in contrellers/Session.php in the authenticate part so as to not authenticate against Proxxis system...
+6. Compile genbarcode for your architecture (can be ignored if you don't want barcodes for your products)
+   1. make -C lib/src/genbarcode-0.4
+   2. mkdir lib/bin
+   3. mv lib/src/genbarcode-0.4/genbarcode lib/bin
+7. Point your webserver to the public directory
+8. Unless you are from the society Proxxi you want to do something about what is done in contrellers/Session.php in the authenticate part so as to not authenticate against Proxxis system...
 
 ## Adding products to the system
 1. Log in to the system
