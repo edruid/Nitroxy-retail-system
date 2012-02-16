@@ -32,7 +32,7 @@ $image->vertical_lable = 5;
 $start = gregoriantojd(date('m'), date('d'), date('Y')-1);
 $old_product_id = null;
 while($stmt->fetch()) {
-	if($old_product_id != $product_id) {
+	if($old_product_id !== $product_id) {
 		$product = Product::from_id($product_id);
 	}
 	$s_date = explode('-', $date);
