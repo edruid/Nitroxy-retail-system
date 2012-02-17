@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<title><?=$title?></title>
+		<link rel="icon" type="image/png" href="http://retail.kari/favicon" />
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link type="text/css" rel="stylesheet" href="/style.css" />
 		<script type="text/javascript" src="/js/dom.js"></script>
