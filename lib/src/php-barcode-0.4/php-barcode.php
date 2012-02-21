@@ -62,8 +62,7 @@ $font_loc=dirname(__FILE__)."/"."FreeSansBold.ttf";
  */
 //$genbarcode_loc="c:\winnt\genbarcode.exe";
 //$genbarcode_loc="/usr/local/bin/genbarcode";
-$genbarcode_loc="/home/druid/dev/nitroxy-retail/lib/bin/genbarcode";
-
+$genbarcode_loc=dirname(dirname(dirname(__FILE__)))."/bin/genbarcode";
 
 /* CONFIGURATION ENDS HERE */
 
