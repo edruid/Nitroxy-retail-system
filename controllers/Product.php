@@ -154,15 +154,13 @@ class ProductC extends Controller {
 			}
 		}
 		if($money_diff != 0) {
-			$from_account = Account::from_code_name('stock_diff');
-			$to_account = Account::from_code_name('stock');
 			$transaction = new AccountTransaction();
 			$transaction->description="inventering: {$delivery->id}";
 			$transaction->user_id = $_SESSION['login'];
 			$transaction->commit();
 			$transaction->add_contents(array(
-				'stock_diff' => $money_diff,
-				'stock'      => -$money_diff,
+				'stock_diff' => -$money_diff,
+				'stock'      => $money_diff,
 			));
 		}
 		$db->commit();

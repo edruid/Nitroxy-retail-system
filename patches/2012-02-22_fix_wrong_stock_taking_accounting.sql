@@ -1,0 +1,1 @@
+update account_transaction_contents set amount=-amount where exists (select 1 from account_transaction where account_transaction.account_transaction_id = account_transaction_contents.account_transaction_id and description like "inventering: %");
