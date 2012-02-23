@@ -84,6 +84,7 @@ class DeliveryC extends Controller {
 		if(abs($balance_amount - $stock_change_amount) > 0.5) {
 			$errors['kassa'] = 'Lagervärde av produkterna och penningåtgång stämmer inte överens. Du måste tala om vart pengarna kommer ifrån (det är ok att avrunda till närmaste krona)';
 		}
+		$transactions['rounding'] = $balance_amount - $stock_change_amount;
 
 		try{
 			$transaction->add_contents($transactions);

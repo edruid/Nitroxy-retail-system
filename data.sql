@@ -48,14 +48,6 @@ REPLACE INTO account set
 	description = 'Pengar bundna i varor i kiosken',
 	account_type = 'balance';
 REPLACE INTO account set
-	account_id = 8,
-	name = 'Lagerförändring',
-	code_name = 'stock_change',
-	default_sign = 'kredit',
-	warn_on_non_default = false,
-	description = 'Används som motkonteringskonto för lager vid leverans och försäljning',
-	account_type = 'result';
-REPLACE INTO account set
 	account_id = 9,
 	name = 'Lagerdifferenser',
 	code_name = 'stock_diff',
@@ -110,5 +102,29 @@ REPLACE INTO account set
 	default_sign = 'kredit',
 	warn_on_non_default = true,
 	description = 'Inkomster av donnationer',
+	account_type = 'result';
+REPLACE INTO account set
+	account_id = 16,
+	name = 'Pant',
+	code_name = 'pant',
+	default_sign = 'debit',
+	warn_on_non_default = false,
+	description = 'Pengar bundna i pant',
+	account_type = 'balance';
+REPLACE INTO account set
+	account_id = 17,
+	name = 'Ingående',
+	code_name = 'start',
+	default_sign = 'debit',
+	warn_on_non_default = false,
+	description = 'Ingående värden för start av systemet',
+	account_type = 'result';
+REPLACE INTO account set
+	account_id = 18,
+	name = 'Öresavrundningar',
+	code_name = 'rounding',
+	default_sign = 'debit',
+	warn_on_non_default = false,
+	description = 'Öresavrundningar vid inköp, försäljning mm',
 	account_type = 'result';
 SET FOREIGN_KEY_CHECKS=1;
