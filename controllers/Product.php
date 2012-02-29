@@ -14,13 +14,15 @@ class ProductC extends Controller {
 			'name',
 			'active',
 			'price',
-			'value',
 			'ean',
-			'category_id',
 			'inventory_threshold',
+			'category_id',
+			'account_id',
 		);
 		foreach($fields as $field) {
-			$product->$field = ClientData::post($field);
+			$value = ClientData::post($field);
+			if($value === '') $value = null;
+			$product->$field = $value;
 		}
 		$product->commit();
 		Message::add_notice("Produkten har blivit uppdaterad");
@@ -36,6 +38,14 @@ class ProductC extends Controller {
 			return;
 		}
 		$this->categories = Category::selection();
+		$this->accounts = Account::selection(array(
+			'@order'       => 'name',
+			'account_type' => 'result',
+			'@or'          => array(
+				'default_sign'        => 'kredit',
+				'warn_on_non_default' => false,
+			),
+		));
 		$this->packages = ProductPackage::selection(array(
 			'package' => $this->product->id,
 		));

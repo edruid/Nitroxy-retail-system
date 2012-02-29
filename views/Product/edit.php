@@ -18,10 +18,6 @@
 			<td><input type="text" name="price" value="<?=$product->price?>" /></td>
 		</tr>
 		<tr>
-			<th>Värde</th>
-			<td><input type="text" name="value" value="<?=$product->value?>" /></td>
-		</tr>
-		<tr>
 			<th>EAN</th>
 			<td><input type="text" name="ean" value="<?=$product->ean?>" /></td>
 		</tr>
@@ -36,6 +32,19 @@
 					<? foreach($categories as $category): ?>
 						<option value="<?=$category->id?>" <?=$product->category_id==$category->id?'selected="selected"':''?>><?=$category->name?></option>
 					<? endforeach ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Bokföringskonto</th>
+			<td>
+				<select name="account_id">
+					<option value="">--default--</option>
+					<?php foreach($accounts as $account): ?>
+						<option value="<?=$account->id?>" <?=$product->account_id==$account->id?'selected="selected"':''?> />
+							<?= $account ?>
+						</option>
+					<?php endforeach ?>
 				</select>
 			</td>
 		</tr>

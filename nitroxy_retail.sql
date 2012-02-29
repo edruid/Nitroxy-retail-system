@@ -159,8 +159,8 @@ CREATE TABLE `product_log` (
   PRIMARY KEY (`product_log_id`),
   KEY `product_id` (`product_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `product_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `product_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+  CONSTRAINT `product_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  CONSTRAINT `product_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -199,10 +199,13 @@ CREATE TABLE `products` (
   `count` int(11) NOT NULL DEFAULT '0',
   `inventory_threshold` int(10) unsigned DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `account_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `ean` (`ean`),
   KEY `category_id` (`category_id`),
+  KEY `account_id` (`account_id`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -255,6 +258,7 @@ CREATE TABLE `users` (
   `first_name` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
   `surname` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
   `username` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
+  `password` varchar(70) COLLATE utf8_swedish_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
@@ -330,4 +334,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-07  8:40:14
+-- Dump completed on 2012-02-29 20:15:47

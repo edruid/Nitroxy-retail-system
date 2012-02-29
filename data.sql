@@ -1,3 +1,4 @@
+BEGIN;
 SET FOREIGN_KEY_CHECKS=0;
 REPLACE INTO account set
 	account_id = 1,
@@ -128,3 +129,4 @@ REPLACE INTO account set
 	description = 'Öresavrundningar vid inköp, försäljning mm',
 	account_type = 'result';
 SET FOREIGN_KEY_CHECKS=1;
+COMMIT;

@@ -52,10 +52,24 @@ class DailyCountC extends Controller {
 			Message::add_error('Det måste gå minst 10 sekunder mellan två kassaslut.');
 			kick('/DailyCount');
 		}
-		$sales_amount = Transaction::sum('amount', array(
-			'timestamp:>' => $daily_count->time,
-			'timestamp:<=' => $time,
-		));
+		$result = array();
+		$stmt = $db->prepare_full("
+			SELECT
+				SUM(`transaction_contents`.`amount`) as amount,
+				`account`.`code_name`
+			FROM transaction_contents
+			JOIN transactions USING (transaction_id)
+			JOIN products USING (product_id)
+			LEFT JOIN account USING (account_id)
+			WHERE `transactions`.`timestamp` > ?
+			GROUP BY account_id", $result, 's', $daily_count->time);
+		$transactions = array();
+		$sales_amount = 0;
+		while($stmt->fetch()) {
+			$sales_amount += $result['amount'];
+			$account = $result['code_name'] ?: 'sales';
+			$transactions[$account] = -$result['amount'];
+		}
 		if($sales_amount == null) $sales_amount = 0;
 
 		$old_till = AccountTransactionContent::sum('amount', array(
@@ -79,13 +93,12 @@ class DailyCountC extends Controller {
 		$transaction->user_id = $_SESSION['login'];
 		$transaction->timestamp = $time;
 		$transaction->commit();
-		$transaction->add_contents(array(
-			'sales'     => -$sales_amount,
-			'till'      => $till,
-			'diff'      => $sales_amount - $till,
-			'stock'     => -$stock_amount,
-			'purchases' => $stock_amount,
-		));
+		$transactions['till']      = $till;
+		$transactions['diff']      = $sales_amount - $till;
+		$transactions['stock']     = -$stock_amount;
+		$transactions['purchases'] = $stock_amount;
+
+		$transaction->add_contents($transactions);
 
 		$daily_count = new DailyCount();
 		$daily_count->time = $time;
