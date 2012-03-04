@@ -18,4 +18,3 @@ class DeliveryContent extends BasicObject {
 	}
 }
 ?>
-

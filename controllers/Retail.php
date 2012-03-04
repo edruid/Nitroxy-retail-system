@@ -61,3 +61,4 @@ class RetailC extends Controller {
 		kick("/Retail/create/$recieved");
 	}
 }
+?>

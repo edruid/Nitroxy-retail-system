@@ -49,4 +49,3 @@ class Transaction extends BasicObject {
 	}
 }
 ?>
-

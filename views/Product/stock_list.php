@@ -5,7 +5,7 @@
 	} else {
 		changecss('.inactive','display','')
 	}
-"> hide inactive</label>
+" /> hide inactive</label>
 <table class="alternate" id="products">
 	<thead>
 		<tr>

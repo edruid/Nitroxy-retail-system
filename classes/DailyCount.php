@@ -30,4 +30,3 @@ class DailyCount extends BasicObject {
 	}
 }
 ?>
-

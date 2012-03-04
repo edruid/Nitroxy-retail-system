@@ -11,4 +11,3 @@ class TransactionContent extends BasicObject {
 	}
 }
 ?>
-
