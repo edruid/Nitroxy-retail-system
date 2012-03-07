@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<!--
+/* <![CDATA[ */
 var products;
 
 function start() {
@@ -44,7 +44,8 @@ window.addEventListener ?
   window.addEventListener('load', start, false) :
   window.attachEvent('onload', start);
 
---></script>
+/* ]]> */
+</script>
 <h2>Inventering</h2>
 <form autocomplete="off" id="stock_taking_form" action="/Product/taken_stock" method="post">
 	<div style="float: left;">

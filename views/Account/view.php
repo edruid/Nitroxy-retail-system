@@ -7,7 +7,7 @@
 		<td><?=$account?></td>
 	</tr>
 	<tr>
-		<th>Saldo</td>
+		<th>Saldo</th>
 		<td class="numeric"><?=$balance?> kr</td>
 	</tr>
 </table>

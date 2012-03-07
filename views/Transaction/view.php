@@ -1,4 +1,4 @@
-<h1>Transaktion - <p><?=$transaction->description?></h1>
+<h1>Transaktion - <?=$transaction->description?></h1>
 <table>
 	<tr>
 		<th>Användare</th>
@@ -17,11 +17,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($contents as $content): ?>
+		<?php foreach($contents as $content): ?>
+			<?php $account = $content->Account ?>
 			<tr>
-				<td><?=$content->Account?></td>
-				<td><?=$content->amount?> kr</td>
+				<td><a href="/Account/view/<?=$account->code_name?>"><?=$account?></a></td>
+				<td class="numeric"><?=$content->amount?> kr</td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>
