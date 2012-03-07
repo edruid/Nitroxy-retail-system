@@ -242,7 +242,9 @@ var products = new Array();
 				<td><input type="text" class="count" name="count[]"
 						onblur="update_sum();" /></td>
 				<td><input type="text" class="purchase_price"
-						name="purchase_price[]" onblur="update_sum();" /></td>
+						name="purchase_price[]"
+						onkeypress="fix_comma(event, this)"
+						onblur="update_sum();" /></td>
 				<td class="row-sum numeric"></td>
 				<td class="row-a numeric"></td>
 				<td class="row-margin numeric"></td>
