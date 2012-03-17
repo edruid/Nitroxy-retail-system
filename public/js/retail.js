@@ -1,5 +1,4 @@
 var products;
-var last_empty;
 
 /**
  * Takes a keyPressed event in recieved amount and deciedes what
@@ -11,11 +10,7 @@ function keyHook(e) {
 	var keynum;
 	var keychar;
 	var finish_transaction=false;
-	var last_empty = new Date();
 
-	if(recieved_elem.value == ''){
-		last_empty = new Date();
-	}
 	if(window.event) { // IE
 		keynum = e.keyCode;
 	} else if(e.which) { // Netscape/Firefox/Opera
@@ -27,9 +22,6 @@ function keyHook(e) {
 		setTimeout(update_change,5);
 		return false;
 	} else if(keynum==13) { // return/enter
-		if(new Date().getTime() > last_empty.getTime() + 0.01) {
-			return false;
-		}
 		return finish(sum, recieved_elem.value, change_elem.innerHTML);
 	}
 	var numcheck = /\d/;
