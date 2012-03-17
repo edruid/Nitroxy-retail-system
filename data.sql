@@ -1,4 +1,5 @@
 BEGIN;
+
 SET FOREIGN_KEY_CHECKS=0;
 REPLACE INTO account set
 	account_id = 1,
@@ -129,4 +130,13 @@ REPLACE INTO account set
 	description = 'Öresavrundningar vid inköp, försäljning mm',
 	account_type = 'result';
 SET FOREIGN_KEY_CHECKS=1;
+
+INSERT INTO categories (category_id, name) VALUES
+	(0, 'Special');
+UPDATE categories SET category_id = 0 WHERE name = 'Special'; -- WTF! Why do I need this?
+
+INSERT INTO products (product_id, name, price, ean, category_id, value, count, inventory_threshold, active) VALUES
+	(0, 'Öresavrundning', 0, 'rounding', 0, 0, 0, null, 1);
+UPDATE products SET product_id = 0 WHERE ean = 'rounding'; -- WTF! Why do I need this?
+
 COMMIT;
