@@ -1,6 +1,6 @@
 #!/usr/bin/php
-<?
-	if(isset($argv[1])) {
+<?php
+	if(isset($argv[1]) && $argv[1]!='--help' && $argv[1]!='-h') {
 		$ext = "sql";
 		if(isset($argv[2])) {
 			$ext = $argv[2];
@@ -11,7 +11,7 @@
 		$filename=date("YmdHis")."_".$argv[1].".$ext";
 		$f = fopen(dirname(__FILE__) . "/$filename",'w');
 		if($ext == "php") {
-			fwrite($f, "<?
+			fwrite($f, "<?php
 /*
  * Please be verbose. Use echo and end lines with \\n
  * Use migration_sql(\$query) to run queries (prints and runs the query)
