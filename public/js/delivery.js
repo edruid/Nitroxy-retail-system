@@ -61,13 +61,16 @@ function update_sum() {
 	var per_product = !(document.getElementById('product_type').checked);
 	var multiplyer = document.getElementById('multiplyer').value;
 	var sum = 0;
+	var sum_ex = 0;
 	var row_sum = 0;
 	var row_a = 0;
 	for(var i=0; i< counts.length; ++i) {
 		if(per_product) {
+			row_sum_ex = counts[i].value * prices[i].value;
 			row_sum = counts[i].value * prices[i].value * multiplyer;
 			row_a = prices[i].value * multiplyer;
 		} else {
+			row_sum_ex =  prices[i].value * 1;
 			row_sum = prices[i].value * multiplyer;
 			row_a = prices[i].value / counts[i].value * multiplyer;
 		}
@@ -75,7 +78,13 @@ function update_sum() {
 		row_as[i].innerHTML = Math.round(row_a*100)/100 + ' kr';
 		var revenue = sales[i].value - row_a;
 		row_margins[i].innerHTML = Math.round(revenue / sales[i].value * 100)+' %';
+		sum_ex += row_sum_ex;
 		sum += row_sum;
 	}
-	document.getElementById('sum').innerHTML = Math.round(sum*100)/100;
+	sum = Math.round(sum*100)/100;
+	sum_ex = Math.round(sum_ex*100)/100;
+	if(sum != sum_ex) {
+		sum = sum + ' (' + sum_ex + ' excl.)';
+	}
+	document.getElementById('sum').innerHTML = sum;
 }
