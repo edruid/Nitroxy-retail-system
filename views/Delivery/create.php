@@ -225,6 +225,7 @@ var products = new Array();
 					<input
 						type="text"
 						class="sales_price"
+						onblur="update_sum()"
 						onkeypress="fix_comma(event, this)"
 						name="sales_price[]"
 					/>
@@ -239,12 +240,18 @@ var products = new Array();
 						<? endforeach ?>
 					</select>
 				</td>
-				<td><input type="text" class="count" name="count[]"
+				<td><input type="text" class="count"
+						name="count[]"
 						onblur="update_sum();" /></td>
 				<td><input type="text" class="purchase_price"
 						name="purchase_price[]"
 						onkeypress="fix_comma(event, this)"
 						onblur="update_sum();" /></td>
+				<td><input type="text" class="purchase_price"
+						name="pant[]"
+						onkeypress="fix_comma(event, this)"
+						onblur="update_sum()"/></td>
+
 				<td class="row-sum numeric"></td>
 				<td class="row-a numeric"></td>
 				<td class="row-margin numeric"></td>
