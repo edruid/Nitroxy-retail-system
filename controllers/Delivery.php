@@ -23,7 +23,11 @@ class DeliveryC extends Controller {
 		$names = ClientData::post('name');
 		$categories = ClientData::post('category');
 		$purchase_prices = ClientData::post('purchase_price');
+		$pant = ClientData::post('pant');
 		for($i = 0; $i < count($purchase_prices); $i++) {
+			if($pant[$i]) {
+				$purchase_prices[$i] += $pant[$i];
+			}
 			$purchase_prices[$i] *= $multiplyer;
 			if($single == 'each_product') {
 				$purchase_prices[$i] *= $counts[$i];
@@ -141,6 +145,7 @@ class DeliveryC extends Controller {
 					'category'       => $this->old_values['category'][$i],
 					'count'          => $this->old_values['count'][$i],
 					'purchase_price' => $this->old_values['purchase_price'][$i],
+					'pant'           => $this->old_values['pant'][$i],
 				);
 			}
 		}
@@ -151,6 +156,7 @@ class DeliveryC extends Controller {
 			'category'       => '',
 			'count'          => '',
 			'purchase_price' => '',
+			'pant'           => '',
 		);
 		$this->values = $values;
 		unset($_SESSION['_POST']);

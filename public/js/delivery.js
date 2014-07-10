@@ -54,6 +54,7 @@ function update_sum() {
 	var table = document.getElementById('delivery_form');
 	var counts = table.getElementsByClassName('count');
 	var prices = table.getElementsByClassName('purchase_price');
+	var pants = table.getElementsByClassName('pant');
 	var sales = table.getElementsByClassName('sales_price');
 	var row_sums = table.getElementsByClassName('row-sum');
 	var row_as = table.getElementsByClassName('row-a');
@@ -65,13 +66,18 @@ function update_sum() {
 	var row_sum = 0;
 	var row_a = 0;
 	for(var i=0; i< counts.length; ++i) {
+		var pant = 0;
+		if(pants[i].value != '') {
+			pant = pants[i].value * 1;
+		}
+
 		if(per_product) {
-			row_sum_ex = counts[i].value * prices[i].value;
-			row_sum = counts[i].value * prices[i].value * multiplyer;
+			row_sum_ex = counts[i].value * (prices[i].value + pant);
+			row_sum = counts[i].value * (prices[i].value  + pant) * multiplyer;
 			row_a = prices[i].value * multiplyer;
 		} else {
-			row_sum_ex =  prices[i].value * 1;
-			row_sum = prices[i].value * multiplyer;
+			row_sum_ex = (prices[i].value + pant);
+			row_sum = (prices[i].value + pant) * multiplyer;
 			row_a = prices[i].value / counts[i].value * multiplyer;
 		}
 		row_sums[i].innerHTML = Math.round(row_sum*100)/100 + ' kr';
