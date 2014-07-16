@@ -70,15 +70,15 @@ function update_sum() {
 		if(pants[i].value != '') {
 			pant = pants[i].value * 1;
 		}
-
+		var price = prices[i].value * 1 + pant;
 		if(per_product) {
-			row_sum_ex = counts[i].value * (prices[i].value + pant);
-			row_sum = counts[i].value * (prices[i].value  + pant) * multiplyer;
-			row_a = prices[i].value * multiplyer;
+			row_sum_ex = counts[i].value * price;
+			row_sum = counts[i].value * price * multiplyer;
+			row_a = price * multiplyer;
 		} else {
-			row_sum_ex = (prices[i].value + pant);
-			row_sum = (prices[i].value + pant) * multiplyer;
-			row_a = prices[i].value / counts[i].value * multiplyer;
+			row_sum_ex = price;
+			row_sum = price * multiplyer;
+			row_a = price / counts[i].value * multiplyer;
 		}
 		row_sums[i].innerHTML = Math.round(row_sum*100)/100 + ' kr';
 		row_as[i].innerHTML = Math.round(row_a*100)/100 + ' kr';
