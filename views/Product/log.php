@@ -9,7 +9,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($prices as $price): ?>
+		<?php foreach($prices as $price): ?>
 			<tr>
 				<td><a href="/Product/view/<?=$price->product_id?>"><?=$price->Product?></a></td>
 				<td class="numeric"><?=$price->old_price?> kr</td>
@@ -17,6 +17,6 @@
 				<td><?=$price->changed_at?></td>
 				<td><?=$price->User?></td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>

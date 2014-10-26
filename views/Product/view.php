@@ -63,7 +63,7 @@
 	<h2>EAN</h2>
 	<img src="/gfx/barcode.php?code=<?= urlencode($product->ean) ?>" alt="<?=$product->ean?>" />
 </div>
-<? if($packages): ?>
+<?php if($packages): ?>
 	<h2>Andra produkter som ingår i den här</h2>
 	<table>
 		<tr>
@@ -72,16 +72,16 @@
 			<th>Delvärde</th>
 		</tr>
 		<tr>
-			<? foreach($packages as $package): ?>
+			<?php foreach($packages as $package): ?>
 				<td><a href="/Product/view/<?=$package->product_id?>"><?=$product = $package->Product()?></a></td>
 				<td><?=$package->count?> st</td>
 				<td><?=$package->count * $product->value?> kr</td>
-				<? $total += $package->count * $product->value ?>
-			<? endforeach ?>
+				<?php $total += $package->count * $product->value ?>
+			<?php endforeach ?>
 		</tr>
 	</table>
 	<p>Totalt for produkten: <?=$total?></p>
-<? endif ?>
+<?php endif ?>
 <div>
 	<h2>Försäljnings historik</h2>
 	<img src="/gfx/product_history.php?id=<?=$product->id?>" alt="Försäljningshistorik"/>

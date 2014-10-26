@@ -26,14 +26,14 @@
 				<td class="numeric"><?=$content->amount?> kr</td>
 				<td rowspan="<?=$num_rows?>"><?=$transaction->description?></td>
 			</tr>
-			<? foreach($contents as $content): ?>
+			<?php foreach($contents as $content): ?>
 				<?php $account = $content->Account; ?>
 				<tr>
 					<td><a href="/Account/view/<?=$account->code_name?>"><?=$account?></a></td>
 					<td class="numeric"><?=$content->amount?> kr</td>
 				</tr>
-			<? endforeach ?>
+			<?php endforeach ?>
 		</tbody>
-	<? endforeach ?>
+	<?php endforeach ?>
 </table>
 <?php self::_partial('Helper/pager', array('/Transaction/index/%d', $page, $last_page)) ?>

@@ -34,7 +34,7 @@
 				<td><?=$content->amount?></td>
 				<td><?=$transaction->description?></td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>
 <?php self::_partial('Helper/pager', array(

@@ -25,7 +25,7 @@ function start() {
 			}
 		}
 	);
-	<? foreach($products as $product): ?>
+	<?php foreach($products as $product): ?>
 		products.addProduct(
 			<?=$product->id?>,
 			"<?=$product->ean?>",
@@ -36,7 +36,7 @@ function start() {
 			true,
 			<?=$product->value?>
 		);
-	<? endforeach ?>
+	<?php endforeach ?>
 	products.start();
 }
 

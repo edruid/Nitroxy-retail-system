@@ -1,14 +1,14 @@
 <script type="text/javascript">
 <!--
 var products = new Array();
-<? foreach($products as $product): ?>
+<?php foreach($products as $product): ?>
 	products['<?=$product->ean?>'] = {
 		id: <?=$product->id?>,
 		name: '<?=addslashes(htmlspecialchars_decode($product->name, ENT_QUOTES))?>',
 		sales_price: '<?=$product->price?>',
 		category_id: <?=$product->category_id?>
 	}
-<? endforeach ?>
+<?php endforeach ?>
 -->
 </script>
 <h1>Ny inleverans</h1>
@@ -52,27 +52,27 @@ var products = new Array();
 						<option
 							value=""
 							disabled="disabled"
-							<? if(!$old_values || $old_values['from_account'][0] == ''): ?>
+							<?php if(!$old_values || $old_values['from_account'][0] == ''): ?>
 								selected="selected"
-							<? endif ?>
+							<?php endif ?>
 						>
 							Välj konto
 						</option>
-						<? foreach(Account::selection(array(
+						<?php foreach(Account::selection(array(
 								'account_type' => 'balance', 
 								'@order' => 'name',
 								'code_name:not_in' => array('stock',),
 						)) as $account): ?>
 							<option
 								value="<?=$account->code_name?>"
-								<? if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
+								<?php if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
 									selected="selected"
-								<? endif ?>
+								<?php endif ?>
 								title="<?=$account->description?>"
 							>
 								<?=$account->name?>
 							</option>
-						<? endforeach ?>
+						<?php endforeach ?>
 					</select>
 				</td>
 				<td rowspan="2"><a href="#" onclick="
@@ -131,11 +131,11 @@ var products = new Array();
 			id="multiplyer"
 			onchange="update_sum();"
 			onkeyress="fix_comma(event, this);"
-			<? if($old_values): ?>
+			<?php if($old_values): ?>
 				value="<?=$old_values['multiplyer']?>"
-			<? else: ?>
+			<?php else: ?>
 				value="1.0"
-			<? endif ?>
+			<?php endif ?>
 		/>
 	</p>
 	<table id="delivery_form">
@@ -243,9 +243,9 @@ var products = new Array();
 						<option value="" disabled="disabled" selected="selected">
 							Välj kategori
 						</option>
-						<? foreach($categories as $category): ?>
+						<?php foreach($categories as $category): ?>
 							<option value="<?=$category->id?>"><?=$category->name?></option>
-						<? endforeach ?>
+						<?php endforeach ?>
 					</select>
 				</td>
 				<td><input type="text" class="count"

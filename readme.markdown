@@ -66,7 +66,7 @@ This project has only been tested to work with firefox and chromium but other br
 
   2. Enable the site with `sudo a2ensite 100-nitroxy-retail-system.conf`
   3. Enable apache2 module rewrite `sudo a2enmod rewrite`
-  4. Make sure `/etc/php5/apache2/php.ini` has `short_open_tag = On` and have a look at other settings as desired.
+  4. If php version < 5.4, make sure `/etc/php5/apache2/php.ini` has `short_open_tag = On`. Have a look at other settings as desired.
   5. Restart apache `sudo service apache2 restart`
 8. Unless you are from the society Proxxi you want to do something about what is done in `classes/User.php` in the `external_login` function so as to not authenticate against Proxxis system...
 

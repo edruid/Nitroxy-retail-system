@@ -23,13 +23,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($delivery->DeliveryContent() as $content): ?>
+		<?php foreach($delivery->DeliveryContent() as $content): ?>
 			<tr>
 				<td><a href="/Product/view/<?=$content->product_id?>"><?=$content->Product?></a></td>
 				<td class="numeric"><?=$content->count?> st</td>
 				<td class="numeric"><?=number($content->cost)?> kr</td>
 				<td class="numeric"><?=number($content->cost * $content->count)?> kr</td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>

@@ -16,7 +16,7 @@
 <table class="alternate" id="categories">
 	<thead>
 		<tr>
-			<th><?$i=1?></th>
+			<th><?php $i=1 ?></th>
 			<th class="name_column"><a href="#" onclick="sort.sort(<?=$i++?>, sort.tagInsensitiveComparator);return false">Namn</a></th>
 			<th class="total_value_column"><a href="#" onclick="sort.sort(<?=$i++?>);return false">Lagervärde</a></th>
 			<th class="sales_value"><a href="#" onclick="sort.sort(<?=$i++?>);return false">sålt 30 dag</a></th>
@@ -25,7 +25,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($categories as $category): ?>
+		<?php foreach($categories as $category): ?>
 			<tr>
 				<td>
 					<a href="/Category/edit/<?=$category->id?>">
@@ -57,7 +57,7 @@
 					<?php endif ?>
 				</td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>
 <script type="text/javascript">

@@ -97,11 +97,11 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($products as $product): ?>
+		<?php foreach($products as $product): ?>
 			<tr 
-				<? if(!$product->active): ?>
+				<?php if(!$product->active): ?>
 					class="inactive"
-				<? endif ?>
+				<?php endif ?>
 			>
 				<td>
 					<a href="/Product/edit/<?=$product->id?>">
@@ -181,7 +181,7 @@
 					<?=number($sold - $count*$product->value)?> kr
 				</td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>
 

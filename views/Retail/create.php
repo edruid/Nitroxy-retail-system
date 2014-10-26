@@ -13,7 +13,7 @@ function start() {
 			}
 		}
 	);
-	<? foreach($products as $product): ?>
+	<?php foreach($products as $product): ?>
 		products.addProduct(
 			<?=$product->id?>,
 			"<?=$product->ean?>",
@@ -23,7 +23,7 @@ function start() {
 			<?=$product->price?>,
 			<?=$product->active?>
 		);
-	<? endforeach ?>
+	<?php endforeach ?>
 	products.start();
 }
 
@@ -81,7 +81,7 @@ window.addEventListener ?
 		</div>
 	</div>
 </form>
-<? if($last_purchase): ?>
+<?php if($last_purchase): ?>
 	<div id="last_purchase">
 		<h2>Föregående köp</h2>
 		<?=$last_purchase->timestamp?>
@@ -100,13 +100,13 @@ window.addEventListener ?
 			</tr>
 		</table>
 		<table>
-			<? foreach($last_purchase->TransactionContent(array('@limit' => 5)) as $content): ?>
+			<?php foreach($last_purchase->TransactionContent(array('@limit' => 5)) as $content): ?>
 				<tr>
 					<td><?=$content->Product?></td>
 					<td class="numeric"><?=$content->count?> st</td>
 					<td class="numeric"><?=$content->amount?> kr</td>
 				</tr>
-			<? endforeach ?>
+			<?php endforeach ?>
 		</table>
 	</div>
-<? endif ?>
+<?php endif ?>

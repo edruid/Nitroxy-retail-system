@@ -1,6 +1,6 @@
 <h1>Prislista</h1>
-<? foreach($categories as $category): ?>
-	<? if($category->Product == array()) continue; ?>
+<?php foreach($categories as $category): ?>
+	<?php if($category->Product == array()) continue; ?>
 	<h3><?=$category->name?></h3>
 	<table>
 		<thead>
@@ -17,12 +17,12 @@
 		?>
 		<?php if(!empty($products)): ?>
 			<tbody>
-				<? foreach($products as $product): ?>
+				<?php foreach($products as $product): ?>
 					<tr>
 						<td><?=$product->name?></td>
 						<td><?=$product->price?></td>
 					</tr>
-				<? endforeach ?>
+				<?php endforeach ?>
 			</tbody>
 		<?php endif ?>
 
@@ -39,13 +39,13 @@
 				</tr>
 			</tbody>
 			<tbody style="display: none;">
-				<? foreach($products as $product): ?>
+				<?php foreach($products as $product): ?>
 					<tr>
 						<td><?=$product->name?></td>
 						<td><?=$product->price?></td>
 					</tr>
-				<? endforeach ?>
+				<?php endforeach ?>
 			</tbody>
-		<? endif ?>
+		<?php endif ?>
 	</table>
-<? endforeach ?>
+<?php endforeach ?>

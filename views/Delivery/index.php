@@ -10,14 +10,14 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($deliveries as $delivery): ?>
+		<?php foreach($deliveries as $delivery): ?>
 			<tr>
 				<td><a href="/Delivery/view/<?=$delivery->id?>"><?=$delivery->timestamp?></a></td>
 				<td><?=$delivery->User?></td>
 				<td class="numeric"><?=number(DeliveryContent::sum(array('cost', '*', 'count'), array('delivery_id' => $delivery->id)))?> kr</td>
 				<td class="pre"><?=$delivery->description?></td>
 			</tr>
-		<? endforeach ?>
+		<?php endforeach ?>
 	</tbody>
 </table>
 <?php self::_partial('Helper/pager', array('/Delivery/index/%d', $page, $last_page)) ?>

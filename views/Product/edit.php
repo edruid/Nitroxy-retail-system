@@ -29,9 +29,9 @@
 			<th>Kategori</th>
 			<td>
 				<select name="category_id">
-					<? foreach($categories as $category): ?>
+					<?php foreach($categories as $category): ?>
 						<option value="<?=$category->id?>" <?=$product->category_id==$category->id?'selected="selected"':''?>><?=$category->name?></option>
-					<? endforeach ?>
+					<?php endforeach ?>
 				</select>
 			</td>
 		</tr>
