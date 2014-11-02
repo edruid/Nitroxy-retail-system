@@ -31,4 +31,14 @@ function mark($bool) {
 		return '';
 	}
 }
+
+function old_value($name, $values, $index=null) {
+	if(!isset($values) || $values === false || !array_key_exists($name, $values)) {
+		return null;
+	}
+	if($index !== null) {
+		return $values[$name][$index];
+	}
+	return $values[$name];
+}
 ?>

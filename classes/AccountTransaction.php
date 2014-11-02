@@ -21,7 +21,7 @@ class AccountTransaction extends BasicObject {
 		foreach($contents as $account => $amount) {
 			$content = new AccountTransactionContent();
 			$content->account_transaction_id = $this->id;
-			$content->account_id = Account::from_code_name($account)->id;
+			$content->account_id = Account::from_code_name($account);
 			if($content->account_id === null) {
 				throw new Exception("No such account $account");
 			}

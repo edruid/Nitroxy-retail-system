@@ -16,9 +16,12 @@ var products = new Array();
 		onsubmit="return confirm('Vill du fortsätta skapa leveransen?');">
 	<div>
 		<input type="hidden" name="random" value="<?=get_rand()?>" />
-		<textarea rows="5" cols="50" name="description" id="initial_focus"><?=$old_values?
-				$old_values['description'] :
-				''?></textarea>
+		<textarea
+			rows="5"
+			cols="50"
+			name="description"
+			id="initial_focus"
+		><?=old_value('description', $old_values)?></textarea>
 	</div>
 	<table>
 		<tfoot>
@@ -52,7 +55,7 @@ var products = new Array();
 						<option
 							value=""
 							disabled="disabled"
-							<?php if(!$old_values || $old_values['from_account'][0] == ''): ?>
+							<?php if(!old_value('from_account', $old_values) || old_value('from_account', $old_values, 0) === ''): ?>
 								selected="selected"
 							<?php endif ?>
 						>
@@ -65,7 +68,7 @@ var products = new Array();
 						)) as $account): ?>
 							<option
 								value="<?=$account->code_name?>"
-								<?php if($old_values && $old_values['from_account'][0] == $account->code_name): ?>
+								<?php if(old_value('from_account', $old_values, 0) == $account->code_name): ?>
 									selected="selected"
 								<?php endif ?>
 								title="<?=$account->description?>"
@@ -90,7 +93,7 @@ var products = new Array();
 					<input type="text"
 						name="amount[]"
 						onkeyress="fix_comma(event, this);"
-						value="<?=$old_values?$old_values['amount'][0]:''?>"
+						value="<?=old_value('amount', $old_values, 0)?>"
 						style="width: 3em;" />
 				</td>
 			</tr>
@@ -104,7 +107,7 @@ var products = new Array();
 					id="product_type"
 					value="product_type"
 					onchange="update_sum();"
-					<?=($old_values && $old_values['price_per']=='product_type') ?
+					<?=(old_value('price_per', $old_values)=='product_type') ?
 							'checked="checked"' :
 							''?> />
 				Pris per varotyp
@@ -116,7 +119,7 @@ var products = new Array();
 					name="price_per"
 					value="each_product"
 					onchange="update_sum();"
-					<?=($old_values && $old_values['price_per']=='each_product') ?
+					<?=(old_value('price_per', $old_values) == 'each_product') ?
 							'checked="checked"' :
 							''?> />
 				Pris per enskild vara
@@ -131,7 +134,7 @@ var products = new Array();
 			id="multiplyer"
 			onchange="update_sum();"
 			onkeyress="fix_comma(event, this);"
-			<?php if($old_values): ?>
+			<?php if(old_value('multiplyer', $old_values)): ?>
 				value="<?=$old_values['multiplyer']?>"
 			<?php else: ?>
 				value="1.0"
