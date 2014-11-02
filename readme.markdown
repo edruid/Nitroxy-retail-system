@@ -2,7 +2,7 @@
 A Point of Sale (POS) system run in a browser. It handles a barcodescanner to sell stuffs.
 
 ## State of the project
-The project is in active use but should be considerd an unstable alpha.
+The project is in active use but should be considerd a beta.
 
 ## Features
 * Sell things with a barcode scanner
@@ -10,6 +10,11 @@ The project is in active use but should be considerd an unstable alpha.
 * Track deliveries
 * Track stock
 * Contains a (very) limited book keeping system
+
+## Demo
+There is a demo of the system running here http://retail.eric.druid.se/Retail. As it's running on a raspberrypi, please go easy on it if it feels sluggish.
+username: admin
+password: admin
 
 ## Requirements
 ### Server
@@ -32,7 +37,7 @@ This project has only been tested to work with firefox and chromium but other br
 2. Create an empty mysql database for the project. If the database name is not `nitroxy_retail` `grant.sql` needs to be updated accordingly.
 3. Create a db user. If the name of the user is not `nitroxy_retail`, `grant.sql` needs to be updated accordingly.
 4. Copy `db_settings/nitroxy_retail.php` to `db_settings/nitroxy_retail.local.php` and edit the settings to your configuration.
-5. Run (in order)
+5. Start the mysql prompt and run the following `mysql -u root -p nitroxy_retail --default-character-set=utf8`
    1. `source nitroxy_retail.sql`
    2. `source data.sql`
    3. `source grant.sql`
