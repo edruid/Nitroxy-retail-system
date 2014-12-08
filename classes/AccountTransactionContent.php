@@ -14,7 +14,7 @@ class AccountTransactionContent extends BasicObject {
 		switch($key) {
 			case 'account_id':
 				if(!is_numeric($value) || $value <= 0) {
-					throw new Exception("Du måste ange ett giltigt konto.");
+					throw new Exception("Du måste ange ett giltigt konto ('$value' är inte giltigt).");
 				}
 				break;
 		}
