@@ -111,7 +111,7 @@ class DatabaseConnectioni extends MySQLi
 	 *
 	 * @param string $db_alias namnet på anslutningen du vill skapa. (dvs db_settings/$db_alias.php).
 	 */
-	function __construct($db_alias, $debug = false)
+	function __construct($db_alias, $debug = false, $username=null, $password=null)
 	{
 		global $repo_root,$notify;
 		$this->do_debug = $debug;
@@ -124,6 +124,11 @@ class DatabaseConnectioni extends MySQLi
 		if ( file_exists($settings_localfile) ){
 			require $settings_localfile;
 		}
+
+		if($username != null) {
+			$user = $username;
+			$passwd = $password;
+		}
 		
 		$this->db = $dbname;
 		$this->host = $host;
@@ -134,21 +139,8 @@ class DatabaseConnectioni extends MySQLi
 		parent::__construct($host,$user,$passwd,$dbname,$this->port);
 		$this->stop_timer();
 
-		if(mysqli_connect_errno())
-		{
-			if($this->do_debug)
-			{
-				$debuginfo = debug_backtrace();
-				$debuginfo = $debuginfo[0];
-				print("<p>MySQLi connection problem: ".mysqli_connect_errno()." (".mysqli_connect_error().").<br />".
-					"Problem encountered when trying to connect to ".$this->host.":".$this->port.", database ".$this->db.".<br />".
-					"The error was encountered in ".$debuginfo['file'].":".$debuginfo['line']."<br /></p>");
-				debug_print_backtrace();
-			}
-			else {
-				$notify->admin_alert("Could not connect to SQL database: ".mysqli_connect_errno()." (".mysqli_connect_error().").", false);
-			}
-			die('<p>Kunde inte ansluta till databasen. Var god kontakta oss.</p>');
+		if(mysqli_connect_errno()) {
+			throw new Exception("Could not connect to SQL database: ".mysqli_connect_errno()." (".mysqli_connect_error().").");
 		}
 
 		$this->start_timer();
