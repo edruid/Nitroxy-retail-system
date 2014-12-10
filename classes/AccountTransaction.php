@@ -16,7 +16,7 @@ class AccountTransaction extends BasicObject {
 
 	public function add_contents($contents) {
 		if(array_sum($contents) != 0) {
-			throw new Exception("Account contents do not balance");
+			throw new Exception("Account contents do not balance. Diff: ".array_sum($contents)." accounts: ".print_r($contents, true));
 		}
 		foreach($contents as $account => $amount) {
 			$content = new AccountTransactionContent();

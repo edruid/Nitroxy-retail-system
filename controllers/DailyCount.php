@@ -63,7 +63,12 @@ class DailyCountC extends Controller {
 			LEFT JOIN account USING (account_id)
 			WHERE `transactions`.`timestamp` > ?
 			GROUP BY account_id", $result, 's', $daily_count->time);
-		$transactions = array();
+		$transactions = [
+			'till'      => 0,
+			'diff'      => 0,
+			'stock'     => 0,
+			'purchases' => 0,
+		];
 		$sales_amount = 0;
 		while($stmt->fetch()) {
 			$sales_amount += $result['amount'];
@@ -93,10 +98,10 @@ class DailyCountC extends Controller {
 		$transaction->user_id = $_SESSION['login'];
 		$transaction->timestamp = $time;
 		$transaction->commit();
-		$transactions['till']      = $till;
-		$transactions['diff']      = $sales_amount - $till;
-		$transactions['stock']     = -$stock_amount;
-		$transactions['purchases'] = $stock_amount;
+		$transactions['till']      += $till;
+		$transactions['diff']      += $sales_amount - $till;
+		$transactions['stock']     += -$stock_amount;
+		$transactions['purchases'] += $stock_amount;
 
 		$transaction->add_contents($transactions);
 
