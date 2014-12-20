@@ -1,7 +1,7 @@
 <script type="text/javascript">
 <!--
 	function update_diff(value) {
-		var calc = document.getElementById('calculated').innerHTML;
+		var calc = document.getElementById('calculated').innerHTML.replace(' ', '', 'g');
 		var diff = document.getElementById('diff');
 		var html = ''
 		if(value != '') {
