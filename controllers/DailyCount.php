@@ -73,7 +73,8 @@ class DailyCountC extends Controller {
 		while($stmt->fetch()) {
 			$sales_amount += $result['amount'];
 			$account = $result['code_name'] ?: 'sales';
-			$transactions[$account] = -$result['amount'];
+			$transactions[$account] = $transactions[$account] ?: 0;
+			$transactions[$account] += -$result['amount'];
 		}
 		if($sales_amount == null) $sales_amount = 0;
 
